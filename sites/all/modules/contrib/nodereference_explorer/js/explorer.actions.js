@@ -1,4 +1,3 @@
-// $Id: explorer.actions.js,v 1.5 2010/05/05 17:05:53 gnindl Exp $
 
 /**
  * @file explorer.actions.js 
@@ -54,7 +53,8 @@ Drupal.nodereference_explorer.actions.browse = function() {
 	//when dialog is opened, remove progress
 	Drupal.nodereference_explorer.actions.endProgress(action);
   });
-}
+  return false; // This will not submit the form.
+};
 
 /**
  * Action for removing selected values and the preview
@@ -70,7 +70,8 @@ Drupal.nodereference_explorer.actions.remove = function() {
   var type = settings['field_type'];
   Drupal.nodereference_explorer.actions.removeValue(widget, type);
   Drupal.nodereference_explorer.actions.endProgress(action);
-}
+  return false; // This will not submit the form.
+};
 
 /**
  * "Saves" the selected value to the parent widget

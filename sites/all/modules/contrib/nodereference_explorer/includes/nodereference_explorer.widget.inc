@@ -1,5 +1,4 @@
 <?php
-// $Id: nodereference_explorer.widget.inc,v 1.8 2010/07/19 15:42:14 gnindl Exp $
 /**
  * @file
  * nodereferene_explorer.widget.inc
@@ -205,14 +204,16 @@ function nodereference_explorer_widget_attach_actions(&$element) {
 
   //create buttons as form elements
   $element['actions']['browse'] = array(
-    '#type' => 'nodereference_explorer_button',
+    '#type' => 'button',
+    '#button_type' => 'button',
     '#id' => $browse_button_id,
     '#attributes' => array('class' => 'nodereference-explorer-action-open-dialog nodereference-explorer-button'),
     '#value' => t('Browse'),
   );
 
   $element['actions']['remove'] = array(
-    '#type' => 'nodereference_explorer_button',
+    '#type' => 'button',
+    '#button_type' => 'button',
     '#id' => $remove_button_id,
     '#value' => t('Remove'),
     '#attributes' => array('class' => 'nodereference-explorer-action-remove-value nodereference-explorer-button'),

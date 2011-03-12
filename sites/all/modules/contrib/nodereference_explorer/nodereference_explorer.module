@@ -1,5 +1,4 @@
 <?php
-// $Id: nodereference_explorer.module,v 1.13 2010/07/20 13:33:25 gnindl Exp $
 
 /**
  * @file
@@ -87,7 +86,7 @@ function nodereference_explorer_elements() {
 
   $elements = array();
 
-  $elements['nodereference_explorer'] = array(
+  $elements[NODE_REFERENCE_EXPLORER_MODULE_NAME] = array(
     '#input' => TRUE,
     '#columns' => array('name', 'actions', 'preview', 'value'),
     '#delta' => 0,
@@ -189,12 +188,7 @@ function nodereference_explorer_plugins($module = 'content') {
     );
     //Add plugin name but check if directory contains .inc and .js file
     foreach ($dirs as $dir) {
-      $plugin_name = "$dir->filename/nodereference_explorer_plugin_{$module}_{$dir->basename}";
-      $inc_file = "$plugin_name.inc";
-      $js_file = "$plugin_name.js";
-      if (file_check_location($inc_file) &&
-          file_check_location($js_file))
-  	  		$plugins[] = $dir->basename;
+      $plugins[] = $dir->basename;
     }
   }
   return $plugins;

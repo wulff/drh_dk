@@ -1,7 +1,7 @@
 Nodereference Explorer README
 ---------------------------------------
 
-The Nodereference Explorer (NRE) provides a selection dialog for creating referencing between nodes. Content authors can link arbitrary 
+The Nodereference Explorer (NRE) provides a selection dialog for creating references between nodes. Editors can link arbitrary 
 content type instances, e. g. pages, stories, news, images etc., with each other. Typical use-cases are for instance:
 
     * Reuse of assets, such as images, audio and video clips for display on other pages
@@ -48,8 +48,10 @@ NRE is compatible with the jQuery UI 1.6 and 1.7 JS libraries which are attached
 configuration varies, therefore here some important notes:
 
 * jQuery UI 1.6 MAY optionally use jquery_update 6.x-1.x (jQuery 1.2.6)
+  Modalframe version 1.6 or lower
 
 * jQuery UI 1.7 REQUIRES jquery_update 6.x-2.x (jQuery 1.3)
+  Modalframe version 1.7 or higher
 
 When you update the module you should always flush Drupal's and your browser's cache!
 
@@ -63,7 +65,15 @@ Views:
 
 The default view is called "nodereference_explorer_default". If you want to have custom fields and filters (you probably will) you should clone
 this view. The View's output is embedded into the content area of the selection dialog and nodes are selectable in this context. In the CCK field 
-settings you can reference the view (see next section).
+settings you can reference the view (see CCK).
+
+When you customize your view, don't run into issue http://drupal.org/node/921292. Concerning exposed filters do the following:
+
+- Set up exposed filters in Default display as you like
+- Override any single filter exposed filter in any display
+- Remove the exposed filters from the Defaults display
+
+Apart from you can treat the NRE view as a normal view!
 
 
 CCK:

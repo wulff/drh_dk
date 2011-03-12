@@ -1,5 +1,4 @@
 <?php
-// $Id: nodereference_explorer.views.class.inc,v 1.13 2010/07/20 13:33:25 gnindl Exp $
 /**
  * @file
  * nodereference_explorer.views.inc

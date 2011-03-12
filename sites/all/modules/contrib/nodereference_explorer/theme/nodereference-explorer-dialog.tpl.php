@@ -1,5 +1,4 @@
 <?php
-// $Id: nodereference-explorer-dialog.tpl.php,v 1.5 2010/07/19 15:42:14 gnindl Exp $
 /**
  * @file
  * nodereference-explorer-dialog.tpl.php

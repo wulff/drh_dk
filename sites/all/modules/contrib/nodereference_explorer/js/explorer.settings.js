@@ -1,4 +1,3 @@
-// $Id: explorer.settings.js,v 1.3 2010/03/15 17:17:08 gnindl Exp $
 
 /**
  * The preview displays depend on the selected view. The list is updated

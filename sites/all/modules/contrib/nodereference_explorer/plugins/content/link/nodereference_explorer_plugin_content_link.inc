@@ -26,7 +26,7 @@ class nodereference_explorer_plugin_content_link extends nodereference_explorer_
     $element['value'] = array(
       '#id' => $element['#id'],
       '#type' => 'hidden',
-      '#value' => isset($element['#default_value']['title']) && isset($node->nid) ? $element['#default_value']['title'] . '[nid: ' . $node->nid .']': '',
+      '#value' => !empty($element['#default_value']['title']) && !empty($node->nid) ? $element['#default_value']['title'] . '[nid: ' . $node->nid .']': '',
     );
     //create an error element, needed for storing field name for widget settings form and
     //validates widget settings properly

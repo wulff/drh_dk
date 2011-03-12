@@ -1,5 +1,4 @@
 <?php
-// $Id: nodereference_explorer.widget.settings.inc,v 1.8 2010/07/19 15:42:14 gnindl Exp $
 /**
  * @file nodereference_explorer.widget.settings.inc
  * Holds all settings related events
@@ -129,25 +128,24 @@ function nodereference_explorer_widget_settings_form($widget) {
       '#description' => t('The preferred height of the dialog window.'),
     );
 
-    //INSERTION METHOD
+    //Set dialog API, modalframe, if existing
+    $api = 'nodereference_explorer';
     $dialog_apis = array(
-      'nodereference_explorer' => 'Built-in',
+      $api => 'Built-in (Deprecated)',
     );
-    /*if (module_exists('popups')) {
-      $dialog_apis['popups'] = 'Popups API (Ajax Dialogs)';
-    }*/
     if (module_exists('modalframe')) {
-      $dialog_apis['modalframe'] = 'Modal Frame API';
+      $api = 'modalframe';
+      $dialog_apis[$api] = 'Modal Frame (Recommended)';
     }
 
     $form['dialog']['dialog_api'] = array(
       '#type' => 'select',
       '#title' => t('Dialog API'),
-      '#default_value' => isset($widget['dialog_api']) ? $widget['dialog_api'] : 'nodereference_explorer',
+      '#default_value' => isset($widget['dialog_api']) ? $widget['dialog_api'] : $api,
       '#options' => $dialog_apis,
-      '#description' => t('Nodereference Explorer supports other Drupal module APIs for dialogs: !modalframe.', //!popups,
+      '#description' => t('It is recommended to install !modalframe instead of the deprecated "Built-in" API.',
         array(
-          '!modalframe' => l(theme('placeholder', 'Modal Frame API'), 'http://drupal.org/project/modalframe', array('html' => TRUE)),
+          '!modalframe' => l(theme('placeholder', 'Modal Frame'), 'http://drupal.org/project/modalframe', array('html' => TRUE)),
         )
       ),
     );

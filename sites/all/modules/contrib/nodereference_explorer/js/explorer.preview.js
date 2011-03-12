@@ -1,4 +1,3 @@
-// $Id: explorer.preview.js,v 1.7 2010/07/18 18:39:41 gnindl Exp $
 
 /**
  * @file explorer.preview.js
@@ -57,8 +56,9 @@ Drupal.nodereference_explorer.preview.getPreview = function (preview, path, valu
   $.getJSON(path, { val: value, view_dom_id: $view_dom_id }, function(data, textStatus) {
     if (data.data) { //insert the preview into the wrapper
       $(preview).html(data.data);
-      //Apply context functionality, e. g. when a preview contains an image with a lightbox popup.
-      Drupal.attachBehaviors(this); 
+      // Allow other modules to add functionality to the returned DOM object, 
+      // e.g. when preview returns an image with rel='lightbox'.
+       Drupal.attachBehaviors(preview);
       //the behaviors hide the node form's title, therefore force it to show up
       Drupal.nodereference_explorer.preview.showTitle();
     }

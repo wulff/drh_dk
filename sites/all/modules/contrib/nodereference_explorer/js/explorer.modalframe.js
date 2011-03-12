@@ -1,4 +1,3 @@
-// $Id: explorer.modalframe.js,v 1.4 2010/03/15 17:17:08 gnindl Exp $
 
 /**
  * @file

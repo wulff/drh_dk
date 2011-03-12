@@ -1,5 +1,4 @@
 <?php
-// $Id: nodereference_explorer.views.inc,v 1.12 2010/09/13 14:39:42 gnindl Exp $
 /**
  * @file
  * nodereference_explorer.views.inc
@@ -63,10 +62,22 @@ function nodereference_explorer_views_pre_execute(&$view) {
       //check if there are multiple arguments for node.type and rewrite query with IN instead
       //first argument must be node type
       $type = $view->args[0];
+      // in case HTML escaping has happened before
+      $type = htmlspecialchars_decode($type, ENT_QUOTES);
+      // Multiple node type arguments come like 'page','story'.
+      // We have to do some placeholder replacements here as we want to prevent SQL injections
       if (stristr($type, ',') ||
           stristr($type, '+')) { 
-        $view->build_info['query'] = str_ireplace("node.type = '%s'", "node.type IN (" . $type . ")", $view->build_info['query']);
-        $view->build_info['count_query'] = str_ireplace("node.type = '%s'", "node.type IN (" . $type . ")", $view->build_info['count_query']);
+        $args = explode("','", trim($type, "'")); // get arguments without quotes
+        // generate string placeholders and alter the node type where clause
+        $placeholders = implode("', '", array_fill(0, sizeof($args), '%s')); 
+        $where = "node.type IN ('" . $placeholders . "')";
+        // replace placeholders with real arguments
+        _db_query_callback($args, TRUE);
+        $where = preg_replace_callback(DB_QUERY_REGEXP, '_db_query_callback', $where);
+        // alter the views queries
+        $view->build_info['query'] = str_ireplace("node.type = '%s'", $where, $view->build_info['query']);
+        $view->build_info['count_query'] = str_ireplace("node.type = '%s'", $where, $view->build_info['count_query']);
       }
   } 
 }
@@ -129,8 +140,8 @@ function nodereference_explorer_preprocess_views_view_table(&$vars) {
     foreach ($vars['rows'] as $id => &$row) {
       $vars['row_classes'][$id][] = 'views-item-selectable';
       //get node id for each row, retrieve from result if nid is hidden
-      $nid = isset($row['nid']) ? $row['nid'] : $vars['view']->result[$id]->nid;
-      $title = isset($row['title']) ? $row['title'] : $vars['view']->result[$id]->node_title;
+      $nid = isset($vars['view']->result[$id]->nid) ? $vars['view']->result[$id]->nid : strip_tags($row['nid']);      
+      $title = isset($vars['view']->result[$id]->node_title) ? $vars['view']->result[$id]->node_title : strip_tags($row['title']);
       $element = array( //wrap id table fields with radio buttons
         '#type' => 'radio',
         '#id' => 'nodereference-explorer-row-'. $id,
@@ -151,15 +162,18 @@ function nodereference_explorer_preprocess_views_view_table(&$vars) {
  * @return default views
  */
 function nodereference_explorer_views_default_views() {
+  
+  nodereference_explorer_include('nodereference_explorer.util'); // for node types
+  
   $views = array();
-
+    
   /*
    * View 'nodereference_explorer_default'
    */
-  $view = new view;
+  $view = new view();
   $view->name = 'nodereference_explorer_default';
-  $view->description = 'Generic nodereference explorer view including three default displays (table, thumbnails and list';
-  $view->tag = '';
+  $view->description = 'Generic nodereference explorer view including three default displays (table, thumbnails and list)';
+  $view->tag = 'nodereference_explorer';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -168,11 +182,11 @@ function nodereference_explorer_views_default_views() {
 
   //default display
   $handler = $view->new_display('default', 'Defaults', 'default');
-
+  
   //set default fields for the view
   $handler->override_option('fields', array(
     'nid' => array(
-      'label' => t('Node Id'),
+      'label' => 'Node Id',
       'link_to_node' => 0,
       'exclude' => 0,
       'id' => 'nid',
@@ -181,19 +195,19 @@ function nodereference_explorer_views_default_views() {
       'relationship' => 'none',
     ),
     'title' => array(
-      'label' => t('Title'),
+      'label' => 'Title',
       'id' => 'title',
       'table' => 'node',
       'field' => 'title',
     ),
     'type' => array(
-      'label' => t('Type'),
+      'label' => 'Type',
       'id' => 'type',
       'table' => 'node',
       'field' => 'type',
     ),
     'changed' => array(
-      'label' => t('Last changed date'),
+      'label' => 'Last changed date',
       'date_format' => 'small',
       'custom_date_format' => '',
       'exclude' => 0,
@@ -203,19 +217,28 @@ function nodereference_explorer_views_default_views() {
       'relationship' => 'none',
     ),
     'name' => array(
-      'label' => t('User'),
+      'label' => 'User',
       'id' => 'name',
       'table' => 'users',
       'field' => 'name',
     ),
     'status' => array(
-      'label' => t('Published'),
+      'label' => 'Published',
       'id' => 'status',
       'table' => 'node',
       'field' => 'status',
     ),
   ));
-
+  $handler->override_option('sorts', array(
+    'changed' => array(
+      'order' => 'DESC',
+      'granularity' => 'second',
+      'id' => 'changed',
+      'table' => 'node',
+      'field' => 'changed',
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('arguments', array(
     'type' => array(
       'default_action' => 'ignore',
@@ -247,88 +270,14 @@ function nodereference_explorer_views_default_views() {
       'validate_argument_transform' => 0,
       'validate_user_restrict_roles' => 0,
       'validate_argument_php' => '',
-  ),
-));
-  nodereference_explorer_include('nodereference_explorer.util');
-  $handler->override_option('filters', array(
-    'type' => array(
-      'operator' => 'in',
-      //set all node types as default, underlying nodereference field has to care about narrowing filter options
-      'value' => nodereference_explorer_util_get_all_referenceable_node_types(),
-      'group' => '0',
-      'exposed' => TRUE,
-      'expose' => array(
-        'use_operator' => 0,
-        'operator' => 'type_op',
-        'identifier' => 'type',
-        'label' => t('Node: Type'),
-        'optional' => 1,
-        'single' => 1,
-        'remember' => 0,
-        'reduce' => 1,
-      ),
-      'id' => 'type',
-      'table' => 'node',
-      'field' => 'type',
-      'override' => array(
-        'button' => 'Override',
-      ),
-      'relationship' => 'none',
-    ),
-    'title' => array(
-      'operator' => 'contains',
-      'value' => '',
-      'group' => '0',
-      'exposed' => TRUE,
-      'expose' => array(
-        'use_operator' => 1,
-        'operator' => 'title_op',
-        'identifier' => 'title',
-        'label' => t('Node: Title'),
-        'optional' => 1,
-        'remember' => 0,
-      ),
-      'case' => 1,
-      'id' => 'title',
-      'table' => 'node',
-      'field' => 'title',
-      'override' => array(
-        'button' => 'Override',
-      ),
-      'relationship' => 'none',
-    ),
-    'changed' => array(
-      'operator' => 'between',
-      'value' => array(
-        'type' => 'date',
-        'value' => '',
-        'min' => '',
-        'max' => '',
-      ),
-      'group' => '0',
-      'exposed' => TRUE,
-      'expose' => array(
-        'use_operator' => 1,
-        'operator' => 'changed_op',
-        'identifier' => 'changed_min',
-        'label' => t('Node: Updated date'),
-        'optional' => 1,
-        'remember' => 0,
-      ),
-      'id' => 'changed',
-      'table' => 'node',
-      'field' => 'changed',
-      'override' => array(
-        'button' => 'Override',
-      ),
-      'relationship' => 'none',
     ),
   ));
-
   $handler->override_option('access', array(
     'type' => 'none',
   ));
-
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
   $handler->override_option('header_format', '1');
   $handler->override_option('header_empty', 0);
   $handler->override_option('use_ajax', TRUE);
@@ -376,11 +325,104 @@ function nodereference_explorer_views_default_views() {
     ),
     'default' => 'changed',
   ));
-
-  //table display
   $handler->override_option('exposed_block', TRUE);
   $handler = $view->new_display('page', 'Table', 'table');
-  $handler->override_option('style_plugin', 'table_selectable');
+  $handler->override_option('filters', array(
+    'title' => array(
+      'operator' => 'contains',
+      'value' => '',
+      'group' => '0',
+      'exposed' => TRUE,
+      'expose' => array(
+        'use_operator' => 0,
+        'operator' => 'title_op',
+        'identifier' => 'title',
+        'label' => 'Title',
+        'optional' => 1,
+        'remember' => 0,
+      ),
+      'case' => 0,
+      'id' => 'title',
+      'table' => 'node',
+      'field' => 'title',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+    'body' => array(
+      'operator' => 'contains',
+      'value' => '',
+      'group' => '0',
+      'exposed' => TRUE,
+      'expose' => array(
+        'use_operator' => 0,
+        'operator' => 'body_op',
+        'identifier' => 'body',
+        'label' => 'Body',
+        'optional' => 1,
+        'remember' => 0,
+      ),
+      'case' => 0,
+      'id' => 'body',
+      'table' => 'node_revisions',
+      'field' => 'body',
+      'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+    ),
+    'type' => array(
+      'operator' => 'in',
+      //set all node types as default, underlying nodereference field has to care about narrowing filter options
+      'value' => nodereference_explorer_util_get_all_referenceable_node_types(),
+      'group' => '0',
+      'exposed' => TRUE,
+      'expose' => array(
+        'use_operator' => 0,
+        'operator' => 'type_op',
+        'identifier' => 'type',
+        'label' => 'Type',
+        'bef_filter_description' => '',
+        'bef_format' => 'default',
+        'optional' => 1,
+        'single' => 1,
+        'remember' => 0,
+        'reduce' => 1,
+        'bef_select_all_none' => 0,
+      ),
+      'id' => 'type',
+      'table' => 'node',
+      'field' => 'type',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+    'status' => array(
+      'operator' => '=',
+      'value' => 'All',
+      'group' => '0',
+      'exposed' => TRUE,
+      'expose' => array(
+        'operator' => '',
+        'identifier' => 'status',
+        'label' => 'Published',
+        'bef_filter_description' => '',
+        'bef_format' => 'default',
+        'optional' => 1,
+        'remember' => 0,
+        'bef_select_all_none' => 0,
+      ),
+      'id' => 'status',
+      'table' => 'node',
+      'field' => 'status',
+      'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+    ),
+  ));
   $handler->override_option('path', 'nodereference_explorer/menu_display_table');
   $handler->override_option('menu', array(
     'type' => 'none',
@@ -394,10 +436,105 @@ function nodereference_explorer_views_default_views() {
     'title' => '',
     'description' => '',
     'weight' => 0,
+    'name' => 'navigation',
   ));
-
-  //grid display
   $handler = $view->new_display('page', 'Grid', 'grid');
+  $handler->override_option('filters', array(
+    'title' => array(
+      'operator' => 'contains',
+      'value' => '',
+      'group' => '0',
+      'exposed' => TRUE,
+      'expose' => array(
+        'use_operator' => 0,
+        'operator' => 'title_op',
+        'identifier' => 'title',
+        'label' => 'Title',
+        'optional' => 1,
+        'remember' => 0,
+      ),
+      'case' => 0,
+      'id' => 'title',
+      'table' => 'node',
+      'field' => 'title',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+    'body' => array(
+      'operator' => 'contains',
+      'value' => '',
+      'group' => '0',
+      'exposed' => TRUE,
+      'expose' => array(
+        'use_operator' => 0,
+        'operator' => 'body_op',
+        'identifier' => 'body',
+        'label' => 'Body',
+        'optional' => 1,
+        'remember' => 0,
+      ),
+      'case' => 0,
+      'id' => 'body',
+      'table' => 'node_revisions',
+      'field' => 'body',
+      'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+    ),
+    'type' => array(
+      'operator' => 'in',
+      // set all node types as default, underlying nodereference field has to care about narrowing filter options
+      'value' => nodereference_explorer_util_get_all_referenceable_node_types(),
+      'group' => '0',
+      'exposed' => TRUE,
+      'expose' => array(
+        'use_operator' => 0,
+        'operator' => 'type_op',
+        'identifier' => 'type',
+        'label' => 'Type',
+        'bef_filter_description' => '',
+        'bef_format' => 'default',
+        'optional' => 1,
+        'single' => 1,
+        'remember' => 0,
+        'reduce' => 1,
+        'bef_select_all_none' => 0,
+      ),
+      'id' => 'type',
+      'table' => 'node',
+      'field' => 'type',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+    'status' => array(
+      'operator' => '=',
+      'value' => 'All',
+      'group' => '0',
+      'exposed' => TRUE,
+      'expose' => array(
+        'operator' => '',
+        'identifier' => 'status',
+        'label' => 'Published',
+        'bef_filter_description' => '',
+        'bef_format' => 'default',
+        'optional' => 1,
+        'remember' => 0,
+        'bef_select_all_none' => 0,
+      ),
+      'id' => 'status',
+      'table' => 'node',
+      'field' => 'status',
+      'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+    ),
+  ));
   $handler->override_option('style_plugin', 'grid');
   $handler->override_option('style_options', array(
     'grouping' => '',
@@ -422,10 +559,105 @@ function nodereference_explorer_views_default_views() {
     'title' => '',
     'description' => '',
     'weight' => 0,
+    'name' => 'navigation',
   ));
-
-  //list display
   $handler = $view->new_display('page', 'List', 'list');
+  $handler->override_option('filters', array(
+    'title' => array(
+      'operator' => 'contains',
+      'value' => '',
+      'group' => '0',
+      'exposed' => TRUE,
+      'expose' => array(
+        'use_operator' => 0,
+        'operator' => 'title_op',
+        'identifier' => 'title',
+        'label' => 'Title',
+        'optional' => 1,
+        'remember' => 0,
+      ),
+      'case' => 0,
+      'id' => 'title',
+      'table' => 'node',
+      'field' => 'title',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+    'body' => array(
+      'operator' => 'contains',
+      'value' => '',
+      'group' => '0',
+      'exposed' => TRUE,
+      'expose' => array(
+        'use_operator' => 0,
+        'operator' => 'body_op',
+        'identifier' => 'body',
+        'label' => 'Body',
+        'optional' => 1,
+        'remember' => 0,
+      ),
+      'case' => 0,
+      'id' => 'body',
+      'table' => 'node_revisions',
+      'field' => 'body',
+      'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+    ),
+    'type' => array(
+      'operator' => 'in',
+      //set all node types as default, underlying nodereference field has to care about narrowing filter options
+      'value' => nodereference_explorer_util_get_all_referenceable_node_types(),
+      'group' => '0',
+      'exposed' => TRUE,
+      'expose' => array(
+        'use_operator' => 0,
+        'operator' => 'type_op',
+        'identifier' => 'type',
+        'label' => 'Type',
+        'bef_filter_description' => '',
+        'bef_format' => 'default',
+        'optional' => 1,
+        'single' => 1,
+        'remember' => 0,
+        'reduce' => 1,
+        'bef_select_all_none' => 0,
+      ),
+      'id' => 'type',
+      'table' => 'node',
+      'field' => 'type',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+    'status' => array(
+      'operator' => '=',
+      'value' => 'All',
+      'group' => '0',
+      'exposed' => TRUE,
+      'expose' => array(
+        'operator' => '',
+        'identifier' => 'status',
+        'label' => 'Published',
+        'bef_filter_description' => '',
+        'bef_format' => 'default',
+        'optional' => 1,
+        'remember' => 0,
+        'bef_select_all_none' => 0,
+      ),
+      'id' => 'status',
+      'table' => 'node',
+      'field' => 'status',
+      'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+    ),
+  ));
   $handler->override_option('style_plugin', 'list');
   $handler->override_option('style_options', array(
     'grouping' => '',
@@ -443,7 +675,6 @@ function nodereference_explorer_views_default_views() {
     ),
     'separator' => '',
   ));
-
   $handler->override_option('path', 'nodereference_explorer/menu_display_list');
   $handler->override_option('menu', array(
     'type' => 'none',
@@ -452,92 +683,58 @@ function nodereference_explorer_views_default_views() {
     'weight' => 0,
     'name' => 'navigation',
   ));
-
   $handler->override_option('tab_options', array(
     'type' => 'none',
     'title' => '',
     'description' => '',
     'weight' => 0,
+    'name' => 'navigation',
   ));
-
-  //preview display
   $handler = $view->new_display('page', 'Preview', 'preview');
-
   $handler->override_option('arguments', array(
-  'nid' => array(
-    'default_action' => 'empty',
-    'style_plugin' => 'default_summary',
-    'style_options' => array(),
-    'wildcard' => 'all',
-    'wildcard_substitution' => 'All',
-    'title' => '',
-    'breadcrumb' => '',
-    'default_argument_type' => 'fixed',
-    'default_argument' => '',
-    'validate_type' => 'none',
-    'validate_fail' => 'not found',
-    'break_phrase' => 0,
-    'not' => 0,
-    'id' => 'nid',
-    'table' => 'node',
-    'field' => 'nid',
-    'validate_user_argument_type' => 'uid',
-    'validate_user_roles' => array(
-      '2' => 0,
-      '3' => 0,
+    'nid' => array(
+      'default_action' => 'empty',
+      'style_plugin' => 'default_summary',
+      'style_options' => array(),
+      'wildcard' => 'all',
+      'wildcard_substitution' => 'All',
+      'title' => '',
+      'breadcrumb' => '',
+      'default_argument_type' => 'fixed',
+      'default_argument' => '',
+      'validate_type' => 'none',
+      'validate_fail' => 'not found',
+      'break_phrase' => 0,
+      'not' => 0,
+      'id' => 'nid',
+      'table' => 'node',
+      'field' => 'nid',
+      'validate_user_argument_type' => 'uid',
+      'validate_user_roles' => array(),
+      'relationship' => 'none',
+      'default_options_div_prefix' => '',
+      'default_argument_user' => 0,
+      'default_argument_fixed' => '',
+      'default_argument_php' => '',
+      'validate_argument_node_type' => array(),
+      'validate_argument_node_access' => 0,
+      'validate_argument_nid_type' => 'nid',
+      'validate_argument_vocabulary' => array(),
+      'validate_argument_type' => 'tid',
+      'validate_argument_transform' => 0,
+      'validate_user_restrict_roles' => 0,
+      'validate_argument_php' => '',
+      'override' => array(
+        'button' => 'Use default',
+      ),
     ),
-    'relationship' => 'none',
-    'default_options_div_prefix' => '',
-    'default_argument_user' => 0,
-    'default_argument_fixed' => '',
-    'default_argument_php' => '',
-    'validate_argument_node_type' => array(
-      'artist' => 0,
-      'contact' => 0,
-      'document' => 0,
-      'election' => 0,
-      'event' => 0,
-      'event_page' => 0,
-      'feature' => 0,
-      'image' => 0,
-      'multimedia' => 0,
-      'multimedia_gallery' => 0,
-      'music' => 0,
-      'news' => 0,
-      'page' => 0,
-      'photo' => 0,
-      'photo_gallery' => 0,
-      'presentation' => 0,
-      'press_release' => 0,
-      'session' => 0,
-      'story' => 0,
-      'test' => 0,
-      'video' => 0,
-    ),
-    'validate_argument_node_access' => 0,
-    'validate_argument_nid_type' => 'nid',
-    'validate_argument_vocabulary' => array(
-      '3' => 0,
-      '1' => 0,
-      '4' => 0,
-      '2' => 0,
-    ),
-    'validate_argument_type' => 'tid',
-    'validate_argument_transform' => 0,
-    'validate_user_restrict_roles' => 0,
-    'validate_argument_php' => '',
-    'override' => array(
-      'button' => 'Use default',
-    ),
-  ),
-));
+  ));
   $handler->override_option('style_plugin', 'default');
   $handler->override_option('style_options', array(
     'grouping' => '',
     'columns' => '6',
     'alignment' => 'horizontal',
   ));
-  $handler->override_option('row_plugin', 'fields');
   $handler->override_option('row_options', array(
     'inline' => array(),
     'separator' => '',
@@ -555,8 +752,8 @@ function nodereference_explorer_views_default_views() {
     'title' => '',
     'description' => '',
     'weight' => 0,
+    'name' => 'navigation',
   ));
-
 
   $views[$view->name] = $view;
   return $views;

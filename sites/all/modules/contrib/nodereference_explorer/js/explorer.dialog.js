@@ -1,4 +1,3 @@
-// $Id: explorer.dialog.js,v 1.7 2010/08/27 08:19:43 gnindl Exp $
 
 /**
  * @file explorer.dialog.js
