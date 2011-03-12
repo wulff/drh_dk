@@ -766,6 +766,9 @@ div#nodelink {
 .error {
   background-color: #900;
 }
+.messages a {
+  color: #fff;
+}
 
 /* @end */
 
@@ -798,4 +801,11 @@ div#nodelink {
 }
 #imageData #numberDisplay {
   padding-bottom: 9px;
+}
+
+.search-results dd {
+  margin-left: 0;
+}
+.search-results dd .search-info {
+  display: none;
 }
