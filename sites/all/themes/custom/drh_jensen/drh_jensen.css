@@ -600,13 +600,15 @@ ul.menu li {
   margin-bottom: 0;
 }
 
-.view-profiles .views-field-field-image-fid {
+.view-profiles .views-field-field-image-fid,
+.view-profiles-course .views-field-field-image-fid {
   float: left;
   margin-right: 10px;
   margin-bottom: 20px;
   line-height: 0.1;
 }
-.view-profiles li.views-row {
+.view-profiles li.views-row,
+.view-profiles-course li.views-row {
   margin-bottom: 0;
 }
 
@@ -761,5 +763,14 @@ div#nodelink {
 /* @end */
 
 .not-logged-in .form-required {
+  display: none;
+}
+
+/* TODO: move to correct groups */
+
+#search.container-inline {
+  float: right;
+}
+#search.container-inline label {
   display: none;
 }
