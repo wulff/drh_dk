@@ -28,6 +28,9 @@ h2.pane-title {
   line-height: 1.25;
   margin-bottom: 1.25em;
 }
+h2.pane-title {
+  margin-bottom: .25em;
+}
 .pane-node-body h3 {
   font-size: 1.1em;
 }
