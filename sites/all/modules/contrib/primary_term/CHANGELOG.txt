@@ -1,0 +1,36 @@
+$Id: CHANGELOG.txt,v 1.1.2.22 2010/10/19 13:16:05 brianV Exp $
+
+Primary Term x.x-x.x, xxxx-xx-xx
+-----------------------------------
+
+Primary Term 6.X-1.2, 2010-10-19
+-----------------------------------
+by brianV: Integrate with i18ntaxonomy.
+by brianV: Remove extra primary_term_content_extra_fields() implementation that snuck in somewhere.
+by brianV: Update CHANGELOG.txt for the 6.x-1.2 release.
+
+Primary Term 6.X-1.1, 2010-10-18
+-----------------------------------
+Add CHANGELOG.txt to project.
+#357331 by mikeryan: Fixed Duplicate key warnings generated on node_save().
+#343267 by mvc: Fixed Previewing a content type resets the primary term selection to the first option.
+#670724 by cels, rmjiv, ericduran, SkidNCrashwell: Added extra tokens for vocab, full term path, and uc_catalog path (if uc_catalog.module is enabled).
+#906016 by srjosh: Fixed trim() in form_alter() can't take array; unused anyway.
+#727190 by rmjiv: Allow the Primary Term field to be optionally set as required per node type.
+#160382 by mvc, jonskulski: Update Views integration, only show selected primary term when selected as a field.
+#794790 by drifter, merlinofchaos: Added CTools context and Panels support.
+#743420 by koshea: Add support for Context module.
+#503422 by rmjivn, brianV: Added Support for Taxonomy Role module.
+by brianV: move Views includes to includes/views.
+by brianV: Update README.txt
+#372809 by rmjiv: Add workaround for Hierarchical Slect deleting $vocab['#options'].
+by brianV: Renamed title of views argument / filter to 'Primary Term: Term ID' for clarity.
+by brianV: Fix view handler filepaths.
+by brianV: Allow user to specify custom titles for the Primary Term field per content type.
+by brianV: Pull the widget out of the $form['taxonomy'] array, and implement hook_content_extra_fields() so it can be positioned wherever the user wishes via CCK's 'Manage Fields' page.
+by brianV: Build the Options list for the from scratch every time rather than from the options in the various $form['taxonomy'] widgets since Content Taxonomy removes all the $form['taxonomy'] widgets.
+by brianV: Update CHANGELOG.txt for the 6.x-1.1 release.
+
+Primary Term 6.X-1.0, 2008-12-23
+-----------------------------------
+First release for D6. No changes since Sep 15, 2008.

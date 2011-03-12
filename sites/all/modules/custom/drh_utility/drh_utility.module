@@ -1,0 +1,52 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Utility functions for the drh.dk site.
+ */
+
+/* --- HOOKS ---------------------------------------------------------------- */
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function drh_utility_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['type']) && isset($form['#node']) && $form['type']['#value'] .'_node_form' == $form_id) {
+    if (isset($form['path_redirect'])) {
+      $form['path_redirect']['#attributes'] = array('class' => 'path-redirect');
+    }
+
+    if ('registration' == $form['type']['#value'] && user_is_anonymous()) {
+//drupal_set_message(print_r($form, TRUE));
+      $form['group_class']['#title'] = $form['group_class']['field_reg_class']['#title'];
+      $form['group_class']['field_reg_class']['#title'] = '';
+      $form['group_topic']['field_reg_topic']['#title'] = '';
+      $form['group_payment']['field_reg_payment']['#title'] = '';
+
+      $form['buttons']['submit']['#submit'][] = 'drh_utility_registration_node_form_submit';
+      $form['buttons']['preview']['#access'] = FALSE;
+    }
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function drh_utility_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  if ('news' == $node->type && $op == 'view' && $node->build_mode == DRH_BUILD_TEASER_FRONT) {
+    unset($node->content['body']);
+  }
+}
+
+/* --- FORMS ---------------------------------------------------------------- */
+
+/**
+ * Custom submit handler for registration nodes.
+ */
+function drh_utility_registration_node_form_submit($form, &$form_state) {
+  unset($_SESSION['messages']);
+  drupal_set_message(t('Thank you for completing the registration. We will get back to you within two working days.'));
+  // TODO: send an e-mail to tilmelding@drh.dk
+  $form_state['redirect'] = drupal_get_normal_path(variable_get('site_frontpage', 'node'));
+}

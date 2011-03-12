@@ -1,0 +1,359 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  nodereference_explorer.info: n/a
+#  nodereference_explorer.menu.inc,v 1.5 2010/03/15 17:17:08 gnindl
+#  nodereference_explorer.views.inc,v 1.6 2009/11/10 08:22:34 gnindl
+#  nodereference_explorer.widget.settings.inc,v 1.4 2010/03/15 17:17:08 gnindl
+#  nodereference_explorer.widget.inc,v 1.4 2009/07/23 14:52:12 gnindl
+#  nodereference_explorer.widget.validate.inc,v 1.2 2009/06/24 09:27:19 gnindl
+#  explorer.preview.js,v 1.5 2010/03/15 17:17:08 gnindl
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2010-04-20 10:57+0200\n"
+"PO-Revision-Date: 2010-04-20 13:12+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: nodereference_explorer.info:0
+msgid "Nodereference Explorer"
+msgstr "Nodereference Explorer"
+
+#: nodereference_explorer.info:0
+msgid "Interactive node browser as a nodereference widget"
+msgstr "Interaktiver Node Browser implementiert als Nodereference Widget"
+
+#: nodereference_explorer.info:0
+msgid "CCK"
+msgstr "CCK"
+
+#: includes/nodereference_explorer.menu.inc:106
+msgid "OK"
+msgstr "Speichern"
+
+#: includes/nodereference_explorer.menu.inc:107
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: includes/nodereference_explorer.views.inc:22
+msgid "Table (Selectable)"
+msgstr "Tabelle (Selektierbar)"
+
+#: includes/nodereference_explorer.views.inc:26
+msgid "Displays and wraps a table with selectable rows."
+msgstr "Zeigt eine Tabelle mit selektierbaren Reihen an."
+
+#: includes/nodereference_explorer.views.inc:37
+msgid "Fields (Selectable)"
+msgstr "Felder (Selektierbar("
+
+#: includes/nodereference_explorer.views.inc:38
+msgid "(Displays and wraps each field in a selectable row."
+msgstr "(Zeigt jedes Feld mit selektierbaren Reihen an."
+
+#: includes/nodereference_explorer.views.inc:106
+msgid "Node Id"
+msgstr "Node Id"
+
+#: includes/nodereference_explorer.views.inc:115
+#: includes/nodereference_explorer.widget.settings.inc:110
+msgid "Title"
+msgstr "Titel"
+
+#: includes/nodereference_explorer.views.inc:121
+msgid "Type"
+msgstr "Typ"
+
+#: includes/nodereference_explorer.views.inc:127
+msgid "Last changed date"
+msgstr "Zuletzt geändertes Datum"
+
+#: includes/nodereference_explorer.views.inc:137
+msgid "User"
+msgstr "Benutzer"
+
+#: includes/nodereference_explorer.views.inc:143
+msgid "Published"
+msgstr "Veröffentlicht"
+
+#: includes/nodereference_explorer.views.inc:195
+msgid "Node: Type"
+msgstr "Node: Typ"
+
+#: includes/nodereference_explorer.views.inc:218
+msgid "Node: Title"
+msgstr "Node: Titel"
+
+#: includes/nodereference_explorer.views.inc:245
+msgid "Node: Updated date"
+msgstr "Node: Zuletzt geändertes Datum"
+
+#: includes/nodereference_explorer.widget.inc:24
+#: includes/nodereference_explorer.widget.settings.inc:111
+msgid "Explorer"
+msgstr "Explorer"
+
+#: includes/nodereference_explorer.widget.inc:182
+msgid "Browse"
+msgstr "Durchsuchen"
+
+#: includes/nodereference_explorer.widget.inc:188
+msgid "Remove"
+msgstr "Löschen"
+
+#: includes/nodereference_explorer.widget.settings.inc:37
+msgid "yes"
+msgstr "ja"
+
+#: includes/nodereference_explorer.widget.settings.inc:38
+msgid "no"
+msgstr "nein"
+
+#: includes/nodereference_explorer.widget.settings.inc:44
+msgid "Content"
+msgstr "Inhalt"
+
+#: includes/nodereference_explorer.widget.settings.inc:47
+msgid "These settings let you configure the widget related content, e. g. preview."
+msgstr "Mit diesen Einstellungen können Widget Inhalte konfiguriert werden, z. B. die Vorschau."
+
+#: includes/nodereference_explorer.widget.settings.inc:72
+msgid "Preview display"
+msgstr "Vorschau Anzeige"
+
+#: includes/nodereference_explorer.widget.settings.inc:74
+msgid "Leave it blank if you do not want to use any preview."
+msgstr "Leer lassen, wenn keine Vorschau erwünscht ist."
+
+#: includes/nodereference_explorer.widget.settings.inc:84
+msgid "Below"
+msgstr "Darunter"
+
+#: includes/nodereference_explorer.widget.settings.inc:84
+msgid "Above"
+msgstr "Darüber"
+
+#: includes/nodereference_explorer.widget.settings.inc:85
+msgid "Preview position"
+msgstr "Vorschau Position"
+
+#: includes/nodereference_explorer.widget.settings.inc:87
+msgid "Determine whether the preview should be shown above or below the core widget."
+msgstr "Festlegen ob die Vorschau über oder unter dem Haupt Widget angezeigt werden soll."
+
+#: includes/nodereference_explorer.widget.settings.inc:92
+msgid "Center"
+msgstr "Zentral"
+
+#: includes/nodereference_explorer.widget.settings.inc:93
+msgid "Left middle"
+msgstr "Links Mitte"
+
+#: includes/nodereference_explorer.widget.settings.inc:94
+msgid "Right middle"
+msgstr "Rechts Mitte"
+
+#: includes/nodereference_explorer.widget.settings.inc:95
+msgid "Top center"
+msgstr "Oben zentral"
+
+#: includes/nodereference_explorer.widget.settings.inc:96
+msgid "Bottom center"
+msgstr "Unter zentral"
+
+#: includes/nodereference_explorer.widget.settings.inc:102
+msgid "Dialog"
+msgstr "Dialog"
+
+#: includes/nodereference_explorer.widget.settings.inc:105
+msgid "These settings are the configuration options of the jQuery UI dialog window."
+msgstr "Diese Einstellungen dienen der Konfiguration des jQuery UI Dialog Fensters."
+
+#: includes/nodereference_explorer.widget.settings.inc:113
+msgid "The label in the title bar."
+msgstr "Die Bezeichnung in der Titelleiste."
+
+#: includes/nodereference_explorer.widget.settings.inc:118
+msgid "Width"
+msgstr "Breite"
+
+#: includes/nodereference_explorer.widget.settings.inc:121
+msgid "The preferred width of the dialog window."
+msgstr "Die bevorzugte Breite des Dialog Fensters."
+
+#: includes/nodereference_explorer.widget.settings.inc:126
+msgid "Height"
+msgstr "Höhe"
+
+#: includes/nodereference_explorer.widget.settings.inc:129
+msgid "The preferred height of the dialog window."
+msgstr "Die bevorzuge Höhe des Dialog Fensters."
+
+#: includes/nodereference_explorer.widget.settings.inc:145
+msgid "Dialog API"
+msgstr "Dialog API"
+
+#: includes/nodereference_explorer.widget.settings.inc:148
+msgid "Nodereference Explorer supports other Drupal module APIs for dialogs: !modalframe."
+msgstr "Nodereference Explorer unterstützt andere Drupal Modul APIs für Dialoge: !modalframe."
+
+#: includes/nodereference_explorer.widget.settings.inc:159
+msgid "Position"
+msgstr "Position"
+
+#: includes/nodereference_explorer.widget.settings.inc:162
+msgid "The position of the dialog window."
+msgstr "Die Position des Dialog Fensters."
+
+#: includes/nodereference_explorer.widget.settings.inc:167
+msgid "Theming"
+msgstr "Theming"
+
+#: includes/nodereference_explorer.widget.settings.inc:177
+msgid "Module (built-in)"
+msgstr "Modul (eingebaut)"
+
+#: includes/nodereference_explorer.widget.settings.inc:177
+msgid "Default"
+msgstr "Standard"
+
+#: includes/nodereference_explorer.widget.settings.inc:178
+msgid "Global (current)"
+msgstr "Global"
+
+#: includes/nodereference_explorer.widget.settings.inc:193
+msgid "Themes"
+msgstr "Themes"
+
+#: includes/nodereference_explorer.widget.settings.inc:195
+msgid "Widget theme composed of module, global and jquery_ui module themes (subpath:"
+msgstr "Widget theme zusammengesetzt aus Modul, global and jquery_ui Module themes (Unterverzeichnis: "
+
+#: includes/nodereference_explorer.widget.settings.inc:200
+msgid "CSS scope"
+msgstr "CSS Geltungsbereich"
+
+#: includes/nodereference_explorer.widget.settings.inc:202
+msgid ""
+"This field allows you to specify a CSS scope to limit your theme to a particular portion of a page. This is helpful when using multiple themes on a page.\n"
+"        If you don't provide a CSS scope, your theme will apply to all UI elements on a page."
+msgstr ""
+"Dieses Feld erlaubt die Definition eines CSS Geltungsbereichs um das Theme auf eine spezielle Region einer Seite einzuschränken. Dies ist hilfreich wenn mehrere Themes auf einer Seite verwendet werden.\n"
+" Wenn keine CSS Geltungsbereich eingegeben wird, wird das gewählte Theme auf alle UI Elemente angewendet."
+
+#: includes/nodereference_explorer.widget.settings.inc:208
+msgid "Background iFrame (IE 6)"
+msgstr "Hintergrund iFrame (IE 6)"
+
+#: includes/nodereference_explorer.widget.settings.inc:211
+msgid "Loads a background iframe, fixes the IE 6 z-Index issue that background form controls <br/>like a drop-down or select list show on top of the dialog"
+msgstr "Lädt einen Hintergrund iframe und behebt damit das IE 6 z-Index Problem, welches Hintergrund Eingabefelder <br/>wie eine Drop-dow oder Selektionsliste auf dem Dialog anzeigen"
+
+#: includes/nodereference_explorer.widget.settings.inc:217
+msgid "Extra dimensions"
+msgstr "Zusätzliche Dimensionen"
+
+#: includes/nodereference_explorer.widget.settings.inc:224
+msgid "Minimal width"
+msgstr "Minimale Breite"
+
+#: includes/nodereference_explorer.widget.settings.inc:226
+msgid "The minimal width of the dialog window (leave blank or 0 if no limit)."
+msgstr "Die minimale Breite des Dialog Fensters (leer lassen oder 0 wenn keine Grenze)."
+
+#: includes/nodereference_explorer.widget.settings.inc:231
+msgid "Minimal height"
+msgstr "Minimale Höhe"
+
+#: includes/nodereference_explorer.widget.settings.inc:233
+msgid "The minimal height of the dialog window (leave blank or 0 if no limit)."
+msgstr "Die minimale Höhe des Dialog Fensters (leer lassen oder 0 wenn keine Grenze)."
+
+#: includes/nodereference_explorer.widget.settings.inc:238
+msgid "Maximal width"
+msgstr "Minimale Breite"
+
+#: includes/nodereference_explorer.widget.settings.inc:240
+msgid "The maximal width of the dialog window (leave blank or 0 if no limit)."
+msgstr "Die maximale Breite des Dialog Fensters (leer lassen oder 0 wenn keine Grenze)."
+
+#: includes/nodereference_explorer.widget.settings.inc:245
+msgid "Maximal height"
+msgstr "Maximale Höhe."
+
+#: includes/nodereference_explorer.widget.settings.inc:247
+msgid "The maximal height of the dialog window (leave blank or 0 if no limit)."
+msgstr "Die maximale Höhe des Dialog Fensters (leer lassen oder 0 wenn keine Grenze)."
+
+#: includes/nodereference_explorer.widget.settings.inc:252
+msgid "Controls"
+msgstr "Steuerung"
+
+#: includes/nodereference_explorer.widget.settings.inc:259
+msgid "Draggable"
+msgstr "Verschiebbar"
+
+#: includes/nodereference_explorer.widget.settings.inc:262
+msgid "Specify if the dialog can be dragged by clicking the title bar."
+msgstr "Definiert ob der Dialog verschiebbar ist."
+
+#: includes/nodereference_explorer.widget.settings.inc:267
+msgid "Resizable"
+msgstr "Vergrösserbar"
+
+#: includes/nodereference_explorer.widget.settings.inc:270
+msgid "Specify if the dialog can be resized."
+msgstr "Definiert ob der Dialog ergrösserbar ist."
+
+#: includes/nodereference_explorer.widget.settings.inc:276
+msgid "Close by escape"
+msgstr "Schliessen mit Escape"
+
+#: includes/nodereference_explorer.widget.settings.inc:279
+msgid "Specify if the dialog can be closed when pressing the escape (Esc) button"
+msgstr "Definiert ob der Dialog mit der Escape (Esc) Taste geschlossen werden kann"
+
+#: includes/nodereference_explorer.widget.settings.inc:284
+msgid "Effects"
+msgstr "Effekte"
+
+#: includes/nodereference_explorer.widget.settings.inc:292
+msgid "None"
+msgstr "Keine"
+
+#: includes/nodereference_explorer.widget.settings.inc:293
+msgid "Slide"
+msgstr "Gleiten"
+
+#: includes/nodereference_explorer.widget.settings.inc:298
+msgid "Show effect"
+msgstr "Effekt bei Anzeige"
+
+#: includes/nodereference_explorer.widget.settings.inc:301
+msgid "Specify the effect when the dialog window opens."
+msgstr "Definiert den Effekt wenn das Dialog Fenster öffnet."
+
+#: includes/nodereference_explorer.widget.settings.inc:306
+msgid "Close effect"
+msgstr "Effekt bei Schliessen"
+
+#: includes/nodereference_explorer.widget.settings.inc:309
+msgid "Specify the effect when the dialog window closes."
+msgstr "Definiert den Effekt wenn das Dialog Fenster schliesst."
+
+#: includes/nodereference_explorer.widget.validate.inc:51
+msgid " must be a positive integer."
+msgstr " muss eine positive Ganzzahl sein."
+
+#: js/explorer.preview.js:0
+msgid "Preview loading, please wait..."
+msgstr "Vorschau lädt, bitte warten..."
+

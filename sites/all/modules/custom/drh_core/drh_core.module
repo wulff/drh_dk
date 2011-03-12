@@ -1,0 +1,226 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Custom functionality for the drh.dk site.
+ */
+
+define('DRH_BUILD_TEASER_FRONT', 'teaser_front');
+define('DRH_BUILD_TEASER_SIDEBAR', 'teaser_sidebar');
+
+/* --- HOOKS ---------------------------------------------------------------- */
+
+function drh_core_init() {
+  if ('admin' == arg(0) && 'pages' == arg(2)) {
+    drupal_add_css(drupal_get_path('module', 'drh_core') .'/styles/drh_core.panels.css');
+  }
+  if (drupal_is_front_page()) {
+    drupal_add_js(drupal_get_path('module', 'drh_core') .'/scripts/front.js');
+  }
+}
+
+/**
+ * Implementation of hook_ctools_plugin_api().
+ */
+function drh_core_ctools_plugin_api($module, $api) {
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 1);
+  }
+  if ($module == 'panels_mini' && $api == 'panels_default') {
+    return array('version' => 1);
+  }
+  if ($module == 'strongarm' && $api == 'strongarm') {
+    return array('version' => 1);
+  }
+}
+
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ */
+function drh_core_ctools_plugin_directory($module, $plugin) {
+  if ('panels' == $module && ('layouts' == $plugin || 'styles' == $plugin)) {
+    return 'plugins/'. $plugin;
+  }
+  if ('ctools' == $module && !empty($plugin)) {
+    return 'plugins/'. $plugin;
+  }
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function drh_core_views_api() {
+  return array('api' => 2.0);
+}
+
+/**
+ * Implementation of hook_content_build_modes().
+ */
+// TODO: is this even necessary?
+function drh_core_content_build_modes() {
+  return array(
+    'teaser' => array(
+      'title' => t('Frontpage'),
+      'build modes' => array(
+        DRH_BUILD_TEASER_FRONT => array(
+          'title' => t('Frontpage teaser'),
+          'views style' => TRUE,
+        ),
+        DRH_BUILD_TEASER_SIDEBAR => array(
+          'title' => t('Sidebar teaser'),
+          'views style' => TRUE,
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_imagecache_default_presets().
+ */
+function drh_core_imagecache_default_presets() {
+  $presets = array();
+
+  $presets['grid-4-crop'] = array(
+    'presetname' => 'grid-4-crop',
+    'actions' => array(
+      0 => array(
+        'weight' => '0',
+        'module' => 'imagecache',
+        'action' => 'imagecache_scale_and_crop',
+        'data' => array(
+          'width' => '220',
+          'height' => '124',
+        ),
+      ),
+    ),
+  );
+  $presets['grid-6-crop'] = array(
+    'presetname' => 'grid-6-crop',
+    'actions' => array(
+      0 => array(
+        'weight' => '0',
+        'module' => 'imagecache',
+        'action' => 'imagecache_scale_and_crop',
+        'data' => array(
+          'width' => '340',
+          'height' => '190',
+        ),
+      ),
+    ),
+  );
+  $presets['grid-9-crop'] = array(
+    'presetname' => 'grid-9-crop',
+    'actions' => array(
+      0 => array(
+        'weight' => '0',
+        'module' => 'imagecache',
+        'action' => 'imagecache_scale_and_crop',
+        'data' => array(
+          'width' => '520',
+          'height' => '293',
+        ),
+      ),
+    ),
+  );
+  $presets['grid-16'] = array(
+    'presetname' => 'grid-16',
+    'actions' => array(
+      0 => array(
+        'weight' => '0',
+        'module' => 'imagecache',
+        'action' => 'imagecache_scale',
+        'data' => array(
+          'width' => '940',
+        ),
+      ),
+    ),
+  );
+  $presets['lightbox'] = array(
+    'presetname' => 'lightbox',
+    'actions' => array(
+      0 => array(
+        'weight' => '0',
+        'module' => 'imagecache',
+        'action' => 'imagecache_scale_and_crop',
+        'data' => array(
+          'width' => '640',
+          'height' => '480',
+        ),
+      ),
+    ),
+  );
+  $presets['thumb_front'] = array(
+    'presetname' => 'thumb_front',
+    'actions' => array(
+      0 => array(
+        'weight' => '0',
+        'module' => 'imagecache',
+        'action' => 'imagecache_scale_and_crop',
+        'data' => array(
+          'width' => '155',
+          'height' => '88',
+        ),
+      ),
+    ),
+  );
+  $presets['thumb_node'] = array(
+    'presetname' => 'thumb_node',
+    'actions' => array(
+      0 => array(
+        'weight' => '0',
+        'module' => 'imagecache',
+        'action' => 'imagecache_scale_and_crop',
+        'data' => array(
+          'width' => '112',
+          'height' => '84',
+        ),
+      ),
+    ),
+  );
+  $presets['thumb_profile'] = array(
+    'presetname' => 'thumb_profile',
+    'actions' => array(
+      0 => array(
+        'weight' => '0',
+        'module' => 'imagecache',
+        'action' => 'imagecache_scale_and_crop',
+        'data' => array(
+          'width' => '60',
+          'height' => '80',
+        ),
+      ),
+    ),
+  );
+  $presets['thumb_profile_view'] = array(
+    'presetname' => 'thumb_profile_view',
+    'actions' => array(
+      0 => array(
+        'weight' => '0',
+        'module' => 'imagecache',
+        'action' => 'imagecache_scale_and_crop',
+        'data' => array(
+          'width' => '160',
+          'height' => '120',
+        ),
+      ),
+    ),
+  );
+  $presets['calendar_popup'] = array(
+    'presetname' => 'calendar_popup',
+    'actions' => array(
+      0 => array(
+        'weight' => '0',
+        'module' => 'imagecache',
+        'action' => 'imagecache_scale_and_crop',
+        'data' => array(
+          'width' => '265',
+          'height' => '120',
+        ),
+      ),
+    ),
+  );
+
+  return $presets;
+}

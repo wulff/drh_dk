@@ -1,0 +1,12 @@
+; $Id: primary_term.info,v 1.2 2008/09/15 14:14:57 mikeryan Exp $
+name = Primary term
+description =  Allows selection of a primary term for nodes
+dependencies[] = taxonomy
+core = 6.x
+
+; Information added by drupal.org packaging script on 2010-10-19
+version = "6.x-1.2"
+core = "6.x"
+project = "primary_term"
+datestamp = "1287494470"
+

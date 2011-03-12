@@ -1,0 +1,348 @@
+<?php
+
+// $Id: primary_term.module,v 1.8.2.16 2010/10/18 20:45:30 brianV Exp $
+
+/**
+ * @TODO
+ * - add a validate function to the form_alter
+ */
+
+function primary_term_nodeapi(&$node, $op, $teaser, $page) {
+  // This module sets $node->primary_term on node load but
+  // $node->primaryterm via the node form.  I don't know if a previous
+  // author meant that or if it was a mistake.  For now, the module
+  // preserves that behavior.
+
+  switch ($op){
+    case 'presave':
+      // Make sure the PT is assigned to the node as a normal term.
+      //
+      // taxonomy_node_save() allows $node->taxonomy to contain tids,
+      // term objects, or arrays of tids (keyed by vocabulary).  So,
+      // we can add the PT tid to the end of the array.
+      //
+      // However, taxonomy_node_save() assumes that a given tid only
+      // occurs once anywhere in node->taxonomy(), so we have to make
+      // sure the PT tid is not already assigned via the form to this
+      // node before adding it.
+      //
+      // In the end, this is more work than doing it "wrong" during
+      // insert/update.
+      if (!empty($node->primaryterm)) {
+        $tid = $node->primaryterm;
+      } else if (!empty($node->primary_term)) {
+        $tid = $node->primary_term->tid;
+      }
+      if (!empty($tid)) {
+        foreach ($node->taxonomy as $k => $v) {
+          if (is_object($v) && $v->tid == $tid) {
+            return;
+          } else if (is_array($v) && !empty($v[$tid])) {
+            return;
+          } else if (is_numeric($v) && $v == $tid) {
+            return;
+          }
+        }
+        $node->taxonomy[] = $tid;
+        // Load the term so it's available to token/pathauto
+        $node->primary_term = taxonomy_get_term($tid);
+      }
+      break;
+
+    case 'insert':
+    case 'update':
+      db_query('DELETE FROM {primary_term} WHERE vid = %d', $node->vid); // only one term per node revision
+      // When node form is submitted, the new PT tid comes in as
+      // $node->primaryterm (because it is set as
+      // $form['taxonomy']['primaryterm'] but with #tree => false.  If
+      // it is comes directly from node_load(), the PT term object is
+      // in $node->primary_term.
+      if (!empty($node->primaryterm)) {
+        $primaryterm = $node->primaryterm;
+      } else if (!empty($node->primary_term)) {
+        $primaryterm = $node->primary_term->tid;
+      }
+      if (empty($primaryterm)) {
+        break;
+      }
+
+      db_query('INSERT INTO {primary_term} (vid, tid) VALUES (%d, %d)', $node->vid, $primaryterm);
+      break;
+
+    case 'load':
+      $tid = db_result(db_query('SELECT tid FROM {primary_term} WHERE vid = %d', $node->vid));
+      $term = taxonomy_get_term($tid);
+      $node->primaryterm = $tid;
+      $node->primary_term = $term;
+      break;
+
+    case 'view':
+      if (module_exists('context') && $page) {
+        $object = menu_get_object();
+        if (isset($object->nid) && $object->nid === $node->nid) {
+          if ($plugin = context_get_plugin('condition', 'primary_term')) {
+            $plugin->execute($node, 'view');
+          }
+        }
+      }
+      break;
+  }
+}
+
+function primary_term_form_alter(&$form, $form_state, $form_id) {
+  $type = $form['type']['#value'];
+  $node = $form['#node'];
+
+  switch ($form_id) {
+    case $type .'_node_form':
+
+      // Build the Primary Term form element. Note: This no longer uses
+      // $form['taxonomy'] since other modules have been known to alter or
+      // remove it. (e.g Hierarchical Select or Content Taxonomy)
+      if ($vids = variable_get('pt_vocabs_'. $form['type']['#value'], array())) {
+
+        // Get vids of vocabs associated with this node type.
+        $results = db_query("SELECT vid FROM {vocabulary_node_types} WHERE type = '%s'", $type);
+        while ($r = db_fetch_object($results)) {
+          $type_vids[] = $r->vid;
+        }
+
+        // Build the select list options from the terms within these vocabularies.
+        $terms = array();
+        foreach ($type_vids as $vid) {
+          if (in_array($vid, $vids) && primary_term_vocabulary_access($vid)) {
+            $options = array();
+            $tree = taxonomy_get_tree($vid);
+
+            // If i18n Taxonomy is installed, localize the names of the terms we are fetching.
+            if ($tree && module_exists('i18ntaxonomy')) {
+              $tree = i18ntaxonomy_localize_terms($tree);
+            }
+
+            if ($tree) {
+              foreach ($tree as $term) {
+                $choice = new stdClass();
+                $choice->option = array($term->tid => str_repeat('-', $term->depth) . $term->name);
+                $options[] = $choice;
+              }
+            }
+            $terms = array_merge($terms, $options);
+          }
+        }
+
+        $types = node_get_types('names');
+        $type = $types[$node->type];
+
+        // Create a new field.
+        $form['primaryterm'] = array(
+          '#type' => 'select',
+          '#multiple' => 0,
+          '#title' => variable_get('pt_title_'. $form['type']['#value'], t('Primary Term')),
+          '#default_value' => $form['#node']->primaryterm ?
+            $form['#node']->primaryterm :
+            array(primary_term_get_term($form['#node']->vid)),
+          '#options' => $terms,
+          '#description' => t('Select a primary term for this %type.', array('%type' => $type)),
+          '#theme' => 'taxonomy_term_select',
+          '#required' => variable_get('pt_required_'. $form['type']['#value'], FALSE),
+          '#weight' => content_extra_field_weight($node->type, 'primary_term'),
+          );
+      }
+      break;
+
+  case 'node_type_form':
+    $node_type = $form['old_type']['#value'];
+    $vocabs = taxonomy_get_vocabularies($type);
+    foreach($vocabs as $vocab){
+      $vocabularies[$vocab->vid] = $vocab->name;
+    }
+
+    $form['workflow']['pt_vocabs'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Vocabularies for Primary Term'),
+      '#options' => $vocabularies,
+      '#default_value' => variable_get('pt_vocabs_'. $node_type, array()),
+      '#description' => t('Select which vocabularies should contribute terms to the Primary Term selector. Select none and the selector will not appear.'),
+    );
+    $form['workflow']['pt_required'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Primary Term Required'),
+      '#default_value' => variable_get('pt_required_'. $node_type, FALSE),
+      '#description' => t('Select whether a Primary Term is required for this node type.'),
+    );
+    $form['workflow']['pt_title'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Primary Term Title'),
+      '#required' => TRUE,
+      '#default_value' => variable_get('pt_title_'. $node_type, t('Primary Term')),
+      '#description' => t("Enter a label for the Primary Term field."),
+    );
+    $form['#validate'][] = 'primary_term_node_type_form_validate';
+  }
+}
+
+/**
+ * Validate our changes to the node_type_form.
+ */
+function primary_term_node_type_form_validate(&$form, &$form_state) {
+  // Verify that if the Primary Term is required, there is a vocabulary
+  // associated with it.
+  if ( ($form_state['values']['pt_required']) && !in_array(TRUE, $form_state['values']['pt_vocabs']) ) {
+    form_set_error('pt_required','If you choose to make the Primary Term required, you must select at least one vocabulary for it.');
+  }
+}
+
+/**
+ * Get primary term for a given node version id (vid)
+ *
+ * @param integer $vid
+ *//**
+* Implementation of CCK's hook_content_extra_fields.
+*/
+function primary_term_get_term($vid){
+  return db_result(db_query('SELECT tid FROM {primary_term} WHERE vid = %d', $vid));
+}
+
+/**
+ * Check permission to access the vocabulary with the given vid.
+ *
+ * Currently used to add support for taxonomy_role.
+ *
+ * @param $vid The vocabulary id of the vocab we are checking access for.
+ *
+ * @return boolean TRUE if the current user can view this vocabulary.
+ */
+function primary_term_vocabulary_access($vid) {
+  // If taxonomy_role is not enabled, return early.
+  if (!module_exists('taxonomy_role')) {
+    return TRUE;
+  }
+
+  $vocabularies = taxonomy_get_vocabularies();
+  if (is_numeric($vid) && user_access('access '. check_plain($vocabularies[$vid]->name) .' vocabulary')) {
+    return TRUE;
+  }
+  else {
+    return FALSE;
+  }
+
+}
+
+/**
+* Implementation of CCK's hook_content_extra_fields.
+*/
+function primary_term_content_extra_fields() {
+  $extras['primary_term'] = array(
+    'label' => t('Primary Term'),
+    'description' => t('Primary Term widget (node editing only)'),
+    'weight' => 0,
+  );
+  return $extras;
+}
+
+/**********************************************************************
+ * token.module support
+ **********************************************************************/
+
+function primary_term_token_list($type = 'all') {
+  if ($type == 'node' || $type == 'all') {
+    $tokens['node']['primary-term'] = t('Name of primary term');
+    $tokens['node']['primary-term-id'] = t('ID of primary term');
+    $tokens['node']['primary-termpath-raw'] = t('Full Path to Primary Term');
+    $tokens['node']['primary-term-vocab'] = t('Name of the vocab of primary term');
+
+  if (module_exists('uc_catalog')) {
+    $tokens['node']['primary-termpath-uc-raw'] = t('Full catalog path to Primary Term');
+  }
+
+    return $tokens;
+  }
+}
+
+function primary_term_token_values($type, $object = NULL) {
+  switch ($type) {
+    case 'node':
+      $node = $object;
+      if (isset($node->primaryterm)) {
+        $term = taxonomy_get_term($node->primaryterm);
+        $values['primary-term'] = check_plain($term->name);
+        $values['primary-term-id'] = $term->tid;
+        $values['primary-termpath-raw'] = drupal_get_path_alias(taxonomy_term_path($term));
+
+        $vocab = taxonomy_vocabulary_load($term->vid);
+        $values['primary-term-vocab'] = $vocab->name;
+
+        if (module_exists('uc_catalog')) {
+          $values['primary-termpath-uc-raw'] = drupal_get_path_alias(uc_catalog_path($term));
+        }
+      }
+      break;
+  }
+  return $values;
+}
+
+/**********************************************************************
+ * Views support
+ **********************************************************************/
+
+/**
+ * Implementation of hook_views_api().
+ */
+function primary_term_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'primary_term') . '/includes/views',
+
+  );
+}
+
+/**********************************************************************
+ * CTools support
+ **********************************************************************/
+
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * mypane/panels are used.
+ */
+function primary_term_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**********************************************************************
+ * Context support
+ **********************************************************************/
+
+function primary_term_ctools_plugin_api($module, $api) {
+  if ($module == 'context' && $api == 'plugins') {
+    return array('version' => 3);
+  }
+}
+
+function primary_term_context_plugins() {
+  $plugins = array();
+  $plugins['primary_term_context_condition_primary_term'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'primary_term') . '/plugins/context',
+      'file' => 'primary_term_context_condition_primary_term.inc',
+      'class' => 'primary_term_context_condition_primary_term',
+      'parent' => 'context_condition_node',
+    ),
+  );
+  return $plugins;
+}
+
+function primary_term_context_registry() {
+  return array(
+    'conditions' => array(
+      'primary_term' => array(
+        'title' => t('Primary Term'),
+        'plugin' => 'primary_term_context_condition_primary_term',
+      ),
+    ),
+  );
+}

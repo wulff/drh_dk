@@ -1,0 +1,5 @@
+; $Id$
+name = Utility
+description = Utility functions for the drh.dk site.
+package = DRH
+core = 6.x

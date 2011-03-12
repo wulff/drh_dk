@@ -1,0 +1,241 @@
+<?php
+// $Id: views_tagger.module,v 1.1.2.10 2010/04/13 09:17:35 wulff Exp $
+
+/**
+ * @file
+ * Quickly assign taxonomy terms to nodes in a view.
+ */
+
+/* --- HOOKS ---------------------------------------------------------------- */
+
+/**
+ * Implementation of hook_views_api().
+ */
+function views_tagger_views_api() {
+  return array(
+    'api' => 2.0,
+  );
+}
+
+/**
+ * Implementation of hook_forms().
+ */
+function views_tagger_forms($form_id, $args) {
+  $forms = array();
+  if (strpos($form_id, 'views_tagger_form') === 0) {
+    $forms[$form_id] = array('callback' => 'views_tagger_form');
+  }
+
+  return $forms;
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function views_tagger_theme() {
+  return array(
+    'views_tagger_nodes' => array(
+      'arguments' => array('form' => NULL),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_init().
+ */
+function views_tagger_init() {
+  if ('hierarchical_select_json' == arg(0) && module_exists('hs_taxonomy')) {
+    // we need to include some views classes to be able to properly unserialize
+    // the objects from form storage
+    views_include('view');
+    views_get_plugin('style', 'tagger');
+  }
+}
+
+/* --- FORMS ---------------------------------------------------------------- */
+
+/**
+ * Form builder for the tagger form.
+ */
+function views_tagger_form(&$form_state, $plugin) {
+  $form = array();
+
+  $form['nodes'] = array(
+    '#tree' => TRUE,
+  );
+
+  $vocabularies = $plugin->options['vocabularies'];
+  if (!empty($vocabularies)) {
+    foreach ($vocabularies as $key => $vid) {
+      if ($vid == 0) {
+        unset($vocabularies[$key]);
+      }
+    }
+  }
+
+  if (!empty($plugin->view->result)) {
+    foreach ($plugin->view->result as $node) {
+      $form['nodes'][$node->nid] = views_tagger_form_taxonomy($node->nid, $vocabularies);
+    }
+  }
+
+  if (module_exists('active_tags')) {
+    _views_tagger_active_tags($plugin);
+  }
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Update'),
+  );
+
+  $form['#view'] = $plugin->view;
+  $form['#sets'] = $plugin->sets;
+
+  $form['#submit'][] = 'views_tagger_form_submit';
+  $form['#theme'] = 'views_tagger_nodes';
+
+  return $form;
+}
+
+/**
+ * Submit handler for the tagger form.
+ */
+function views_tagger_form_submit($form, &$form_state) {
+  $nodes = $form_state['values']['nodes'];
+  if (!empty($nodes)) {
+    foreach ($nodes as $nid => $taxonomy) {
+      $node = node_load($nid);
+      taxonomy_node_save($node, $taxonomy['taxonomy']);
+    }
+    drupal_set_message(t('Taxonomy terms have been updated.'));
+  }
+
+  // let's try to stay on the same page after submitting the form
+  $arguments = $_GET;
+  unset($arguments['q']);
+  $form_state['redirect'] = array($_GET['q'], $arguments);
+}
+
+/* --- UTILITY -------------------------------------------------------------- */
+
+/**
+ * Stripped down version of the code from taxonomy_form_alter().
+ */
+function views_tagger_form_taxonomy($nid, $vocabularies) {
+  $node = node_load($nid);
+
+  $form_id = $node->type .'_node_form';
+
+  $form['type'] = array('#type' => 'value', '#value' => $node->type);
+  $form['#node'] = $node;
+
+  $form_state = array();
+  taxonomy_form_alter($form, $form_state, $form_id);
+  if (module_exists('hs_taxonomy')) {
+    hs_taxonomy_form_alter($form, $form_state, $form_id);
+  }
+
+  unset($form['type'], $form['#node']);
+
+  if (!empty($form['taxonomy'])) {
+    foreach ($form['taxonomy'] as $key => $value) {
+      if (strpos($key, '#') === 0) {
+        unset($form['taxonomy'][$key]);
+      }
+    }
+
+    if (isset($form['taxonomy']['tags']))  {
+      foreach ($form['taxonomy']['tags'] as $vid => $element) {
+        $form['taxonomy']['tags'][$vid]['#size'] = 32;
+        $form['taxonomy']['tags'][$vid]['#description'] = '';
+      }
+    }
+  }
+
+  if (!empty($vocabularies)) {
+    foreach ($vocabularies as $vid => $vocabulary) {
+      $form['taxonomy'][$vid]['#access'] = FALSE;
+    }
+  }
+
+  return $form;
+}
+
+/**
+ * Attach the active tags widget to all freetagging widgets.
+ */
+function _views_tagger_active_tags($plugin) {
+  // grab all freetagging vocabularies
+  $result = db_query('SELECT v.vid, v.tags, n.type FROM {vocabulary} v INNER JOIN {vocabulary_node_types} n ON v.vid = n.vid WHERE v.tags = 1');
+  $freetagging = array();
+  while ($row = db_fetch_object($result)) {
+    $freetagging[$row->type][$row->vid] = $row->tags;
+  }
+
+  // figure out if any vocabularies have been selected on the style
+  // configuration form
+  $empty = TRUE;
+  if (!empty($plugin->options['vocabularies'])) {
+    foreach ($plugin->options['vocabularies'] as $vid) {
+      if ($vid > 0) {
+        $empty = FALSE;
+        break;
+      }
+    }
+  }
+
+  // build a list of element ids for active tags to attach to
+  $ids = array();
+  foreach ($plugin->view->result as $node) {
+    $node = node_load($node->nid);
+    foreach ($freetagging[$node->type] as $vid => $tags) {
+      if (!$empty) {
+        if (!in_array($vid, $plugin->options['vocabularies'])) {
+          continue;
+        }
+      }
+      $ids[] = '#edit-nodes-'. $node->nid .'-taxonomy-tags-'. $vid .'-wrapper';
+    }
+  }
+
+  active_tags_enable_widget($ids);
+}
+
+/* --- THEME ---------------------------------------------------------------- */
+
+function theme_views_tagger_nodes($form) {
+  $output = '';
+  $view = $form['#view'];
+  $sets = $form['#sets'];
+  $vars = array(
+    'view' => $view,
+  );
+
+  foreach ($sets as $records) {
+    $vars['rows'] = $records;
+
+    template_preprocess_views_view_table($vars);
+
+    $headers = array();
+    foreach ($vars['header'] as $field => $label) {
+      $headers[] = array('data' => $label, 'class' => "views-field views-field-{$vars['fields'][$field]}");
+    }
+    $headers[] = t('Tagging');
+
+    $rows = array();
+    foreach ($records as $num => $object) {
+      $row = array();
+      foreach ($vars['rows'][$num] as $field => $content) {
+        $row['data'][] = array('data' => $content, 'class' => "views-field views-field-{$vars['fields'][$field]}");
+      }
+      $row['data'][] = drupal_render($form['nodes'][$object->nid]);
+      $rows[] = $row;
+    }
+
+    $output .= theme('table', $headers, $rows, array('class' => $vars['class']));
+  }
+
+  $output .= drupal_render($form);
+
+  return $output;
+}

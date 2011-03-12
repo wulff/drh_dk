@@ -1,0 +1,23 @@
+;$Id$
+name = Nodereference Explorer
+description = Interactive node browser as a nodereference widget
+core = 6.x
+project = "nodereference_explorer"
+package = CCK
+dependencies[] = content
+dependencies[] = nodereference
+dependencies[] = jquery_ui
+dependencies[] = views
+version = 6.x-1.x-dev
+
+; Information added by drupal.org packaging script on 2010-05-03
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "nodereference_explorer"
+datestamp = "1272845436"
+; Information added by drupal.org packaging script on 2010-12-06
+version = "6.x-1.1"
+core = "6.x"
+project = "nodereference_explorer"
+datestamp = "1291632389"
+

@@ -1,0 +1,32 @@
+<?php
+
+function primary_term_install() {
+  drupal_install_schema('primary_term');
+  // weight module to run after taxonomy
+  db_query("UPDATE {system} SET weight = 9 WHERE name = 'primary_term'");
+}
+
+function primary_term_uninstall() {
+  drupal_uninstall_schema('primary_term');
+}
+
+function primary_term_schema() {
+  $schema['primary_term'] = array(
+    'fields' => array(
+      'vid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'tid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('vid'),
+  );
+  return $schema;
+}

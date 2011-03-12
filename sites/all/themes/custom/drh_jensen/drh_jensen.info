@@ -1,0 +1,14 @@
+; $Id$
+name = Den Rytmiske Højskole
+description = Basic theme for Den Rytmiske Højskole.
+screenshot = images/screenshot.png
+core = 6.x
+base theme = ninesixty
+
+stylesheets[all][] = styles/reset.css
+stylesheets[all][] = styles/typography.css
+stylesheets[all][] = drh_jensen.css
+
+; get rid of a couple of stylesheets from the base theme
+stylesheets[all][] = reset.css
+stylesheets[all][] = text.css
