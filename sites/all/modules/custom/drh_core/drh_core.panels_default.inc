@@ -17,7 +17,8 @@ function drh_core_default_panels_mini() {
   $mini->api_version = 1;
   $mini->name = 'basic_information';
   $mini->category = 'DRH';
-  $mini->title = 'Praktisk information';
+  $mini->admin_title = 'Praktisk information';
+  $mini->admin_description = '';
   $mini->requiredcontexts = FALSE;
   $mini->contexts = FALSE;
   $mini->relationships = FALSE;
@@ -26,7 +27,7 @@ function drh_core_default_panels_mini() {
   $display->layout_settings = array();
   $display->panel_settings = array();
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Praktisk information';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -70,7 +71,8 @@ Dette forår er 23 uger og den samlede priser er 37.500 kr. Der er mulighed for 
   $mini->api_version = 1;
   $mini->name = 'navigation';
   $mini->category = 'drh';
-  $mini->title = 'Navigation';
+  $mini->admin_title = 'Navigation';
+  $mini->admin_description = '';
   $mini->requiredcontexts = FALSE;
   $mini->contexts = FALSE;
   $mini->relationships = FALSE;
@@ -100,6 +102,24 @@ Dette forår er 23 uger og den samlede priser er 37.500 kr. Der er mulighed for 
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['middle'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'middle';
+    $pane->type = 'block';
+    $pane->subtype = 'menu-menu-tools';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-2'] = $pane;
+    $display->panels['middle'][1] = 'new-2';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $mini->display = $display;

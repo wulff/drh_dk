@@ -15,635 +15,18 @@ function drh_core_default_page_manager_handlers() {
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'node_view_panel_context_4';
-  $handler->task = 'node_view';
+  $handler->name = 'contact_site_panel_context';
+  $handler->task = 'contact_site';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 2;
+  $handler->weight = 0;
   $handler->conf = array(
-    'title' => 'Linie',
-    'no_blocks' => 0,
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-    'access' => array(
-      'plugins' => array(
-        '0' => array(
-          'name' => 'node_type',
-          'settings' => array(
-            'type' => array(
-              'topic' => 'topic',
-            ),
-          ),
-          'context' => 'argument_nid_1',
-        ),
-      ),
-      'logic' => 'and',
-    ),
-  );
-  $display = new panels_display;
-  $display->layout = 'drh_page';
-  $display->layout_settings = array();
-  $display->panel_settings = array();
-  $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass;
-    $pane->pid = 'new-1';
-    $pane->panel = 'bottom_left';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'events-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'items_per_page' => '10',
-      'override_title' => 1,
-      'override_title_text' => 'Kalender',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-1'] = $pane;
-    $display->panels['bottom_left'][0] = 'new-1';
-    $pane = new stdClass;
-    $pane->pid = 'new-2';
-    $pane->panel = 'bottom_main';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'courses-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'items_per_page' => '10',
-      'context' => array(
-        '0' => 'argument_nid_1',
-      ),
-      'override_title' => 1,
-      'override_title_text' => 'Fag',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-2'] = $pane;
-    $display->panels['bottom_main'][0] = 'new-2';
-    $pane = new stdClass;
-    $pane->pid = 'new-3';
-    $pane->panel = 'bottom_right';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'images-panel_pane_2';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'items_per_page' => '6',
-      'offset' => '0',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-3'] = $pane;
-    $display->panels['bottom_right'][0] = 'new-3';
-    $pane = new stdClass;
-    $pane->pid = 'new-4';
-    $pane->panel = 'bottom_right';
-    $pane->type = 'panels_mini';
-    $pane->subtype = 'basic_information';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-4'] = $pane;
-    $display->panels['bottom_right'][1] = 'new-4';
-    $pane = new stdClass;
-    $pane->pid = 'new-5';
-    $pane->panel = 'top_left';
-    $pane->type = 'block';
-    $pane->subtype = 'menu_block-1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-5'] = $pane;
-    $display->panels['top_left'][0] = 'new-5';
-    $pane = new stdClass;
-    $pane->pid = 'new-6';
-    $pane->panel = 'top_main';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'image_refs-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'items_per_page' => '1',
-      'context' => array(
-        '0' => 'argument_nid_1',
-      ),
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-6'] = $pane;
-    $display->panels['top_main'][0] = 'new-6';
-    $pane = new stdClass;
-    $pane->pid = 'new-7';
-    $pane->panel = 'top_main';
-    $pane->type = 'node_body';
-    $pane->subtype = 'node_body';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'argument_nid_1',
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-7'] = $pane;
-    $display->panels['top_main'][1] = 'new-7';
-    $pane = new stdClass;
-    $pane->pid = 'new-8';
-    $pane->panel = 'top_right';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'profiles-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'items_per_page' => '10',
-      'context' => array(
-        '0' => 'argument_nid_1',
-      ),
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-8'] = $pane;
-    $display->panels['top_right'][0] = 'new-8';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = '0';
-  $handler->conf['display'] = $display;
-  $handlers['node_view_panel_context_4'] = $handler;
-
-  $handler = new stdClass;
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'node_view_panel_context';
-  $handler->task = 'node_view';
-  $handler->subtask = '';
-  $handler->handler = 'panel_context';
-  $handler->weight = 5;
-  $handler->conf = array(
-    'title' => 'Standard page',
-    'no_blocks' => 0,
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-  );
-  $display = new panels_display;
-  $display->layout = 'drh_page';
-  $display->layout_settings = array();
-  $display->panel_settings = array();
-  $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass;
-    $pane->pid = 'new-1';
-    $pane->panel = 'bottom_left';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'events-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'items_per_page' => '10',
-      'override_title' => 1,
-      'override_title_text' => 'Kalender',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-1'] = $pane;
-    $display->panels['bottom_left'][0] = 'new-1';
-    $pane = new stdClass;
-    $pane->pid = 'new-2';
-    $pane->panel = 'bottom_main';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'courses-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'items_per_page' => '10',
-      'context' => array(
-        '0' => 'argument_nid_1',
-      ),
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-2'] = $pane;
-    $display->panels['bottom_main'][0] = 'new-2';
-    $pane = new stdClass;
-    $pane->pid = 'new-3';
-    $pane->panel = 'bottom_right';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'images-panel_pane_2';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'items_per_page' => '6',
-      'offset' => '0',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-3'] = $pane;
-    $display->panels['bottom_right'][0] = 'new-3';
-    $pane = new stdClass;
-    $pane->pid = 'new-4';
-    $pane->panel = 'top_left';
-    $pane->type = 'block';
-    $pane->subtype = 'menu_block-1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-4'] = $pane;
-    $display->panels['top_left'][0] = 'new-4';
-    $pane = new stdClass;
-    $pane->pid = 'new-5';
-    $pane->panel = 'top_main';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'image_refs-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'items_per_page' => '1',
-      'context' => array(
-        '0' => 'argument_nid_1',
-      ),
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-5'] = $pane;
-    $display->panels['top_main'][0] = 'new-5';
-    $pane = new stdClass;
-    $pane->pid = 'new-6';
-    $pane->panel = 'top_main';
-    $pane->type = 'node_body';
-    $pane->subtype = 'node_body';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'argument_nid_1',
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-6'] = $pane;
-    $display->panels['top_main'][1] = 'new-6';
-    $pane = new stdClass;
-    $pane->pid = 'new-7';
-    $pane->panel = 'top_right';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'profiles-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'items_per_page' => '10',
-      'context' => array(
-        '0' => 'argument_nid_1',
-      ),
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-7'] = $pane;
-    $display->panels['top_right'][0] = 'new-7';
-    $pane = new stdClass;
-    $pane->pid = 'new-8';
-    $pane->panel = 'top_right';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'admin_title' => 'Teaserfelt',
-      'title' => 'Teasers&',
-      'body' => 'Sikke mange spændende ting der er her kommer fint indholdnår man gider lave et view der trækker det ind.',
-      'format' => '1',
-      'substitute' => 1,
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-8'] = $pane;
-    $display->panels['top_right'][1] = 'new-8';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = '0';
-  $handler->conf['display'] = $display;
-  $handlers['node_view_panel_context'] = $handler;
-
-  $handler = new stdClass;
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'node_view_panel_context_5';
-  $handler->task = 'node_view';
-  $handler->subtask = '';
-  $handler->handler = 'panel_context';
-  $handler->weight = 3;
-  $handler->conf = array(
-    'title' => 'Lærer',
+    'title' => 'Panel',
     'no_blocks' => FALSE,
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
-    'access' => array(
-      'plugins' => array(
-        '0' => array(
-          'name' => 'node_type',
-          'settings' => array(
-            'type' => array(
-              'profile' => 'profile',
-            ),
-          ),
-          'context' => 'argument_nid_1',
-        ),
-      ),
-      'logic' => 'and',
-    ),
-  );
-  $display = new panels_display;
-  $display->layout = 'drh_page';
-  $display->layout_settings = array();
-  $display->panel_settings = array();
-  $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass;
-    $pane->pid = 'new-1';
-    $pane->panel = 'top_left';
-    $pane->type = 'block';
-    $pane->subtype = 'menu_block-1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-1'] = $pane;
-    $display->panels['top_left'][0] = 'new-1';
-    $pane = new stdClass;
-    $pane->pid = 'new-2';
-    $pane->panel = 'top_main';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'image_refs-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'items_per_page' => '1',
-      'context' => array(
-        '0' => 'argument_nid_1',
-      ),
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-2'] = $pane;
-    $display->panels['top_main'][0] = 'new-2';
-    $pane = new stdClass;
-    $pane->pid = 'new-3';
-    $pane->panel = 'top_main';
-    $pane->type = 'node_body';
-    $pane->subtype = 'node_body';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'argument_nid_1',
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-3'] = $pane;
-    $display->panels['top_main'][1] = 'new-3';
-    $pane = new stdClass;
-    $pane->pid = 'new-4';
-    $pane->panel = 'top_right';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'admin_title' => 'Lærer_right_pane',
-      'title' => 'Mig på nettet',
-      'body' => 'Jeg er så fed at jeg også optræder på nettet.Ligesom alle andre;)',
-      'format' => '1',
-      'substitute' => 1,
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-4'] = $pane;
-    $display->panels['top_right'][0] = 'new-4';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-2';
-  $handler->conf['display'] = $display;
-  $handlers['node_view_panel_context_5'] = $handler;
-
-  $handler = new stdClass;
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'node_view_panel_context_3';
-  $handler->task = 'node_view';
-  $handler->subtask = '';
-  $handler->handler = 'panel_context';
-  $handler->weight = 4;
-  $handler->conf = array(
-    'title' => 'Kort',
-    'no_blocks' => 0,
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-    'access' => array(
-      'plugins' => array(
-        '0' => array(
-          'name' => 'php',
-          'settings' => array(
-            'description' => 'Use on map page (node/9)',
-            'php' => 'return \'node\' == arg(0) && arg(1) == 9;',
-          ),
-        ),
-      ),
-      'logic' => 'and',
-    ),
-  );
-  $display = new panels_display;
-  $display->layout = 'drh_page';
-  $display->layout_settings = array();
-  $display->panel_settings = array();
-  $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass;
-    $pane->pid = 'new-1';
-    $pane->panel = 'top_left';
-    $pane->type = 'block';
-    $pane->subtype = 'menu_block-1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-1'] = $pane;
-    $display->panels['top_left'][0] = 'new-1';
-    $pane = new stdClass;
-    $pane->pid = 'new-2';
-    $pane->panel = 'top_main';
-    $pane->type = 'content_field';
-    $pane->subtype = 'field_map';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'label' => 'normal',
-      'formatter' => 'large',
-      'context' => 'argument_nid_1',
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-2'] = $pane;
-    $display->panels['top_main'][0] = 'new-2';
-    $pane = new stdClass;
-    $pane->pid = 'new-3';
-    $pane->panel = 'top_main';
-    $pane->type = 'node_body';
-    $pane->subtype = 'node_body';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'argument_nid_1',
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-3'] = $pane;
-    $display->panels['top_main'][1] = 'new-3';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = '0';
-  $handler->conf['display'] = $display;
-  $handlers['node_view_panel_context_3'] = $handler;
-
-  $handler = new stdClass;
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'node_view_panel_context_2';
-  $handler->task = 'node_view';
-  $handler->subtask = '';
-  $handler->handler = 'panel_context';
-  $handler->weight = 1;
-  $handler->conf = array(
-    'title' => 'Billede',
-    'no_blocks' => FALSE,
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-    'access' => array(
-      'plugins' => array(
-        '0' => array(
-          'name' => 'node_type',
-          'settings' => array(
-            'type' => array(
-              'image' => 'image',
-            ),
-          ),
-          'context' => 'argument_nid_1',
-        ),
-      ),
-      'logic' => 'and',
-    ),
   );
   $display = new panels_display;
   $display->layout = 'drh_page';
@@ -656,15 +39,12 @@ function drh_core_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-1';
     $pane->panel = 'top_main';
-    $pane->type = 'content_field';
-    $pane->subtype = 'field_image';
+    $pane->type = 'contact';
+    $pane->subtype = 'contact';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'label' => 'normal',
-      'formatter' => 'grid-16_default',
-      'context' => 'argument_nid_1',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
@@ -674,29 +54,10 @@ function drh_core_default_page_manager_handlers() {
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['top_main'][0] = 'new-1';
-    $pane = new stdClass;
-    $pane->pid = 'new-2';
-    $pane->panel = 'top_main';
-    $pane->type = 'node_body';
-    $pane->subtype = 'node_body';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'argument_nid_1',
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-2'] = $pane;
-    $display->panels['top_main'][1] = 'new-2';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
-  $handlers['node_view_panel_context_2'] = $handler;
+  $handlers['contact_site_panel_context'] = $handler;
 
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
@@ -767,91 +128,46 @@ function drh_core_default_page_manager_handlers() {
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'contact_site_panel_context';
-  $handler->task = 'contact_site';
+  $handler->name = 'node_edit_panel_context_2';
+  $handler->task = 'node_edit';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 0;
+  $handler->weight = -10;
   $handler->conf = array(
-    'title' => 'Panel',
+    'title' => 'Tilmeldingsformular',
     'no_blocks' => FALSE,
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'registration' => 'registration',
+            ),
+          ),
+          'context' => 'argument_node_edit_1',
+        ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Vis kun til anonyme brugere',
+            'php' => 'return user_is_anonymous();',
+          ),
+        ),
+      ),
+      'logic' => 'and',
+    ),
   );
   $display = new panels_display;
   $display->layout = 'drh_page';
   $display->layout_settings = array();
   $display->panel_settings = array();
   $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass;
-    $pane->pid = 'new-1';
-    $pane->panel = 'top_main';
-    $pane->type = 'contact';
-    $pane->subtype = 'contact';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-1'] = $pane;
-    $display->panels['top_main'][0] = 'new-1';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-1';
-  $handler->conf['display'] = $display;
-  $handlers['contact_site_panel_context'] = $handler;
-
-  return $handlers;
-}
-/**
- * Implementation of hook_default_page_manager_pages()
- */
-function drh_core_default_page_manager_pages() {
-  $page = new stdClass;
-  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
-  $page->api_version = 1;
-  $page->name = 'profiles';
-  $page->task = 'page';
-  $page->admin_title = 'Ansatte';
-  $page->admin_description = 'En oversigt over alle skolens ansatte.';
-  $page->path = 'ansatte';
-  $page->access = array();
-  $page->menu = array();
-  $page->arguments = array();
-  $page->conf = array();
-  $page->default_handlers = array();
-  $handler = new stdClass;
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_profiles_panel_context';
-  $handler->task = 'page';
-  $handler->subtask = 'profiles';
-  $handler->handler = 'panel_context';
-  $handler->weight = 0;
-  $handler->conf = array(
-    'title' => 'Panel',
-    'no_blocks' => FALSE,
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-  );
-  $display = new panels_display;
-  $display->layout = 'drh_page';
-  $display->layout_settings = array();
-  $display->panel_settings = array();
-  $display->cache = array();
-  $display->title = 'Ansatte';
+  $display->title = 'Tilmelding';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -875,11 +191,12 @@ function drh_core_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-2';
     $pane->panel = 'top_main';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'profiles-panel_pane_2';
+    $pane->type = 'nodeformcols';
+    $pane->subtype = 'nodeformcols';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'context' => 'argument_node_edit_1',
       'override_title' => 1,
       'override_title_text' => '',
     );
@@ -898,11 +215,15 @@ function drh_core_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => 'Beskrivelse af tilknytning',
+      'admin_title' => 'Vejledning',
       'title' => '',
-      'body' => 'Du skal være opmærksom på, at lærerne har forskellig grad af tilknytning til skolen. Fuldtidslærere er lærere, der ud over undervisningen også deltager i skolens sociale liv. Deltidslærere er lærere, som også er til stede ud over undervisningen, men i mindre omfang end fuldtidslærerne. Timelærere er lærere, der i princippet kun underviser.',
+      'body' => 'Hvis du ønsker at tilmelde dig til et kursus på Den Rytmiske Højskole kan du gøre det ved at udfylde denne tilmeldingsblanket.
+
+Alternativt kan du kontakte skolen på telefon 5931 6700 eller ved at sende os en mail og bede om at få tilsendt en tilmeldingsblanket. Husk at opgive adressen, hvis du selv skriver en mail.
+
+Det er desværre ikke muligt at tilmelde sig vores korte kurser via hjemmesiden, der skal du bruge tilmeldingsblanketten fra folderen.',
       'format' => '1',
-      'substitute' => TRUE,
+      'substitute' => 0,
     );
     $pane->cache = array();
     $pane->style = array();
@@ -912,42 +233,368 @@ function drh_core_default_page_manager_pages() {
     $display->content['new-3'] = $pane;
     $display->panels['top_right'][0] = 'new-3';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-1';
+  $display->title_pane = 'new-2';
   $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $pages['profiles'] = $page;
+  $handlers['node_edit_panel_context_2'] = $handler;
 
-  $page = new stdClass;
-  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
-  $page->api_version = 1;
-  $page->name = 'frontpage';
-  $page->task = 'page';
-  $page->admin_title = 'Forside';
-  $page->admin_description = '';
-  $page->path = 'forside';
-  $page->access = array();
-  $page->menu = array();
-  $page->arguments = array();
-  $page->conf = array();
-  $page->default_handlers = array();
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_frontpage_panel_context';
-  $handler->task = 'page';
-  $handler->subtask = 'frontpage';
+  $handler->name = 'node_view_panel_context';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 0;
+  $handler->weight = -4;
   $handler->conf = array(
-    'title' => 'Panel',
-    'no_blocks' => FALSE,
+    'title' => 'Standard page',
+    'no_blocks' => 0,
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
   );
   $display = new panels_display;
-  $display->layout = 'drh_frontpage';
+  $display->layout = 'drh_page';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'top_left' => NULL,
+      'top_main' => NULL,
+      'top_right' => NULL,
+      'bottom_left' => NULL,
+      'bottom_main' => NULL,
+      'bottom_right' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'bottom_left';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'events-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'content/valgfagsoversigt',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'items_per_page' => '5',
+      'override_title' => 1,
+      'override_title_text' => 'Kalender',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['bottom_left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'bottom_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'courses-panel_pane_1';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '10',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['bottom_main'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'bottom_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'courses_free-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'content/valgfagsoversigt',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'items_per_page' => '100',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['bottom_main'][1] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'bottom_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'images-panel_pane_2';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '6',
+      'offset' => '0',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-4'] = $pane;
+    $display->panels['bottom_right'][0] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'top_left';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'navigation';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-5'] = $pane;
+    $display->panels['top_left'][0] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'top_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'image_refs-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '1',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-6'] = $pane;
+    $display->panels['top_main'][0] = 'new-6';
+    $pane = new stdClass;
+    $pane->pid = 'new-7';
+    $pane->panel = 'top_main';
+    $pane->type = 'node_body';
+    $pane->subtype = 'node_body';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-7'] = $pane;
+    $display->panels['top_main'][1] = 'new-7';
+    $pane = new stdClass;
+    $pane->pid = 'new-8';
+    $pane->panel = 'top_main';
+    $pane->type = 'content_field';
+    $pane->subtype = 'field_file';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'normal',
+      'formatter' => 'default',
+      'context' => 'argument_nid_1',
+      'override_title' => 1,
+      'override_title_text' => 'PDF docs ',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-8'] = $pane;
+    $display->panels['top_main'][2] = 'new-8';
+    $pane = new stdClass;
+    $pane->pid = 'new-9';
+    $pane->panel = 'top_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'profiles-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '10',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-9'] = $pane;
+    $display->panels['top_right'][0] = 'new-9';
+    $pane = new stdClass;
+    $pane->pid = 'new-10';
+    $pane->panel = 'top_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'image_refs-panel_pane_2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '5',
+      'offset' => '1',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-10'] = $pane;
+    $display->panels['top_right'][1] = 'new-10';
+    $pane = new stdClass;
+    $pane->pid = 'new-11';
+    $pane->panel = 'top_right';
+    $pane->type = 'content_field';
+    $pane->subtype = 'field_link';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'normal',
+      'formatter' => 'default',
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-11'] = $pane;
+    $display->panels['top_right'][2] = 'new-11';
+    $pane = new stdClass;
+    $pane->pid = 'new-12';
+    $pane->panel = 'top_right';
+    $pane->type = 'content_field';
+    $pane->subtype = 'field_course_ref';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'normal',
+      'formatter' => 'default',
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $display->content['new-12'] = $pane;
+    $display->panels['top_right'][3] = 'new-12';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $handlers['node_view_panel_context'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_panel_context_2';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = 1;
+  $handler->conf = array(
+    'title' => 'Billede',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'image' => 'image',
+            ),
+          ),
+          'context' => 'argument_nid_1',
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'drh_page';
   $display->layout_settings = array();
   $display->panel_settings = array();
   $display->cache = array();
@@ -956,32 +603,114 @@ function drh_core_default_page_manager_pages() {
   $display->panels = array();
     $pane = new stdClass;
     $pane->pid = 'new-1';
-    $pane->panel = 'bottom';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'images-panel_pane_1';
+    $pane->panel = 'top_main';
+    $pane->type = 'content_field';
+    $pane->subtype = 'field_image';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'label' => 'normal',
+      'formatter' => 'grid-16_default',
+      'context' => 'argument_nid_1',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
     $pane->cache = array();
     $pane->style = array();
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-1'] = $pane;
-    $display->panels['bottom'][0] = 'new-1';
+    $display->panels['top_main'][0] = 'new-1';
     $pane = new stdClass;
     $pane->pid = 'new-2';
-    $pane->panel = 'teaser_1';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
+    $pane->panel = 'top_main';
+    $pane->type = 'node_body';
+    $pane->subtype = 'node_body';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'nid' => '1',
-      'teaser' => 0,
-      'links' => 0,
-      'leave_node_title' => 1,
-      'identifier' => '',
+      'context' => 'argument_nid_1',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-2'] = $pane;
+    $display->panels['top_main'][1] = 'new-2';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-1';
+  $handler->conf['display'] = $display;
+  $handlers['node_view_panel_context_2'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_panel_context_3';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = -7;
+  $handler->conf = array(
+    'title' => 'Kort',
+    'no_blocks' => 0,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Use on map page (node/9)',
+            'php' => 'return \'node\' == arg(0) && arg(1) == 9;',
+          ),
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'drh_page';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'top_left';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'navigation';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['top_left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'top_main';
+    $pane->type = 'content_field';
+    $pane->subtype = 'field_map';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'normal',
+      'formatter' => 'large',
+      'context' => 'argument_nid_1',
       'override_title' => 1,
       'override_title_text' => '',
     );
@@ -991,20 +720,16 @@ function drh_core_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-2'] = $pane;
-    $display->panels['teaser_1'][0] = 'new-2';
+    $display->panels['top_main'][0] = 'new-2';
     $pane = new stdClass;
     $pane->pid = 'new-3';
-    $pane->panel = 'teaser_2';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
+    $pane->panel = 'top_main';
+    $pane->type = 'node_body';
+    $pane->subtype = 'node_body';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'nid' => '2',
-      'teaser' => 0,
-      'links' => 0,
-      'leave_node_title' => 1,
-      'identifier' => '',
+      'context' => 'argument_nid_1',
       'override_title' => 1,
       'override_title_text' => '',
     );
@@ -1012,108 +737,1451 @@ function drh_core_default_page_manager_pages() {
     $pane->style = array();
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $display->content['new-3'] = $pane;
-    $display->panels['teaser_2'][0] = 'new-3';
+    $display->panels['top_main'][1] = 'new-3';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $handlers['node_view_panel_context_3'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_panel_context_4';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = -7;
+  $handler->conf = array(
+    'title' => 'Linie',
+    'no_blocks' => 0,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'topic' => 'topic',
+            ),
+          ),
+          'context' => 'argument_nid_1',
+        ),
+        1 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '0',
+            'paths' => 'content/sommerkurser/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'drh_page';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'top_left' => NULL,
+      'top_main' => NULL,
+      'top_right' => NULL,
+      'bottom_left' => NULL,
+      'bottom_main' => NULL,
+      'bottom_right' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
     $pane = new stdClass;
-    $pane->pid = 'new-4';
-    $pane->panel = 'teaser_3';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
+    $pane->pid = 'new-1';
+    $pane->panel = 'bottom_left';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'events-panel_pane_1';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'nid' => '3',
-      'teaser' => 0,
-      'links' => 0,
-      'leave_node_title' => 1,
-      'identifier' => '',
+      'items_per_page' => '5',
       'override_title' => 1,
-      'override_title_text' => '',
+      'override_title_text' => 'Snart på DRH',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-4'] = $pane;
-    $display->panels['teaser_3'][0] = 'new-4';
+    $display->content['new-1'] = $pane;
+    $display->panels['bottom_left'][0] = 'new-1';
     $pane = new stdClass;
-    $pane->pid = 'new-5';
-    $pane->panel = 'teaser_4';
-    $pane->type = 'node';
-    $pane->subtype = 'node';
+    $pane->pid = 'new-2';
+    $pane->panel = 'bottom_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'courses-panel_pane_1';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'nid' => '4',
-      'teaser' => 0,
-      'links' => 0,
-      'leave_node_title' => 1,
-      'identifier' => '',
+      'items_per_page' => '10',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
       'override_title' => 1,
-      'override_title_text' => '',
+      'override_title_text' => 'Fag',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-5'] = $pane;
-    $display->panels['teaser_4'][0] = 'new-5';
+    $display->content['new-2'] = $pane;
+    $display->panels['bottom_main'][0] = 'new-2';
     $pane = new stdClass;
-    $pane->pid = 'new-6';
-    $pane->panel = 'top_left_1';
+    $pane->pid = 'new-3';
+    $pane->panel = 'bottom_main';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => 'Indgangsbøn',
+      'admin_title' => 'faelles_fag',
       'title' => '',
-      'body' => 'Velkommen til Den Rytmiske Højskole. Vi har professionelle studier, kompositionsværktøjer, masser af fastansatte musiklærere, og mulighed for design, selvudvikling og meget mere.
-      
-      Musikhøjskolen ligger i Vig, og du er altid velkommen til en rundvisning.',
-      'format' => '3',
-      'substitute' => TRUE,
+      'body' => '<a href="/content/fællesfag">Fællesfag</a>
+Der er en del obligatoriske fag på skolen. De fleste af disse er fællesfag hvor vi enten diskuterer skolens liv, vort eget, eller kigger ud - og diskuterer verdens muligheder og udfordringer.<br>
+',
+      'format' => '1',
+      'substitute' => 1,
     );
     $pane->cache = array();
-    $pane->style = array();
-    $pane->css = array(
-      'css_id' => 'welcome',
-      'css_class' => '',
+    $pane->style = array(
+      'settings' => NULL,
     );
+    $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-6'] = $pane;
-    $display->panels['top_left_1'][0] = 'new-6';
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['bottom_main'][1] = 'new-3';
     $pane = new stdClass;
-    $pane->pid = 'new-7';
-    $pane->panel = 'top_right';
+    $pane->pid = 'new-4';
+    $pane->panel = 'bottom_main';
     $pane->type = 'views_panes';
-    $pane->subtype = 'news-panel_pane_1';
+    $pane->subtype = 'courses_commen-panel_pane_1';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'link_to_view' => 1,
-      'more_link' => 1,
-      'items_per_page' => '5',
+      'items_per_page' => '1',
       'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-4'] = $pane;
+    $display->panels['bottom_main'][2] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'bottom_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'images-panel_pane_2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '6',
+      'offset' => '0',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-5'] = $pane;
+    $display->panels['bottom_right'][0] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'bottom_right';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'basic_information';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-6'] = $pane;
+    $display->panels['bottom_right'][1] = 'new-6';
+    $pane = new stdClass;
+    $pane->pid = 'new-7';
+    $pane->panel = 'top_left';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'navigation';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-7'] = $pane;
+    $display->panels['top_left'][0] = 'new-7';
+    $pane = new stdClass;
+    $pane->pid = 'new-8';
+    $pane->panel = 'top_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'image_refs-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '1',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-8'] = $pane;
+    $display->panels['top_main'][0] = 'new-8';
+    $pane = new stdClass;
+    $pane->pid = 'new-9';
+    $pane->panel = 'top_main';
+    $pane->type = 'node_body';
+    $pane->subtype = 'node_body';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-9'] = $pane;
+    $display->panels['top_main'][1] = 'new-9';
+    $pane = new stdClass;
+    $pane->pid = 'new-10';
+    $pane->panel = 'top_main';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'TestIndlæg',
+      'title' => 'Test indlæg',
+      'body' => 'Dette er en placeholder tekst der går igen.',
+      'format' => '1',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-10'] = $pane;
+    $display->panels['top_main'][2] = 'new-10';
+    $pane = new stdClass;
+    $pane->pid = 'new-11';
+    $pane->panel = 'top_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'profiles-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '10',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-11'] = $pane;
+    $display->panels['top_right'][0] = 'new-11';
+    $pane = new stdClass;
+    $pane->pid = 'new-12';
+    $pane->panel = 'top_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'image_refs-panel_pane_1';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '3',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-12'] = $pane;
+    $display->panels['top_right'][1] = 'new-12';
+    $pane = new stdClass;
+    $pane->pid = 'new-13';
+    $pane->panel = 'top_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'images-panel_pane_2';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '1',
+      'offset' => '0',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-13'] = $pane;
+    $display->panels['top_right'][2] = 'new-13';
+    $pane = new stdClass;
+    $pane->pid = 'new-14';
+    $pane->panel = 'top_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'Facilliteter-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '10',
+      'path' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Facilliteter',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $display->content['new-14'] = $pane;
+    $display->panels['top_right'][3] = 'new-14';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $handlers['node_view_panel_context_4'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_panel_context_5';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = -6;
+  $handler->conf = array(
+    'title' => 'Lærer',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'profile' => 'profile',
+            ),
+          ),
+          'context' => 'argument_nid_1',
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'drh_page';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'top_left' => NULL,
+      'top_main' => NULL,
+      'top_right' => NULL,
+      'bottom_left' => NULL,
+      'bottom_main' => NULL,
+      'bottom_right' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'top_left';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'navigation';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['top_left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'top_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'image_refs-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '1',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['top_main'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'top_main';
+    $pane->type = 'node_body';
+    $pane->subtype = 'node_body';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['top_main'][1] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'top_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'image_refs-panel_pane_2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '5',
+      'offset' => '1',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-4'] = $pane;
+    $display->panels['top_right'][0] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'top_right';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'Lærer_right_pane',
+      'title' => 'Mig på nettet',
+      'body' => 'Jeg er så fed at jeg også optræder på nettet.Ligesom alle andre;)',
+      'format' => '1',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-5'] = $pane;
+    $display->panels['top_right'][1] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'top_right';
+    $pane->type = 'content_field';
+    $pane->subtype = 'field_link';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'normal',
+      'formatter' => 'default',
+      'context' => 'argument_nid_1',
+      'override_title' => 1,
+      'override_title_text' => 'Links til %node',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-6'] = $pane;
+    $display->panels['top_right'][2] = 'new-6';
+    $pane = new stdClass;
+    $pane->pid = 'new-7';
+    $pane->panel = 'top_right';
+    $pane->type = 'content_field';
+    $pane->subtype = 'field_course_ref';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'normal',
+      'formatter' => 'default',
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $display->content['new-7'] = $pane;
+    $display->panels['top_right'][3] = 'new-7';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-2';
+  $handler->conf['display'] = $display;
+  $handlers['node_view_panel_context_5'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_panel_context_6';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = -8;
+  $handler->conf = array(
+    'title' => 'Sommerkursus',
+    'no_blocks' => 0,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(
+      0 => array(
+        'name' => 'vocabulary',
+        'id' => 1,
+        'identifier' => 'sommerkurser',
+        'keyword' => 'sommerkurser',
+        'context_settings' => array(
+          'vid' => '4',
+        ),
+      ),
+    ),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        4 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'content/sommerkurser',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'drh_page';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'top_left' => NULL,
+      'top_main' => NULL,
+      'top_right' => NULL,
+      'bottom_left' => NULL,
+      'bottom_main' => NULL,
+      'bottom_right' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'bottom_left';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'events-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '5',
+      'override_title' => 1,
+      'override_title_text' => 'Kalender',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['bottom_left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'bottom_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'courses-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '10',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+      'override_title' => 1,
+      'override_title_text' => 'Fag',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['bottom_main'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'bottom_main';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'basic_information';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['bottom_main'][1] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'bottom_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'images-panel_pane_2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '6',
+      'offset' => '0',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-4'] = $pane;
+    $display->panels['bottom_right'][0] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'top_left';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'navigation';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-5'] = $pane;
+    $display->panels['top_left'][0] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'top_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'image_refs-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'logic' => 'and',
+    );
+    $pane->configuration = array(
+      'items_per_page' => '1',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-6'] = $pane;
+    $display->panels['top_main'][0] = 'new-6';
+    $pane = new stdClass;
+    $pane->pid = 'new-7';
+    $pane->panel = 'top_main';
+    $pane->type = 'node_body';
+    $pane->subtype = 'node_body';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-7'] = $pane;
+    $display->panels['top_main'][1] = 'new-7';
+    $pane = new stdClass;
+    $pane->pid = 'new-8';
+    $pane->panel = 'top_main';
+    $pane->type = 'node_body';
+    $pane->subtype = 'node_body';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-8'] = $pane;
+    $display->panels['top_main'][2] = 'new-8';
+    $pane = new stdClass;
+    $pane->pid = 'new-9';
+    $pane->panel = 'top_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'profiles-panel_pane_1';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '10',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-9'] = $pane;
+    $display->panels['top_right'][0] = 'new-9';
+    $pane = new stdClass;
+    $pane->pid = 'new-10';
+    $pane->panel = 'top_right';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'Obligatoriske_fag',
+      'title' => '',
+      'body' => '<a href="/content/obligatoriske fag">Obligatoriske fag</a>
+    Der er en del obligatoriske fag på skolen. De fleste af disse er fællesfag hvor vi enten diskuterer skolens liv, vort eget, eller kigger ud - og diskuterer verdens muligheder og udfordringer.<br>
+    <a href="/content/valgfag">Valgfag</a>
+    En hel række valgfag komplementerer dit skema. 
+    Der er rigtig mange bud, og mange af dem ligger i de samme skemablokke, så du kommer til at vælge! Du kan af samme grund ikke regne med at få alle de valgfag du ønsker - men det skal nok blive godt!',
+      'format' => '1',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-10'] = $pane;
+    $display->panels['top_right'][1] = 'new-10';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $handlers['node_view_panel_context_6'] = $handler;
+
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_panel_context_7';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = -10;
+  $handler->conf = array(
+    'title' => 'Webform',
+    'no_blocks' => 0,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'webform' => 'webform',
+            ),
+          ),
+          'context' => 'argument_nid_1',
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'drh_page';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'top_left' => NULL,
+      'top_main' => NULL,
+      'top_right' => NULL,
+      'bottom_left' => NULL,
+      'bottom_main' => NULL,
+      'bottom_right' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'bottom_left';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'events-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '10',
+      'override_title' => 1,
+      'override_title_text' => 'Kalender',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['bottom_left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'bottom_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'courses-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '10',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['bottom_main'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'bottom_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'images-panel_pane_2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '6',
+      'offset' => '0',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-3'] = $pane;
+    $display->panels['bottom_right'][0] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'top_left';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'navigation';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-4'] = $pane;
+    $display->panels['top_left'][0] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'top_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'image_refs-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '1',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-5'] = $pane;
+    $display->panels['top_main'][0] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'top_main';
+    $pane->type = 'node_content';
+    $pane->subtype = 'node_content';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'links' => 0,
+      'page' => 1,
+      'no_extras' => 0,
+      'override_title' => 1,
+      'override_title_text' => '',
+      'teaser' => 0,
+      'identifier' => '',
+      'link' => 0,
+      'leave_node_title' => 0,
+      'context' => 'argument_nid_1',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-6'] = $pane;
+    $display->panels['top_main'][1] = 'new-6';
+    $pane = new stdClass;
+    $pane->pid = 'new-7';
+    $pane->panel = 'top_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'profiles-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '10',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-7'] = $pane;
     $display->panels['top_right'][0] = 'new-7';
-  $display->hide_title = PANELS_TITLE_NONE;
+    $pane = new stdClass;
+    $pane->pid = 'new-8';
+    $pane->panel = 'top_right';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'Teaserfelt',
+      'title' => 'Teasers&',
+      'body' => 'Sikke mange spændende ting der er her kommer fint indholdnår man gider lave et view der trækker det ind.',
+      'format' => '1',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-8'] = $pane;
+    $display->panels['top_right'][1] = 'new-8';
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $pages['frontpage'] = $page;
+  $handlers['node_view_panel_context_7'] = $handler;
 
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'node_view_panel_context_8';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = -26;
+  $handler->conf = array(
+    'title' => 'Fag',
+    'no_blocks' => 0,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'pipeline' => 'standard',
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'course' => 'course',
+            ),
+          ),
+          'context' => 'argument_nid_1',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'drh_page';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'top_left' => NULL,
+      'top_main' => NULL,
+      'top_right' => NULL,
+      'bottom_left' => NULL,
+      'bottom_main' => NULL,
+      'bottom_right' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'bottom_left';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'events-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'content/valgfagsoversigt',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'items_per_page' => '5',
+      'override_title' => 1,
+      'override_title_text' => 'Kalender',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['bottom_left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'bottom_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'courses-panel_pane_1';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '10',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['bottom_main'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'bottom_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'courses_free-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'content/valgfagsoversigt',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'items_per_page' => '100',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['bottom_main'][1] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'bottom_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'images-panel_pane_2';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '6',
+      'offset' => '0',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-4'] = $pane;
+    $display->panels['bottom_right'][0] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'top_left';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'navigation';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-5'] = $pane;
+    $display->panels['top_left'][0] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'top_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'image_refs-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '1',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-6'] = $pane;
+    $display->panels['top_main'][0] = 'new-6';
+    $pane = new stdClass;
+    $pane->pid = 'new-7';
+    $pane->panel = 'top_main';
+    $pane->type = 'node_body';
+    $pane->subtype = 'node_body';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_nid_1',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-7'] = $pane;
+    $display->panels['top_main'][1] = 'new-7';
+    $pane = new stdClass;
+    $pane->pid = 'new-8';
+    $pane->panel = 'top_main';
+    $pane->type = 'content_field';
+    $pane->subtype = 'field_file';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'normal',
+      'formatter' => 'default',
+      'context' => 'argument_nid_1',
+      'override_title' => 1,
+      'override_title_text' => 'PDF docs ',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-8'] = $pane;
+    $display->panels['top_main'][2] = 'new-8';
+    $pane = new stdClass;
+    $pane->pid = 'new-9';
+    $pane->panel = 'top_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'profiles_course-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '10',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-9'] = $pane;
+    $display->panels['top_right'][0] = 'new-9';
+    $pane = new stdClass;
+    $pane->pid = 'new-10';
+    $pane->panel = 'top_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'image_refs-panel_pane_2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '5',
+      'offset' => '1',
+      'context' => array(
+        0 => 'argument_nid_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-10'] = $pane;
+    $display->panels['top_right'][1] = 'new-10';
+    $pane = new stdClass;
+    $pane->pid = 'new-11';
+    $pane->panel = 'top_right';
+    $pane->type = 'content_field';
+    $pane->subtype = 'field_link';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'normal',
+      'formatter' => 'default',
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-11'] = $pane;
+    $display->panels['top_right'][2] = 'new-11';
+    $pane = new stdClass;
+    $pane->pid = 'new-12';
+    $pane->panel = 'top_right';
+    $pane->type = 'content_field';
+    $pane->subtype = 'field_course_ref';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'normal',
+      'formatter' => 'default',
+      'context' => 'argument_nid_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $display->content['new-12'] = $pane;
+    $display->panels['top_right'][3] = 'new-12';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $handlers['node_view_panel_context_8'] = $handler;
+
+  return $handlers;
+}
+/**
+ * Implementation of hook_default_page_manager_pages()
+ */
+function drh_core_default_page_manager_pages() {
   $page = new stdClass;
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
@@ -1198,12 +2266,12 @@ function drh_core_default_page_manager_pages() {
       'admin_title' => 'Adresse',
       'title' => 'Adresse',
       'body' => 'Den Rytmiske Højskole
-      Jyderupvej 18
-      4560 Vig
-            
-      5936 0600
-            
-      den@rytmiske.dk',
+Jyderupvej 18
+4560 Vig
+
+5936 0600
+
+den@rytmiske.dk',
       'format' => '1',
       'substitute' => TRUE,
     );
@@ -1219,6 +2287,287 @@ function drh_core_default_page_manager_pages() {
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['contact'] = $page;
+
+  $page = new stdClass;
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
+  $page->name = 'frontpage';
+  $page->task = 'page';
+  $page->admin_title = 'Forside';
+  $page->admin_description = '';
+  $page->path = 'forside';
+  $page->access = array();
+  $page->menu = array();
+  $page->arguments = array();
+  $page->conf = array();
+  $page->default_handlers = array();
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_frontpage_panel_context';
+  $handler->task = 'page';
+  $handler->subtask = 'frontpage';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+  );
+  $display = new panels_display;
+  $display->layout = 'drh_frontpage';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'top_left_1' => NULL,
+      'teaser_1' => NULL,
+      'top_left_2' => NULL,
+      'top_right' => NULL,
+      'teaser_2' => NULL,
+      'teaser_3' => NULL,
+      'teaser_4' => NULL,
+      'bottom' => NULL,
+      'default' => NULL,
+    ),
+    'top_left_2' => array(
+      'style' => '-1',
+    ),
+    'top_right' => array(
+      'style' => '-1',
+    ),
+    'style' => 'default',
+    'top_left_1' => array(
+      'style' => '-1',
+    ),
+    'teaser_1' => array(
+      'style' => '-1',
+    ),
+    'teaser_2' => array(
+      'style' => '-1',
+    ),
+    'teaser_3' => array(
+      'style' => '-1',
+    ),
+    'teaser_4' => array(
+      'style' => '-1',
+    ),
+    'bottom' => array(
+      'style' => '-1',
+    ),
+  );
+  $display->cache = array();
+  $display->title = 'Den Rytmiske Højskole';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'bottom';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'images-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'default',
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['bottom'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'teaser_1';
+    $pane->type = 'node';
+    $pane->subtype = 'node';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'nid' => '1',
+      'teaser' => 0,
+      'links' => 0,
+      'leave_node_title' => 1,
+      'identifier' => '',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'default',
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['teaser_1'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'teaser_2';
+    $pane->type = 'node';
+    $pane->subtype = 'node';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'nid' => '2',
+      'teaser' => 0,
+      'links' => 0,
+      'leave_node_title' => 1,
+      'identifier' => '',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'default',
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-3'] = $pane;
+    $display->panels['teaser_2'][0] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'teaser_3';
+    $pane->type = 'node';
+    $pane->subtype = 'node';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'nid' => '3',
+      'teaser' => 0,
+      'links' => 0,
+      'leave_node_title' => 1,
+      'identifier' => '',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'default',
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-4'] = $pane;
+    $display->panels['teaser_3'][0] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'teaser_4';
+    $pane->type = 'node';
+    $pane->subtype = 'node';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'nid' => '4',
+      'teaser' => 0,
+      'links' => 0,
+      'leave_node_title' => 1,
+      'identifier' => '',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'default',
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-5'] = $pane;
+    $display->panels['teaser_4'][0] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'top_left_1';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'Indgangsbøn',
+      'title' => '',
+      'body' => 'Velkommen til Den Rytmiske Højskole
+
+Her kan du læse om musikhøjskolen, hvor vi tilbyder højskoleliv med udgangspunkt i rytmisk musik, lydteknik og sangskrivning. 
+Du vil have adgang til professionelle lydstudier og øvelokaler, blive undervist af musikere, og få adgang til et nyt stort musikalsk netværk.
+
+[Vi bor i Vig, og du er altid velkommen til en rundvisning.](content/kort)',
+      'format' => '1',
+      'substitute' => TRUE,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'default',
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => 'welcome',
+      'css_class' => '',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-6'] = $pane;
+    $display->panels['top_left_1'][0] = 'new-6';
+    $pane = new stdClass;
+    $pane->pid = 'new-7';
+    $pane->panel = 'top_left_2';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'events-panel_pane_1';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'items_per_page' => '5',
+      'override_title' => 1,
+      'override_title_text' => 'Sker på Den Rytmiske',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'default',
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-7'] = $pane;
+    $display->panels['top_left_2'][0] = 'new-7';
+    $pane = new stdClass;
+    $pane->pid = 'new-8';
+    $pane->panel = 'top_right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'news-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'link_to_view' => 1,
+      'more_link' => 1,
+      'items_per_page' => '5',
+      'override_title' => 1,
+      'override_title_text' => 'Nyheder',
+      'path' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'style' => 'default',
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-8'] = $pane;
+    $display->panels['top_right'][0] = 'new-8';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['frontpage'] = $page;
 
   $page = new stdClass;
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
@@ -1325,6 +2674,106 @@ function drh_core_default_page_manager_pages() {
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['news'] = $page;
+
+  $page = new stdClass;
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
+  $page->name = 'profiles';
+  $page->task = 'page';
+  $page->admin_title = 'Ansatte';
+  $page->admin_description = 'En oversigt over alle skolens ansatte.';
+  $page->path = 'ansatte';
+  $page->access = array();
+  $page->menu = array();
+  $page->arguments = array();
+  $page->conf = array();
+  $page->default_handlers = array();
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_profiles_panel_context';
+  $handler->task = 'page';
+  $handler->subtask = 'profiles';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => FALSE,
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+  );
+  $display = new panels_display;
+  $display->layout = 'drh_page';
+  $display->layout_settings = array();
+  $display->panel_settings = array();
+  $display->cache = array();
+  $display->title = 'Ansatte';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'top_left';
+    $pane->type = 'panels_mini';
+    $pane->subtype = 'navigation';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['top_left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'top_main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'profiles-panel_pane_2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['top_main'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'top_right';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'Beskrivelse af tilknytning',
+      'title' => '',
+      'body' => 'Du skal være opmærksom på, at lærerne har forskellig grad af tilknytning til skolen. Fuldtidslærere er lærere, der ud over undervisningen også deltager i skolens sociale liv. Deltidslærere er lærere, som også er til stede ud over undervisningen, men i mindre omfang end fuldtidslærerne. Timelærere er lærere, der i princippet kun underviser.',
+      'format' => '1',
+      'substitute' => TRUE,
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-3'] = $pane;
+    $display->panels['top_right'][0] = 'new-3';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-1';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['profiles'] = $page;
 
  return $pages;
 }
