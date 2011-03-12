@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /* @override http://drh.local/sites/all/themes/custom/drh_jensen/drh_jensen.css */
 
 /* @group Basic elements */
@@ -29,6 +27,12 @@ h2.pane-title {
   font-size: 1.2em;
   line-height: 1.25;
   margin-bottom: 1.25em;
+}
+.pane-node-body h3 {
+  font-size: 1.1em;
+}
+.pane-node-body h4 {
+  font-size: 1em;
 }
 
 .pane-basic-information h2 {
@@ -773,4 +777,22 @@ div#nodelink {
 }
 #search.container-inline label {
   display: none;
+}
+
+/* lightbox fixes */
+
+#imageData #lightbox2-node-link-text {
+  display: inline;
+  padding-bottom: 0;
+  font-weight: normal;
+}
+
+#imageData #bottomNav {
+  height: 32px;
+}
+#imageData #bottomNavClose {
+  margin-top: 0;
+}
+#imageData #numberDisplay {
+  padding-bottom: 9px;
 }
