@@ -9,6 +9,16 @@
 	margin-left: -1px;
 }
 
+.grid-4 .views-field-field-teaser-value{
+	line-height: 1.3;
+	font-size: 85%;
+}
+
+.pane-profiles-course-panel-pane-1 .views-row
+{
+	clear: both 
+}
+
 /* @group Basic elements */
 
 body {
