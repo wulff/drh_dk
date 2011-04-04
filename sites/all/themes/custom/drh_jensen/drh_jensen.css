@@ -1,11 +1,30 @@
 /* @override http://drh.local/sites/all/themes/custom/drh_jensen/drh_jensen.css */
 
+.panel-region-separator {
+	margin-bottom: 10px;
+}
+
+#logo-image {
+	margin-bottom: -2px;
+	margin-left: -1px;
+}
+
+.grid-4 .views-field-field-teaser-value{
+	line-height: 1.3;
+	font-size: 85%;
+}
+
+.pane-profiles-course-panel-pane-1 .views-row
+{
+	clear: both 
+}
+
 /* @group Basic elements */
 
 body {
   font-family: "Lucida Grande", "Helvetica Neue", Arial, Helvetica, sans-serif;
   font-size: 80%;
-  background: #fff url(images/bg.png) repeat-y center;
+/*  background: #fff url(images/bg.png) repeat-y center;*/
 }
 
 a {
@@ -57,6 +76,8 @@ hr.panel-separator {
   margin-top: 7px;
   margin-bottom: 20px;
 }
+
+
 
 tbody {
   border-top: none;
