@@ -28,7 +28,7 @@ function drh_jensen_preprocess_page(&$vars) {
 }
 
 /**
- * Set a varaible if we're on a panels admin page. This gives us a chance to
+ * Set a variable if we're on a panels admin page. This gives us a chance to
  * make the admin interface a little nicer to look at.
  */
 function drh_jensen_preprocess_drh_page(&$vars) {
@@ -38,7 +38,7 @@ function drh_jensen_preprocess_drh_page(&$vars) {
 }
 
 /**
- * Set a varaible if we're on a panels admin page. This gives us a chance to
+ * Set a variable if we're on a panels admin page. This gives us a chance to
  * make the admin interface a little nicer to look at.
  */
 function drh_jensen_preprocess_drh_frontpage(&$vars) {
@@ -190,7 +190,6 @@ function drh_jensen_imagefield_image_imagecache_lightbox2($view_preset, $field_n
   if (!empty($item_data['title'])) {
     $image_tag_title = $item_data['title'];
   }
-
 
   // Enforce image alt.
   $image_tag_alt = '';
