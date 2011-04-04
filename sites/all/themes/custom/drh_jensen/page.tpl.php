@@ -19,6 +19,7 @@
 
   <div id="header" class="container-16 clear-block">
     <div class="grid-12">
+      <a href="<?php print $base_path; ?>" title="<?php print t('Home'); ?>" rel="home"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" id="logo-image" /></a>
       <?php if ($linked_site_name): ?>
         <h1 id="site-name"><?php print $linked_site_name; ?></h1>
       <?php endif; ?>
