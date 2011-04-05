@@ -1,5 +1,7 @@
 /* @override http://drh.local/sites/all/themes/custom/drh_jensen/drh_jensen.css */
 
+/* HJH additions - to be moved out later */
+
 .panel-region-separator {
 	margin-bottom: 10px;
 }
@@ -17,6 +19,17 @@
 .pane-profiles-course-panel-pane-1 .views-row
 {
 	clear: both 
+}
+
+
+/* Set submenues */
+.menu-block-1 .expanded
+{
+	margin-top: 1em;
+	margin-bottom: 1.5em;
+	margin-left: 15px;
+	font-size: 100%;
+	font-weight: lighter;
 }
 
 /* @group Basic elements */
