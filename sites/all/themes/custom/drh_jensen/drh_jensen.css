@@ -22,6 +22,11 @@
 }
 
 
+.date-display-single
+{
+/*	font-size: 85%; */
+}
+
 /* Set submenues */
 .menu-block-1 .expanded
 {
@@ -173,9 +178,9 @@ tr.region {
   color: #ccc;
 }
 
-/* teaser nodes */
+/* teaser nodes - set to static content */
 .front .teasers {
-  margin-top: 20px;
+  margin-top: 0px;
 }
 .front .teaser {
   position: relative;
@@ -206,6 +211,8 @@ tr.region {
   top: 3.5em;
   left: 20px;
   z-index: -3;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 /* images at the bottom of the page */
