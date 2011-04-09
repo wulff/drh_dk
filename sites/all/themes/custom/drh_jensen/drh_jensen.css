@@ -11,22 +11,13 @@
   margin-left: -1px;
 }
 
-.grid-4 .views-field-field-teaser-value{
+.grid-4 .views-field-field-teaser-value {
   line-height: 1.3;
   font-size: 85%;
 }
 
 .pane-profiles-course-panel-pane-1 .views-row {
   clear: both
-}
-
-/* fix submenus */
-.menu-block-1 .expanded {
-  margin-top: 1em;
-  margin-bottom: 1.5em;
-  margin-left: 15px;
-  font-size: 100%;
-  font-weight: lighter;
 }
 
 /* @group Basic elements */
@@ -852,12 +843,44 @@ html.js fieldset.collapsible legend a span {
 }
 
 /* fix title field position in profile views */
+.view-id-profiles_course .views-field-title,
 .view-id-profiles .views-field-title {
-  line-height: 0.95;
-  margin-bottom: 4px;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+/* fix big thumbnail display in right sidebar */
+.panel-panel.grid-4 .view-id-image_refs .views-row {
+  line-height: 1;
+  height: 124px;
+  margin-bottom: 20px;
+}
+.panel-panel.grid-4 .view-id-image_refs .views-row:last-child {
+  margin-bottom: 0;
+}
+
+/* set the separator to be the same width as the space between columns */
+.panel-panel.grid-4 .panel-region-separator {
+  margin-bottom: 20px;
 }
 
 /* make sure that sidebar images align with the main image */
 .panel-panel.grid-4 .inside {
   overflow: hidden;
+}
+
+/* move the header closer to the body text */
+.pane-node-body h2, h2.pane-title {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+/* fix submenus */
+ul.menu ul.menu {
+  border: none;
+  margin-left: 1em;
+  line-height: 1.3;
+}
+ul.menu a.active-trail {
+  font-weight: bold;
 }
