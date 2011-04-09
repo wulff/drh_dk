@@ -1,40 +1,32 @@
-/* @override http://drh.local/sites/all/themes/custom/drh_jensen/drh_jensen.css */
+/* @override http://drh.dk/sites/all/themes/custom/drh_jensen/drh_jensen.css */
 
 /* HJH additions - to be moved out later */
 
 .panel-region-separator {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 #logo-image {
-	margin-bottom: -2px;
-	margin-left: -1px;
+  margin-bottom: -2px;
+  margin-left: -1px;
 }
 
 .grid-4 .views-field-field-teaser-value{
-	line-height: 1.3;
-	font-size: 85%;
+  line-height: 1.3;
+  font-size: 85%;
 }
 
-.pane-profiles-course-panel-pane-1 .views-row
-{
-	clear: both 
+.pane-profiles-course-panel-pane-1 .views-row {
+  clear: both
 }
 
-
-.date-display-single
-{
-/*	font-size: 85%; */
-}
-
-/* Set submenues */
-.menu-block-1 .expanded
-{
-	margin-top: 1em;
-	margin-bottom: 1.5em;
-	margin-left: 15px;
-	font-size: 100%;
-	font-weight: lighter;
+/* fix submenus */
+.menu-block-1 .expanded {
+  margin-top: 1em;
+  margin-bottom: 1.5em;
+  margin-left: 15px;
+  font-size: 100%;
+  font-weight: lighter;
 }
 
 /* @group Basic elements */
@@ -83,7 +75,7 @@ h2.pane-title {
 
 hr {
   width: 940px;
-  border: 0;  
+  border: 0;
   color: #ddd;
   background-color: #ddd;
   height: 1px;
@@ -109,7 +101,7 @@ tr.even td {
   background: #fafafa;
 }
 tr.region {
-  border-bottom: 1px solid #ccc;  
+  border-bottom: 1px solid #ccc;
 }
 
 /* @end */
@@ -161,7 +153,7 @@ tr.region {
   color: #999;
 }
 #page-title {
-  margin-left: .25em;  
+  margin-left: .25em;
   color: #333;
 }
 
@@ -310,13 +302,13 @@ ul.primary li.active a {
 
 /* make the form column align to the grid */
 .node-form-has-region-right .form-region-main {
-  display: relative;
+  position: relative;
   float: left;
   width: 460px;
   margin-right: 10px;
 }
 .node-form .form-region-right {
-  display: relative;
+  position: relative;
   float: left;
   width: 220px;
   margin-left: 10px;
@@ -384,11 +376,11 @@ html.js .node-form .group-images .filefield-element {
 }
 #edit-field-image-front-on-0-ahah-wrapper {
   padding-top: 1em;
-  margin-left: 15px;  
+  margin-left: 15px;
 }
 #edit-field-image-front-off-0-wrapper {
   padding-top: 0;
-  margin-left: 15px;  
+  margin-left: 15px;
 }
 
 /* fixes for the image and link widgets */
@@ -553,22 +545,7 @@ html.js .node-form .path-redirect .description {
 
 /* @end */
 
-/* fix fieldsets on other forms */
-
-html.js fieldset.collapsible legend a span {
-  display: block;
-}
-
-/* fix page manager menu */
-
-#page-manager-edit {
-  margin-top: 0;
-}
-#page-manager-edit .page-manager-edit-operations ul {
-  margin-right: 0px;
-}
-
-/* @group Markdown filter tips */
+/* @group Admin menu */
 
 #admin-menu {
   background: #090;
@@ -606,7 +583,7 @@ ul.menu li {
 
 #welcome p {
   font-size: 1.2em;
-  line-height: 1,1;
+  line-height: 1.1;
   margin-bottom: 1em;
   color: #666;
 }
@@ -618,13 +595,6 @@ ul.menu li {
   margin-top: 20px;
 }
 
-/*
-.grid-4 .views-field-field-image-fid {
-  float: left;
-  margin-right: 10px;
-}
-*/
-
 /* clean up views */
 .view-profiles .views-row {
   display: inline;
@@ -635,10 +605,10 @@ ul.menu li {
 }
 .view-profiles .views-row {
   width: 220px;
-}  
+}
 .page-ansatte .view-profiles .views-row {
   width: 520px;
-}  
+}
 
 .page-ansatte .pane-custom.pane-1 {
   background-color:#F0F0F0;
@@ -664,7 +634,7 @@ ul.menu li {
   color: #aaa;
   padding-top: .5em;
   font-size: .75em;
-}  
+}
 .view-events .view-footer {
   margin-top: 1.5em;
 }
@@ -677,7 +647,7 @@ ul.menu li {
   padding-top: 1px;
 }
 
-/* calendar */
+/* @group Calendar */
 
 .calendar-calendar ul.links li.first {
   padding-left: 0px;
@@ -751,16 +721,19 @@ ul.menu li {
   padding: 0;
 }
 
+/* @end */
+
 /* @group Calendar popups */
 
 div#calpopup {
   border: 1px solid #000;
   width: 265px;
-
+/*
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
   -moz-box-shadow: 10px 10px 5px #666;
   -webkit-box-shadow: 10px 10px 5px #888;
+*/
 }
 
 div#calpopup-body div.node {
@@ -813,20 +786,7 @@ div#nodelink {
 
 /* @end */
 
-.not-logged-in .form-required {
-  display: none;
-}
-
-/* TODO: move to correct groups */
-
-#search.container-inline {
-  float: right;
-}
-#search.container-inline label {
-  display: none;
-}
-
-/* lightbox fixes */
+/* @group Lightbox */
 
 #imageData #lightbox2-node-link-text {
   display: inline;
@@ -842,6 +802,38 @@ div#nodelink {
 }
 #imageData #numberDisplay {
   padding-bottom: 9px;
+}
+
+/* @end */
+
+/* @group Utility */
+
+.not-logged-in .form-required {
+  display: none;
+}
+
+/* fix fieldsets on other forms */
+html.js fieldset.collapsible legend a span {
+  display: block;
+}
+
+/* fix page manager menu */
+#page-manager-edit {
+  margin-top: 0;
+}
+#page-manager-edit .page-manager-edit-operations ul {
+  margin-right: 0px;
+}
+
+/* @end */
+
+/* TODO: move to correct groups */
+
+#search.container-inline {
+  float: right;
+}
+#search.container-inline label {
+  display: none;
 }
 
 .search-results dd {
