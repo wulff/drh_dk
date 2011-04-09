@@ -842,3 +842,22 @@ html.js fieldset.collapsible legend a span {
 .search-results dd .search-info {
   display: none;
 }
+
+/* fix the whitespace in the fact box on /ansatte */
+.grid-4 .pane-custom.pane-1 .pane-content p {
+  margin-bottom: 7px;
+}
+.grid-4 .pane-custom.pane-1 .pane-content p:last-child {
+  margin-bottom: 3px;
+}
+
+/* fix title field position in profile views */
+.view-id-profiles .views-field-title {
+  line-height: 0.95;
+  margin-bottom: 4px;
+}
+
+/* make sure that sidebar images align with the main image */
+.panel-panel.grid-4 .inside {
+  overflow: hidden;
+}
