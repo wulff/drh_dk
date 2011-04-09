@@ -7,7 +7,17 @@
  */
 function ninesixty_preprocess_page(&$vars, $hook) {
   // For easy printing of variables.
-  $vars['logo_img']         = $vars['logo'] ? theme('image', substr($vars['logo'], strlen(base_path())), t('Home'), t('Home')) : '';
+  if (!empty($vars['logo'])) {
+    // If the path leads to an external source (CDN for example),
+    // pass it through with the 'getsize' parameter set to false.
+    if (menu_path_is_external($vars['logo'])) {
+      $vars['logo_img'] = theme('image', $vars['logo'], t('Site Logo'), '', NULL, FALSE);
+    }
+    else {
+      // A local image path needs the base path stripped for theme_image to work.
+      $vars['logo_img'] = theme('image', substr($vars['logo'], strlen(base_path())), t('Site Logo'));
+    }
+  }
   $vars['linked_logo_img']  = $vars['logo_img'] ? l($vars['logo_img'], '<front>', array('attributes' => array('rel' => 'home'), 'title' => t('Home'), 'html' => TRUE)) : '';
   $vars['linked_site_name'] = $vars['site_name'] ? l($vars['site_name'], '<front>', array('attributes' => array('rel' => 'home'), 'title' => t('Home'))) : '';
   $vars['main_menu_links']      = theme('links', $vars['primary_links'], array('class' => 'links main-menu'));

@@ -32,9 +32,7 @@ function drh_jensen_preprocess_page(&$vars) {
  * make the admin interface a little nicer to look at.
  */
 function drh_jensen_preprocess_drh_page(&$vars) {
-  if ('admin' == arg(0) && 'pages' == arg(2)) {
-    $vars['panel_admin'] = TRUE;
-  }
+  $vars['panel_admin'] = ('admin' == arg(0) && 'pages' == arg(2));
 }
 
 /**
@@ -178,9 +176,13 @@ function drh_jensen_imagefield_image_imagecache_lightbox2($view_preset, $field_n
   }
 
   // Set up the title.
-  $image_title = $item_data['description'];
-  $image_title = (!empty($image_title) ? $image_title : $item_data['title']);
-  $image_title = (!empty($image_title) ? $image_title : $item_data['alt']);
+  $image_title = !empty($item_data['description']) ? $item_data['description'] : '';
+  if (empty($image_title) && isset($item_data['title'])) {
+    $image_title = $item_data['title'];
+  }
+  if (empty($image_title) && isset($item_data['alt'])) {
+    $image_title = $item_data['alt'];
+  }
   if (empty($image_title) || variable_get('lightbox2_imagefield_use_node_title', FALSE)) {
     $node = node_load($node->nid);
     $image_title = $node->title;

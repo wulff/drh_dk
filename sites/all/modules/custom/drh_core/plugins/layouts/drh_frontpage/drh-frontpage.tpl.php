@@ -1,7 +1,7 @@
 <?php
 // $Id$
 ?>
-<?php if ($panel_admin): ?>
+<?php if (isset($panel_admin) && $panel_admin): ?>
 <div class="container-16 clear-block">
 <?php endif; ?>
 <div class="panel-display" <?php if (!empty($css_id)) { print "id=\"$css_id\""; } ?>>
@@ -44,6 +44,6 @@
   <?php endif; ?>
   </div>
 </div>
-<?php if ($panel_admin): ?>
+<?php if (isset($panel_admin) && $panel_admin): ?>
 </div>
 <?php endif; ?>
