@@ -226,7 +226,7 @@ function link_field($op, &$node, $field, &$items, $teaser, $page) {
 
     case 'validate':
       $optional_field_found = FALSE;
-      if ($field['validate_url'] !== 0 || is_null($field['validate_url']) || !isset($field['validate_url'])) {
+      if (isset($field['validate_url']) && ($field['validate_url'] !== 0 || is_null($field['validate_url']) || !isset($field['validate_url']))) {
         foreach ($items as $delta => $value) {
           _link_validate($items[$delta], $delta, $field, $node, $optional_field_found);
         }
