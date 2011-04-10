@@ -156,8 +156,7 @@ function template_preprocess_node_form(&$aVars) {
   $adjust_to_buttons = $placements['buttons']['region'] == $default_region;
 
   foreach ($form as $key => $field) {
-    if (substr($key, 0, 1)=='#' ||
-        $field['#type']=='value' || $field['#type']=='hidden'|| $field['#type']=='token') {
+    if (substr($key, 0, 1) == '#' || (isset($field['#type']) && ($field['#type'] == 'value' || $field['#type'] == 'hidden'|| $field['#type'] == 'token'))) {
       continue;
     }
 
