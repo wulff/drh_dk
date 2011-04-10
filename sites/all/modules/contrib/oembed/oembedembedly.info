@@ -1,0 +1,12 @@
+; $Id: oembedembedly.info,v 1.1 2010/05/28 15:49:25 voxpelli Exp $
+package = oEmbed
+name = oEmbed Embed.ly
+description = Provides definitions for all of Embed.ly:s providers
+core = 6.x
+dependencies[] = oembedcore
+; Information added by drupal.org packaging script on 2010-12-14
+version = "6.x-0.8"
+core = "6.x"
+project = "oembed"
+datestamp = "1292363451"
+

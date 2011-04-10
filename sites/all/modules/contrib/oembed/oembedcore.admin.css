@@ -1,0 +1,6 @@
+/* $Id: oembedcore.admin.css,v 1.2 2010/05/28 15:49:25 voxpelli Exp $ */
+
+#oembedcore-list-preset tr.oembedcore-preset-disabled,
+#oembedcore-list-providers tr.oembedcore-provider-disabled {
+  color: #999;
+}

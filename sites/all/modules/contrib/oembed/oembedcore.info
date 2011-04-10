@@ -1,0 +1,12 @@
+; $Id: oembedcore.info,v 1.2 2010/02/21 12:12:34 voxpelli Exp $
+package = oEmbed
+name = oEmbed Core
+description = Common functionality for oEmbed client and provider
+core = 6.x
+dependencies[] = ctools
+; Information added by drupal.org packaging script on 2010-12-14
+version = "6.x-0.8"
+core = "6.x"
+project = "oembed"
+datestamp = "1292363451"
+
