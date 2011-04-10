@@ -258,9 +258,11 @@ ul.primary li.active a {
 /* @group Footer */
 
 #footer-message {
+  border-top: 1px solid #ddd;
   text-transform: uppercase;
   margin-top: 2em;
   margin-bottom: 4em;
+  padding-top: 2em;
 }
 
 /* @end */
@@ -885,6 +887,12 @@ ul.menu a.active-trail {
   font-weight: bold;
 }
 
+/* fix the news list on the front page */
 .front .pane-news-panel-pane-1 h2 {
   margin-top: -2px;
 }
+
+div.oembed a {
+  display: none;
+}
+

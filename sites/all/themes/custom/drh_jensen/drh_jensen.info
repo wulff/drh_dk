@@ -9,6 +9,7 @@ stylesheets[all][] = styles/reset.css
 stylesheets[all][] = styles/typography.css
 stylesheets[all][] = drh_jensen.css
 
-; get rid of a couple of stylesheets from the base theme
+; get rid of a couple of stylesheets from the base theme and the oembed module
 stylesheets[all][] = reset.css
 stylesheets[all][] = text.css
+stylesheets[all][] = oembed.css

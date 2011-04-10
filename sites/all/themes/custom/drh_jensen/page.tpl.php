@@ -35,7 +35,7 @@
     </div>
   </div>
 
-<hr /> 
+  <br />
 
   <div id="page" class="container-16 clear-block">
     <div id="main" class="column <?php print ns('grid-16', $left, 4, $right, 4) . ' ' . ns('push-4', !$left, 4); ?>">
