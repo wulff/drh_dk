@@ -35,8 +35,6 @@
     </div>
   </div>
 
-  <br />
-
   <div id="tools" class="container-16 clear-block">
     <div class="grid-16">
       <?php if ($tabs): ?>
