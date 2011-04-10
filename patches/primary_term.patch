@@ -1,0 +1,52 @@
+diff --git a/sites/all/modules/contrib/primary_term/primary_term.module b/sites/all/modules/contrib/primary_term/primary_term.module
+index c9f9a51..bd68ae3 100644
+--- a/sites/all/modules/contrib/primary_term/primary_term.module
++++ b/sites/all/modules/contrib/primary_term/primary_term.module
+@@ -90,8 +90,8 @@ function primary_term_nodeapi(&$node, $op, $teaser, $page) {
+ }
+ 
+ function primary_term_form_alter(&$form, $form_state, $form_id) {
+-  $type = $form['type']['#value'];
+-  $node = $form['#node'];
++  $type = isset($form['type']['#value']) ? $form['type']['#value'] : '';
++  $node = isset($form['#node']) ? $form['#node'] : '';
+ 
+   switch ($form_id) {
+     case $type .'_node_form':
+@@ -260,24 +260,29 @@ function primary_term_token_list($type = 'all') {
+ }
+ 
+ function primary_term_token_values($type, $object = NULL) {
++  $values = array();
++
+   switch ($type) {
+     case 'node':
+       $node = $object;
+       if (isset($node->primaryterm)) {
+         $term = taxonomy_get_term($node->primaryterm);
+-        $values['primary-term'] = check_plain($term->name);
+-        $values['primary-term-id'] = $term->tid;
+-        $values['primary-termpath-raw'] = drupal_get_path_alias(taxonomy_term_path($term));
++        if (!empty($term)) {
++          $values['primary-term'] = check_plain($term->name);
++          $values['primary-term-id'] = $term->tid;
++          $values['primary-termpath-raw'] = drupal_get_path_alias(taxonomy_term_path($term));
+ 
+-        $vocab = taxonomy_vocabulary_load($term->vid);
+-        $values['primary-term-vocab'] = $vocab->name;
++          $vocab = taxonomy_vocabulary_load($term->vid);
++          $values['primary-term-vocab'] = $vocab->name;
+ 
+-        if (module_exists('uc_catalog')) {
+-          $values['primary-termpath-uc-raw'] = drupal_get_path_alias(uc_catalog_path($term));
++          if (module_exists('uc_catalog')) {
++            $values['primary-termpath-uc-raw'] = drupal_get_path_alias(uc_catalog_path($term));
++          }
+         }
+       }
+       break;
+   }
++
+   return $values;
+ }
+ 

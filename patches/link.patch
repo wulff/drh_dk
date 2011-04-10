@@ -1,0 +1,22 @@
+diff --git a/sites/all/modules/contrib/link/link.module b/sites/all/modules/contrib/link/link.module
+index 1592879..0d6ea7a 100644
+--- a/sites/all/modules/contrib/link/link.module
++++ b/sites/all/modules/contrib/link/link.module
+@@ -373,7 +373,7 @@ function _link_sanitize(&$item, $delta, &$field, &$node) {
+     $url = substr($url, 0, strpos($url, '?'));
+   }
+   // Save the new URL without the anchor or query.
+-  if ($field['validate_url'] === 0) {
++  if (isset($field['validate_url']) && $field['validate_url'] === 0) {
+     $item['url'] = check_plain($url);
+   }
+   else {
+@@ -442,7 +442,7 @@ function _link_sanitize(&$item, $delta, &$field, &$node) {
+     $item['attributes']['rel'] = str_replace('nofollow', '', $item['attributes']['rel']);
+   }
+   // Some old field data may have $element['#item']['attributes']['rel'] as an array, which will cause errors:
+-  if (is_array($element['#item']['attributes']['rel'])) {
++  if (isset($element['#item']['attributes']['rel']) && is_array($element['#item']['attributes']['rel'])) {
+     unset($element['#item']['attributes']['rel']);
+   }
+ 
