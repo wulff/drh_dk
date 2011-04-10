@@ -892,7 +892,10 @@ ul.menu a.active-trail {
   margin-top: -2px;
 }
 
+/* add a little whitespace and get rid of the header link */
+div.oembed {
+  margin-bottom: 1.2em;
+}
 div.oembed a {
   display: none;
 }
-
