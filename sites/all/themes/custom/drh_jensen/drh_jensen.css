@@ -884,3 +884,7 @@ ul.menu ul.menu {
 ul.menu a.active-trail {
   font-weight: bold;
 }
+
+.front .pane-news-panel-pane-1 h2 {
+  margin-top: -2px;
+}

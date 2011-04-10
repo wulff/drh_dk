@@ -20,15 +20,12 @@
   <div id="header" class="container-16 clear-block">
     <div class="grid-12">
       <a href="<?php print $base_path; ?>" title="<?php print t('Home'); ?>" rel="home"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" id="logo-image" /></a>
-      <?php if ($linked_site_name): ?>
-        <h1 id="site-name"><?php print $linked_site_name; ?></h1>
-      <?php endif; ?>
       <?php if ($is_front): ?>
-        <h1 class="title" id="page-title"><?php print $site_slogan; ?></h1>
+        <h1 class="title" id="page-title"><?php print $site_name; ?></h1>
       <?php else: ?>
-      <?php if ($title): ?>
-        <h1 class="title" id="page-title"><?php print $title; ?></h1>
-      <?php endif; ?>
+        <?php if ($title): ?>
+          <h1 class="title" id="page-title"><?php print $title; ?></h1>
+        <?php endif; ?>
       <?php endif; ?>
     </div>
     <div class="grid-4">

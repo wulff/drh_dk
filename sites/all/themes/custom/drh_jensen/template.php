@@ -25,6 +25,8 @@ function drh_jensen_preprocess_page(&$vars) {
   if (drupal_is_front_page()) {
     $vars['is_front'] = TRUE;
   }
+
+  $vars['head_title'] .= ' | drh.dk';
 }
 
 /**

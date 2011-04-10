@@ -21,7 +21,7 @@
     <div class="grid-12">
       <a href="<?php print $base_path; ?>" title="<?php print t('Home'); ?>" rel="home"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" id="logo-image" /></a>
       <?php if ($is_front): ?>
-        <h1 class="title" id="page-title"><?php print $site_slogan; ?>Den Rytmiske Højskole</h1>
+        <h1 class="title" id="page-title"><?php print $site_name; ?></h1>
       <?php else: ?>
         <?php if ($title): ?>
           <h1 class="title" id="page-title"><?php print $title; ?></h1>
