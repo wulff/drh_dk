@@ -26,7 +26,11 @@ function drh_jensen_preprocess_page(&$vars) {
     $vars['is_front'] = TRUE;
   }
 
+  // add short domain name to <title> tag
   $vars['head_title'] .= ' | drh.dk';
+
+  // get rid of extra tags from the line break filter
+  $vars['content'] = str_replace('<p></p>', '', $vars['content']);
 }
 
 /**
