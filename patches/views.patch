@@ -1,0 +1,14 @@
+diff --git a/sites/all/modules/contrib/views/includes/query.inc b/sites/all/modules/contrib/views/includes/query.inc
+index 7329ab3..4531f3b 100644
+--- a/sites/all/modules/contrib/views/includes/query.inc
++++ b/sites/all/modules/contrib/views/includes/query.inc
+@@ -254,7 +254,8 @@ class views_query {
+     }
+ 
+     if (!$join) {
+-      $join = $this->get_join_data($table, $this->relationships[$relationship]['base']);
++      $rel = !empty($relationship) ? $this->relationships[$relationship]['base'] : '';
++      $join = $this->get_join_data($table, $rel);
+     }
+ 
+     $join = $this->adjust_join($join, $relationship);

@@ -254,7 +254,8 @@ class views_query {
     }
 
     if (!$join) {
-      $join = $this->get_join_data($table, $this->relationships[$relationship]['base']);
+      $rel = !empty($relationship) ? $this->relationships[$relationship]['base'] : '';
+      $join = $this->get_join_data($table, $rel);
     }
 
     $join = $this->adjust_join($join, $relationship);
