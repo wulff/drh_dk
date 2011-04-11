@@ -777,6 +777,9 @@ div#nodelink {
 .messages a {
   color: #fff;
 }
+.messages.warning a {
+  color: ##f0c020;
+}
 
 /* @end */
 
@@ -873,7 +876,7 @@ html.js fieldset.collapsible legend a span {
 }
 
 /* move the header closer to the body text */
-.pane-node-body h2, h2.pane-title {
+.pane-node-body h2 {
   margin-top: 1em;
   margin-bottom: 0.5em;
 }
