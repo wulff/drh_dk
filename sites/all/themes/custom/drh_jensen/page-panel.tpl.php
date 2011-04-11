@@ -53,13 +53,26 @@
   <div id="footer">
     <div class="container-16 clear-block">
       <div id="footer-message" class="grid-16">
-        <?php if ($footer_message): ?>
-          <?php print $footer_message; ?>
-        <?php endif; ?>
+        <div class="grid-12 alpha">
+          <?php if ($footer_message): ?>
+            <?php print $footer_message; ?>
+          <?php endif; ?>
+        </div>
+        <div class="grid-4 omega">
+          <div class="addthis_toolbox addthis_default_style ">
+            <a class="addthis_button_email"></a>
+            <a class="addthis_button_facebook"></a>
+            <a class="addthis_button_twitter"></a>
+            <a class="addthis_button_myspace"></a>
+            <a class="addthis_button_compact"></a>
+            <a class="addthis_counter addthis_bubble_style"></a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
+  
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4da33e0038096bc3"></script>
   <?php print $closure; ?>
 </body>
 </html>

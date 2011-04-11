@@ -892,6 +892,12 @@ ul.menu a.active-trail {
 .front .pane-news-panel-pane-1 h2 {
   margin-top: -2px;
 }
+.front .pane-news-panel-pane-1 .views-field-field-created-value {
+  font-size: 90%;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
 
 /* add a little whitespace and get rid of the header link */
 div.oembed {
@@ -899,4 +905,9 @@ div.oembed {
 }
 div.oembed a {
   display: none;
+}
+
+.addthis_toolbox {
+  float: right;
+  margin-right: 1px;
 }
