@@ -1,5 +1,4 @@
 <?php
-// $Id: l10n_update.admin.inc,v 1.10.2.6 2010/11/18 20:54:54 sutharsan Exp $
 
 /**
  * @file

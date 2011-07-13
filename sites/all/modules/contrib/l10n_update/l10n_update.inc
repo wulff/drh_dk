@@ -1,5 +1,4 @@
 <?php
-// $Id: l10n_update.inc,v 1.9.2.7 2010/12/08 16:28:12 goba Exp $
 
 /**
  * @file

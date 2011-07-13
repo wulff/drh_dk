@@ -1,5 +1,4 @@
 <?php
-// $Id: l10n_update.locale.inc,v 1.2.2.4 2010/11/18 20:54:54 sutharsan Exp $
 
 /**
  * @file
