@@ -197,7 +197,7 @@ function cdn_requirements($phase) {
       // Only check if the CDN ImageCache patch is properly applied if the
       // integration method is *not* 'fallback' (thus either 'pressflow' or
       // 'core patch') *and* when the ImageCache module is enabled.
-      if ($integration_method != 'fallback' && module_exists('imagecache')) {
+      if ($integration_method != 'fallback' && module_exists('imagecache') && FALSE) {
         // Check if either of the patches is applied, then remove the
         // requirements for the last one if neither patch is applied.
         _cdn_requirements_generate_requirement_for_patch(
