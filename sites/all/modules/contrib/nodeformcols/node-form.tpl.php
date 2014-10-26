@@ -1,5 +1,4 @@
 <?php
-// $Id: node-form.tpl.php,v 1.3 2009/09/21 06:09:54 hugowetterberg Exp $
 
 /**
  * @file

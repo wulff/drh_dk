@@ -1,5 +1,4 @@
 <?php
-// $Id: nodeformcols.admin.inc,v 1.6 2009/09/21 06:09:54 hugowetterberg Exp $
 
 /**
  * @file

@@ -1,0 +1,9 @@
+Node form columns 6.x-1.7, 2014-01-15
+------------------------------
+by voxpelli: No longer positions form fields that the access is denied to
+#664840 by swentel, voxpelli: Fixed PHP notices
+by voxpelli: Added Features.module integration
+
+Node form columns 6.x-1.6, 2009-09-21
+------------------------------
+by Hugo Wetterberg: Released version 1.6

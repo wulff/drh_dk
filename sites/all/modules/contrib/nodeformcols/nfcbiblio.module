@@ -1,5 +1,4 @@
 <?php
-// $Id: nfcbiblio.module,v 1.2 2009/07/20 13:37:16 hugowetterberg Exp $
 
 /**
  * Implementation of hook_nodeformcols_variants_alter().

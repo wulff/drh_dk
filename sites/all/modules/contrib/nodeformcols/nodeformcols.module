@@ -1,5 +1,4 @@
 <?php
-// $Id: nodeformcols.module,v 1.7 2009/09/21 06:09:54 hugowetterberg Exp $
 define('NODEFORMCOLS_DEFAULT_REGION', 'main');
 
 /**
@@ -112,7 +111,7 @@ function nodeformscols_content_extra_fields($type_name, $variant) {
  * Implementation of hook_form_alter().
  */
 function nodeformcols_form_alter(&$form, $form_state, $form_id) {
-  if ('node-form' == $form['#id']) {
+  if (isset($form['#id']) && $form['#id']=='node-form') {
     drupal_alter('nodeformcols_pre_form', $form);
     $variant = isset($form['#nodeformcols_variant']) ? $form['#nodeformcols_variant'] : 'default';
     $placements = nodeformscols_field_placements($form['#node']->type, $variant);
@@ -156,7 +155,9 @@ function template_preprocess_node_form(&$aVars) {
   $adjust_to_buttons = $placements['buttons']['region'] == $default_region;
 
   foreach ($form as $key => $field) {
-    if (substr($key, 0, 1) == '#' || (isset($field['#type']) && ($field['#type'] == 'value' || $field['#type'] == 'hidden'|| $field['#type'] == 'token'))) {
+    if (substr($key, 0, 1)=='#' ||
+        (isset($field['#type']) && ($field['#type']=='value' || $field['#type']=='hidden'|| $field['#type']=='token')) ||
+        (isset($field['#access']) && $field['#access'] == FALSE)) {
       continue;
     }
 
@@ -185,7 +186,7 @@ function template_preprocess_node_form(&$aVars) {
 
   // Ensure that we have the footer wrapper so that
   // we clear the floating columns
-  if (!$has_elements['footer']) {
+  if (empty($has_elements['footer'])) {
     $has_elements['footer'] = TRUE;
     $regions['footer'][] = array(
       '#type' => 'markup',
@@ -231,5 +232,16 @@ function nodeformcols_node_type($op, $info) {
         cache_clear_all('variables', 'cache');
       }
       break;
+  }
+}
+
+/**
+ * Implementation of hook_features_pipe_alter() for node component.
+ */
+function nodeformcols_features_pipe_node_alter(&$pipe, $data, &$export, $module_name) {
+  if (!empty($data) && module_exists('strongarm')) {
+    foreach ($data as $node_type) {
+      $pipe['variable'][] = 'nodeformscols_field_placements_'. $node_type .'_default';
+    }
   }
 }
