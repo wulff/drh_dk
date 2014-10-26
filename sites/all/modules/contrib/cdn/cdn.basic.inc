@@ -1,5 +1,4 @@
 <?php
-// $Id: cdn.basic.inc,v 1.2 2010/11/21 10:26:13 wimleers Exp $
 
 /**
  * @file
@@ -22,11 +21,11 @@ function cdn_basic_get_servers($path) {
 
   // We only need to parse the textual CDN mapping once into a lookup table.
   if (!isset($mapping)) {
-    $mapping = _cdn_basic_parse_raw_mapping(variable_get(CDN_BASIC_MAPPING_VARIABLE, ''));
+    $mapping = _cdn_basic_parse_raw_mapping(cdn_basic_get_mapping());
   }
 
   // Parse the file extension from the given path; convert it to lower case.
-  $file_extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+  $file_extension = drupal_strtolower(pathinfo($path, PATHINFO_EXTENSION));
 
   // Based on the file extension, determine which key should be used to find
   // the CDN URLs in the mapping lookup table, if any.
@@ -55,6 +54,25 @@ function cdn_basic_get_servers($path) {
   return $servers;
 }
 
+/**
+ * Returns the CDN mapping for HTTP or HTTPS.
+ *
+ * @return array
+ */
+function cdn_basic_get_mapping() {
+  $https_mapping = variable_get(CDN_BASIC_MAPPING_HTTPS_VARIABLE, '');
+  if (!empty($https_mapping) && cdn_serve_from_https()) {
+    // if we have https mapping enabled and we are on a HTTPS page
+    $mapping = $https_mapping;
+  }
+  else {
+    // otherwise use the non-https mapping
+    $mapping = variable_get(CDN_BASIC_MAPPING_VARIABLE, '');
+  }
+
+  return $mapping;
+}
+
 
 //----------------------------------------------------------------------------
 // Private functions.
@@ -74,21 +92,35 @@ function _cdn_basic_parse_raw_mapping($mapping_raw) {
   if (!empty($mapping_raw)) {
     $lines = preg_split("/[\n\r]+/", $mapping_raw, -1, PREG_SPLIT_NO_EMPTY);
     foreach ($lines as $line) {
+      // Ignore empty lines.
+      $line = trim($line);
+      if (empty($line)) {
+        continue;
+      }
+
       // Parse this line. It may or may not limit the CDN URL to a list of
       // file extensions.
       if (strpos($line, '|') !== FALSE) {
         $parts = explode('|', $line);
-        $cdn_url    = rtrim(trim($parts[0]), '/'); // Remove whitespace and a trailing slash.
-        $extensions = explode(' ', trim(str_replace('.', '', strtolower($parts[1])))); // Conver to lower case, remove periods, whitespace and split on ' '.
+        $cdn_urls = explode(' ', trim($parts[0]));
+        $extensions = explode(' ', trim(str_replace('.', '', drupal_strtolower($parts[1])))); // Convert to lower case, remove periods, whitespace and split on ' '.
       }
       else {
-        $cdn_url    = trim($line);
+        $cdn_urls   = explode(' ', trim($line));
         $extensions = array('*'); // Use the asterisk as a wildcard.
+      }
+
+      // Remove trailing slash from URLs.
+      for ($i = 0; $i < count($cdn_urls); $i++) {
+        $cdn_urls[$i] = rtrim($cdn_urls[$i], '/');
       }
 
       // Create the mapping lookup table.
       foreach ($extensions as $extension) {
-        $mapping[$extension][] = $cdn_url;
+        if (!isset($mapping[$extension])) {
+          $mapping[$extension] = array();
+        }
+        $mapping[$extension] = array_merge($mapping[$extension], $cdn_urls);
       }
     }
   }

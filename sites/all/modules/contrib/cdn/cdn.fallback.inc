@@ -1,13 +1,12 @@
 <?php
-// $Id: cdn.fallback.inc,v 1.4 2010/11/18 21:50:17 wimleers Exp $
 
 /**
  * @file
  * Fallback when hook_file_url_alter() is not available (i.e. when the core
- * patch is not installed or when not using Pressflow): use the Parallel
- * module's logic (with some adaptations to be able to use the CDN module's
- * logic (in particular: cdn_file_url_alter()) to alter file URLs via the
- * theme layer.
+ * patch is not installed or when not using a patched Drupal distribution):
+ * use the Parallel module's logic (with some adaptations to be able to use
+ * the CDN module's logic (in particular: cdn_file_url_alter()) to alter file
+ * URLs via the theme layer.
  * Some of the functions are also used when altering rendered nodes so that
  * their images are served from the CDN.
  */
@@ -22,7 +21,7 @@
  * @param &$theme_registry
  *   The entire cache of theme registry information, post-processing.
  */
-function cdn_theme_registry_alter(&$theme_registry) {
+function _cdn_fallback_theme_registry_alter(&$theme_registry) {
   if (isset($theme_registry['page'])) {
     // If CDN's preprocess function is there already, remove it.
     if ($key = array_search('cdn_preprocess_page', $theme_registry['page']['preprocess functions'])) {
@@ -59,7 +58,7 @@ function cdn_preprocess_page(&$variables) {
 function cdn_html_alter_css_urls(&$html) {
   $url_prefix_regex = _cdn_generate_url_prefix_regex();
   $pattern = "#href=\"(($url_prefix_regex)(.*?\.css)(\?.*)?)\"#";
-  _cdn_html_alter_file_url($html, $pattern, 0, 3, 4, 'href="', '"');  
+  _cdn_html_alter_file_url($html, $pattern, 0, 3, 4, 'href="', '"');
 }
 
 /**
@@ -76,8 +75,20 @@ function cdn_html_alter_js_urls(&$html) {
  */
 function cdn_html_alter_image_urls(&$html) {
   $url_prefix_regex = _cdn_generate_url_prefix_regex();
-  $pattern = "#((<img\s+|<img\s+[^>]*\s+)src\s*=\s*[\"|\'])($url_prefix_regex)([^\"|^\']*)([\"|\'])#i";
-  _cdn_html_alter_file_url($html, $pattern, 0, 4, 5, 1, '');
+
+  // TRICKY: order matters!
+
+  // Image file URLs of <a> tags that wrap <img> tags.
+  $pattern = "#((<a\s+|<a\s+[^>]*\s+)href\s*=\s*[\"|'])($url_prefix_regex)([^\"|^'|^\?]*)()(\?[^\"|^']*)?";
+  $pattern .= "("; // Capture everything after the path.
+  $pattern .= "([\"|'][^>]*)>"; // End of opening <a> tag.
+  $pattern .= "((<img\s+|<img\s+[^>]*\s+)src\s*=\s*[\"|'])([^\"|^']*)([\"|'])"; // Wrapped <img> tag.
+  $pattern .= ")#i";
+  _cdn_html_alter_file_url($html, $pattern, 0, 4, 5, 1, 7, 11);
+
+  // Image file URLs in <img> tags.
+  $pattern = "#((<img\s+|<img\s+[^>]*\s+)src\s*=\s*[\"|'])($url_prefix_regex)([^\"|^'|^\?]*)()(\?[^\"|^']*)?([\"|'])#i";
+  _cdn_html_alter_file_url($html, $pattern, 0, 4, 5, 1, 7);
 }
 
 /**
@@ -89,11 +100,26 @@ function _cdn_generate_url_prefix_regex() {
   static $url_prefix_regex;
 
   if (!isset($url_prefix_regex)) {
-    $url_prefix_regex = implode('|', array_map('preg_quote', array(
-      base_path(),                                // Root-relative URL.
-      '//' . $_SERVER['HTTP_HOST'] . base_path(), // Protocol-relative URL.
-      $base_url . '/',                            // Absolute URL.
-    )));
+    $url_prefixes = array(
+      preg_quote(base_path()) . '(?!/)',                      // Root-relative URL.
+      // Note:  root-relative URL that isn't a protocol-relative URL. The
+      // negative lookahead for a trailing slash is relaly only necessary
+      // when this site is installed in the document root (i.e. when the base
+      // path equals "/"), because this would otherwise match *all* protocol-
+      // relative URLs, also those that already point to the CDN.
+      preg_quote('//' . $_SERVER['HTTP_HOST'] . base_path()), // Protocol-relative URL.
+      preg_quote($base_url . '/'),                            // Absolute URL.
+    );
+
+    $regexes = array();
+    $farfuture = preg_quote('cdn/farfuture/');
+    foreach ($url_prefixes as $url_prefix) {
+      $regexes[] = $url_prefix . '(?!' . $farfuture . ')';
+    }
+
+    // The URL prefix regex that will match all URLs to the current site,
+    // except for those that already point to Far Future expiration URLs.
+    $url_prefix_regex = implode('|', $regexes);
   }
 
   return $url_prefix_regex;
@@ -119,8 +145,11 @@ function _cdn_generate_url_prefix_regex() {
  *   prefix in the array of regexp matches.
  * @param $suffix
  *   See $prefix.
+ * @param $comparison_index
+ *   The index of a comparison path whose file extension should match the file
+ *   extension of the path located at $path_index.
  */
-function _cdn_html_alter_file_url(&$html, $pattern, $search_index, $path_index, $querystring_index, $prefix, $suffix) {
+function _cdn_html_alter_file_url(&$html, $pattern, $search_index, $path_index, $querystring_index, $prefix, $suffix, $comparison_index = FALSE) {
   // Find a match against the given pattern.
   preg_match_all($pattern, $html, $matches);
 
@@ -133,6 +162,20 @@ function _cdn_html_alter_file_url(&$html, $pattern, $search_index, $path_index, 
 
     $prefix_string = (is_numeric($prefix)) ? $matches[$prefix][$i] : $prefix;
     $suffix_string = (is_numeric($suffix)) ? $matches[$suffix][$i] : $suffix;
+
+    // Compare the filename in the path with that of another index. The file
+    // URL only is rewritten if it matches.
+    if ($comparison_index) {
+      $comparison = $matches[$comparison_index][$i];
+
+      // Calculate length of extension.
+      $path_ext_pos = strrpos($path, '.');
+      $ext_length = -1 * (strlen($path) - $path_ext_pos);
+
+      if (substr($path, $ext_length) !== substr($comparison, $ext_length)) {
+        continue;
+      }
+    }
 
     // Store the current path as the old path, then let cdn_file_url_alter()
     // do its magic by invoking all file_url_alter hooks. When the path hasn't

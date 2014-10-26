@@ -1,5 +1,4 @@
 <?php
-// $Id: theme.inc,v 1.8 2010/10/11 21:47:28 wimleers Exp $
 
 /**
  * @file
@@ -29,31 +28,45 @@ function theme_cdn_page_stats($file_count, $cdn_file_count, $synced_files_per_se
   $items = array();
   $mode = variable_get(CDN_MODE_VARIABLE, CDN_MODE_BASIC);
 
-  $output .= '<div id="cdn-integration-page-stats">';
-  $items[] = 'Total number of files on this page: <strong>'. $file_count .'</strong>.';
-  $percentage = ($file_count == 0) ? '100' : ($file_count > 0) ? number_format($cdn_file_count / $file_count * 100) : 0;
-  $items[] = 'Number of files available on CDNs: <strong>'. $cdn_file_count .'</strong> ('. $percentage . '% coverage).';
-  foreach (array_keys($synced_files_per_server_count) as $server) {
-    $items[] = t('Number of files served from the server %server: !count', array('%server' => $server, '!count' => $synced_files_per_server_count[$server]));
+  $percentage = 100;
+  if ($file_count > 0) {
+    $percentage = number_format($cdn_file_count / $file_count * 100);
   }
-  $items[] = t('Total time it took to look up the CDN URLs for these files:
-                !total-time ms, or !avg-time ms on average per file.',
-                array(
-                  '!total-time' => round($total_time * 1000, 3),
-                  '!avg-time'   => ($file_count > 0) ? round($total_time * 1000 / $file_count, 3) : 0,
-                )
+  $avg_time = 0;
+  if ($file_count > 0) {
+    $avg_time = round($total_time * 1000 / $file_count, 3);
+  }
+
+  $output .= '<div id="cdn-integration-page-stats">';
+  $items[] = t(
+    'Total number of files on this page: <strong>!file-count</strong>.',
+    array('!file-count' => $file_count)
+  );
+  $items[] = t(
+    'Number of files served from CDNs: <strong>!cdn-file-count</strong>
+    (!pct% coverage).',
+    array('!cdn-file-count' => $cdn_file_count, '!pct' => $percentage)
+  );
+  $items[] = t(
+    'Total time altering file URLs: !total ms, or !avg ms per file.',
+    array(
+      '!total' => round($total_time * 1000, 3),
+      '!avg'   => $avg_time,
+    )
   );
 
-
   // Nested list of unsynced files.
-  if ($mode != CDN_MODE_BASIC) {
-    if (count($unsynced_files)) {
-      $unsynced_items = array();
-      foreach ($unsynced_files as $file) {
-        $unsynced_items[] = theme('cdn_page_stats_file_link', $file, file_create_url($file), FALSE, $file, NULL);
-      }
-      $items[] = t('The files that are not (yet?) synchronized to the CDN:') . theme('item_list', $unsynced_items);
+  if (count($unsynced_files)) {
+    $unsynced_items = array();
+    foreach ($unsynced_files as $file) {
+      $unsynced_items[] = theme(
+        'cdn_page_stats_file_link',
+        $file, file_create_url($file), FALSE, $file, NULL
+      );
     }
+    $item = t('Files not served from CDNs:');
+    $item .= theme('item_list', $unsynced_items, NULL, 'ol');
+    $items[] = $item;
   }
 
   // Nested list of synced files.
@@ -64,12 +77,50 @@ function theme_cdn_page_stats($file_count, $cdn_file_count, $synced_files_per_se
       $cdn_url = $synced_file['cdn_url'];
       $server  = $synced_file['server'];
 
-      $synced_items[] = theme('cdn_page_stats_file_link', $file, $synced_file['absolute path'], TRUE, $cdn_url, $server);
+      if (!isset($synced_items[$server])) {
+        $synced_items[$server] = array();
+      }
+      $synced_items[$server][] = theme(
+        'cdn_page_stats_file_link',
+        $file,
+        $synced_file['absolute path'],
+        TRUE,
+        $cdn_url,
+        $server
+      );
     }
-    $items[] = t('The files that are synchronized to the CDN:') . theme('item_list', $synced_items);
+    $synced_by_server = array();
+    foreach (array_keys($synced_items) as $server) {
+      $c = $synced_files_per_server_count[$server];
+      $item = t(
+        '<strong>!pct%</strong> of files served from %server (!count files):',
+        array(
+          '%server' => $server,
+          '!count'  => $c,
+          '!pct'    => number_format($c / $cdn_file_count * 100),
+        )
+      );
+      $item .= theme(
+        'item_list',
+        $synced_items[$server],
+        NULL,
+        'ol'
+      );
+      $synced_by_server[] = $item;
+    }
+    $item = t('Files served from CDNs:');
+    $item .= theme('item_list', $synced_by_server);
+    $items[] = $item;
   }
 
-  $output .= theme('item_list', $items, '<strong>'. t('CDN integration statistics for %drupal_path', array('%drupal_path' => $_GET['q'])) .'</strong>');
+  $title = t('CDN integration statistics for %drupal_path', array(
+    '%drupal_path' => $_GET['q']
+  ));
+  $output .= theme(
+    'item_list',
+    $items,
+    '<strong>'. $title .'</strong>'
+  );
   $output .= '</div>';
   return $output;
 }
@@ -92,16 +143,29 @@ function theme_cdn_page_stats($file_count, $cdn_file_count, $synced_files_per_se
  *   The rendered HTML.
  */
 function theme_cdn_page_stats_file_link($file, $absolute_path, $synced, $cdn_url, $server) {
-  $file_link  = l(t(($server == NULL) ? '!file' : '!file (server: !server)', array('!file' => $file, '!server' => $server)), $cdn_url, array('attributes' => array('title' => $absolute_path)));
-  $touch_link = l(t('touch'), 'admin/cdn/touch/' . $file);
+  $file_link = l(
+    t('!file', array('!file' => $file)),
+    $cdn_url,
+    array(
+      'external'   => TRUE,
+      'attributes' => array('title' => $absolute_path),
+    )
+  );
+  $touch_link = l(
+    t('touch'),
+    'admin/cdn/touch/' . $file,
+    array('query' => drupal_get_destination())
+  );
 
   $output = '';
   $output .= '<span class="file-link">' . $file_link;
   if ($synced) {
     $output .= '<span class="touch-link">';
     $output .=   '<span class="arrow">' . t('→') . '</span>';
-    $output .=    $touch_link;
-    $output .=   '<span class="touch-help">' . t('Touching this file will trigger a resync to the CDN.') . '</span>';
+    $output .=   $touch_link;
+    $output .=   '<span class="touch-help">';
+    $output .=   t('Touching this file will trigger a resync to the CDN.');
+    $output .=   '</span>';
     $output .= '</span>';
   }
   $output .= '</span>';
