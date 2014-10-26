@@ -1,4 +1,5 @@
 <?php
+// $Id: nodereference-explorer-view-row-fields-selectable.tpl.php,v 1.3 2009/07/17 15:38:28 gnindl Exp $
 /**
  * @file
  * nodereference-explorer-view-row-fields-selectable.tpl.php

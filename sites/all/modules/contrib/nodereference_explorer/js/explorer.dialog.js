@@ -1,3 +1,4 @@
+// $Id: explorer.dialog.js,v 1.7 2010/08/27 08:19:43 gnindl Exp $
 
 /**
  * @file explorer.dialog.js
@@ -72,11 +73,13 @@ Drupal.nodereference_explorer.dialog.addButtonPane = function(actions, settings)
   	ok = actions.ok;
   
   buttons[ok] = function() {
-    var value = $('#edit-selection', this).val();
+    var value = decodeURIComponent(($('#edit-selection', this).val() + '').replace(/\+/g, '%20'));
     var widget = '#' + settings['widget'];
     var type = settings['field_type'];
-    if (value != $(widget).val()) //if different from old value, save it
+    //if different from old value, save it
+    if (value != $(widget).val()) {
 	  Drupal.nodereference_explorer.actions.setValue(widget, type, value);
+    }
     $(this).dialog('close');
   };
   

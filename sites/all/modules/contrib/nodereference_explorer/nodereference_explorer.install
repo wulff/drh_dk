@@ -1,0 +1,39 @@
+<?php
+// $Id$
+
+/**
+ * @file nodereference_explorer.install
+ * Inform underlying CCK module when module events occur.
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function nodereference_explorer_install() {
+  drupal_load('module', 'content');
+  content_notify('install', 'nodereference_explorer');
+}
+
+/**
+* Implementation of hook_uninstall().
+*/
+function nodereference_explorer_uninstall() {
+  drupal_load('module', 'content');
+  content_notify('uninstall', 'nodereference_explorer');
+}
+
+/**
+* Implementation of hook_enable().
+*/
+function nodereference_explorer_enable() {
+  drupal_load('module', 'content');
+  content_notify('enable', 'nodereference_explorer');
+}
+
+/**
+* Implementation of hook_disable().
+*/
+function nodereference_explorer_disable() {
+  drupal_load('module', 'content');
+  content_notify('disable', 'nodereference_explorer');
+}

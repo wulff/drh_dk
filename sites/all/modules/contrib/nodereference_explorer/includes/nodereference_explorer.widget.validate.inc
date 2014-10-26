@@ -1,4 +1,5 @@
 <?php
+// $Id: nodereference_explorer.widget.validate.inc,v 1.3 2010/04/24 14:20:46 gnindl Exp $
 /**
  * @file
  * nodereference_explorer.widget.validate.inc

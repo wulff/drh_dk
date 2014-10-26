@@ -1,3 +1,4 @@
+// $Id: explorer.preview.js,v 1.8 2011/02/20 18:44:03 gnindl Exp $
 
 /**
  * @file explorer.preview.js
@@ -24,12 +25,14 @@ Drupal.behaviors.NodereferenceExplorerPreview = function(context) {
       var path = settings['preview'];
       var widget = '#' + settings['widget'];
       
-      //attach change action to core widget, triggered when dialog returns a value
-      //when loading an editing node with nodereference fields
-      //  when loading a selection from a autocomplete view selection
+      // Attach change action to core widget, triggered when dialog returns a value
+      // - when loading an editing node with nodereference fields
+      // - when loading a selection from a autocomplete view selection
+      // On first load the preview is generated server side, so there's no
+      // manual trigger, i. e. $(widget).blur() necessary
       $(widget).blur(function(event) {
     	var val = $(this).val(); //current value
-    	if (val != '') {//placeholder while preview loads
+    	if (val != '') { // placeholder while preview loads
     	  $(preview).text(Drupal.t('Preview loading, please wait...'));
           Drupal.nodereference_explorer.preview.getPreview(preview, path, val);
     	}
@@ -37,7 +40,6 @@ Drupal.behaviors.NodereferenceExplorerPreview = function(context) {
     	  $(preview).text('');
     	}
       });
-      $(widget).blur();
     })
     .addClass('nodereference-explorer-processed');
 };

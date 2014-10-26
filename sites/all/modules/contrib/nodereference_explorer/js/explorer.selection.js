@@ -1,3 +1,4 @@
+// $Id: explorer.selection.js,v 1.2 2009/07/17 15:38:28 gnindl Exp $
 
 /**
  * @file explorer.selection.js

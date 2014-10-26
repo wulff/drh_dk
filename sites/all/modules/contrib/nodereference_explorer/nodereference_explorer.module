@@ -1,4 +1,5 @@
 <?php
+// $Id: nodereference_explorer.module,v 1.14 2011/02/13 13:39:00 gnindl Exp $
 
 /**
  * @file
@@ -13,10 +14,11 @@ define('NODE_REFERENCE_EXPLORER_MODULE_NAME', 'nodereference_explorer');
 define('NODE_REFERENCE_EXPLORER_MODULE_PATH', drupal_get_path('module', NODE_REFERENCE_EXPLORER_MODULE_NAME));
 define('NODE_REFERENCE_EXPLORER_DEFAULT_VIEW_NAME', NODE_REFERENCE_EXPLORER_MODULE_NAME . '_default');
 
-define('NODE_REFERENCE_EXPLORER_MENU_CALLBACK_DIALOG', 'nodereference_explorer/dialog');
-define('NODE_REFERENCE_EXPLORER_MENU_CALLBACK_MODALFRAME', 'nodereference_explorer/modalframe');
+define('NODE_REFERENCE_EXPLORER_MENU_CALLBACK_BROWSE', 'nodereference_explorer/browse');
+define('NODE_REFERENCE_EXPLORER_MENU_CALLBACK_CREATE', 'nodereference_explorer/create');
 define('NODE_REFERENCE_EXPLORER_MENU_CALLBACK_PREVIEW', 'nodereference_explorer/preview');
 define('NODE_REFERENCE_EXPLORER_MENU_CALLBACK_PREVIEW_DISPLAYS', 'nodereference_explorer/preview_displays');
+
 
 /**
  * Definition of entry points to the module
@@ -39,22 +41,25 @@ function nodereference_explorer_menu() {
   );
 
   // views is responsible for the access control of these callbacks. the field
-  // potentially has its own permissions.
-  $items[NODE_REFERENCE_EXPLORER_MENU_CALLBACK_DIALOG] = $base + array(
-    'page callback' => 'nodereference_explorer_dialog',
+  // potentially has its own permissions. Menu callback for any dialog api.
+  $items[NODE_REFERENCE_EXPLORER_MENU_CALLBACK_BROWSE] = $base + array(
+    'title' => t('Browse'),
+    'page callback' => 'nodereference_explorer_browse',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
-
-  //css and js files preparing modalframe
-  $items[NODE_REFERENCE_EXPLORER_MENU_CALLBACK_MODALFRAME] = $base + array(
-    'page callback' => 'nodereference_explorer_modalframe',
-    'access arguments' => array('access content'),
+  
+  // reference a newly created node
+  $items[NODE_REFERENCE_EXPLORER_MENU_CALLBACK_CREATE] = $base + array(
+    'title' => t('Create'),
+    'page callback' => 'nodereference_explorer_create_node',
+    'access callback' => '_node_add_access',
     'type' => MENU_CALLBACK,
   );
 
   //retrieving node detail view via JSON
   $items[NODE_REFERENCE_EXPLORER_MENU_CALLBACK_PREVIEW] = $base + array(
+    'title' => t('Preview'),
     'page callback' => 'nodereference_explorer_preview',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
@@ -65,7 +70,7 @@ function nodereference_explorer_menu() {
     'page callback' => 'nodereference_explorer_preview_displays',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
-  );
+  );  
 
   return $items;
 }
@@ -163,11 +168,25 @@ function nodereference_explorer_init() {
       'nodereference_explorer.widget.settings'
     )
   );
+  
+  // The create and reference functionality is only supported with the Modalframe API yet. When a node edit form
+  // is rendered by forwarding a request in nodereference_explorer_create_node(), we have to make sure that only
+  // form is rendered excluding the administration menu, primary navigation, footer etc.
+  // Enable the Modal Frame API for the child window.
+  if (module_exists('modalframe') && 
+      (!empty($_GET['nodereference_explorer_node_type']) && !empty($_GET['nodereference_explorer_field_name'])) || !empty($_GET['nodereference_explorer_edit'])) {
+    modalframe_child_js();
+  }
 }
 
 /**
  * Initiate all plugins sources, i. e. include and js files. A list
  * of available plugins is returned.
+ * 
+ * @deprecated
+ *   Restricitve file permissions might completely break this function as it iterates
+ *   through the filesystem. As we cannot guarentee proper file permissions on this 
+ *   level, the usage of this function is discouraged, see @bug http://drupal.org/node/1247096.
  * @param $module
  *   Name of module
  * @return
@@ -383,4 +402,58 @@ function nodereference_explorer_preprocess_page(&$vars) {
   
   // save processed settings back to header variable
   $vars['scripts'] = drupal_get_js('header', $javascript);
+}
+
+/**
+ * Implementation of hook_form_alter().
+ * Alters the node edit form for achieving the demanded behavior for the "Create & reference" functionality.
+ * @param $form
+ *   array form elements
+ * @param $form_state
+ *   array form values
+ * @param $form_id
+ *   string form identifier
+ */
+function nodereference_explorer_form_alter(&$form, $form_state, $form_id) {  
+ // Alter node form if certain query string is provided by nodereference_explorer_create_node() 
+  if (isset($form['type']) && isset($form['#node']) && $form['type']['#value'] .'_node_form' == $form_id
+      && ((!empty($_GET['nodereference_explorer_node_type']) && !empty($_GET['nodereference_explorer_field_name'])) || !empty($_GET['nodereference_explorer_edit']))) {
+    // Append our submit handler so we can tell the parent window to close
+    // the modal frame and update the node reference field.
+    $form['buttons']['submit']['#submit'][] = '_nodereference_explorer_child_node_form_submit';
+    return;
+  }
+  
+  // Alter the node deletion confirmation form removing selection
+  if ($form_id == 'node_delete_confirm' && !empty($_GET['nodereference_explorer_edit'])) {
+    $form['#submit'][] = '_nodereference_explorer_child_node_form_submit';
+    unset($form['actions']['cancel']); // remove cancel link
+  }
+}
+
+/**
+ * Submit handler for the child node form. Copied from _noderelationships_child_node_form_submit()
+ * @param $form
+ *   array form elements
+ * @param $form_state
+ *   array form values
+ */
+function _nodereference_explorer_child_node_form_submit($form, &$form_state) {
+  // Read the node title from fresh node so that modules such as Automatic Node
+  // Titles [1] can do their own job, and then we can get the resulting title.
+  // [1] http://drupal.org/project/auto_nodetitle
+  // Also, clear the static storage of node_load() because it could have been
+  // executed by another module during this page request, which would bring us
+  // a non-updated version of the node.
+  $node = node_load($form_state['nid'], NULL, TRUE);
+  if ($node->title && $form_state['nid']) {
+    $selection = $node->title .' [nid:'. $form_state['nid'] .']';
+  }
+  else { // no node, no selection
+    $selection = '';
+  }
+  
+  modalframe_close_dialog(array(
+    'selection' => $selection,
+  ));
 }

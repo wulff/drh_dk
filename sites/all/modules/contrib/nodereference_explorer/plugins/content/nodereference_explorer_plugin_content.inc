@@ -10,15 +10,33 @@
 abstract class nodereference_explorer_plugin_content {
 
   public $value_callback = NULL; //define callback function for the widget value
-
+ 
   /**
    * The parent widget to which actions and preview is assigned, e. g. autocomplete widget.
    * @param $element
    * @param $edit
    * @param $form_state
    * @param $form
+   * @return
+   *   array form element
    */
-  public abstract function widget_process($element, $edit, $form_state, $form);
+  public function widget_process($element, $edit, $form_state, $form) {
+    // Clicking the "Add another item" button triggers a POST request with the current widget values.
+    // If that is the case we have to reset the widget values for further processing, e. g. preview.
+    $field_name = $element['#field_name'];
+    $weight = $element['#delta'];
+    // The add more button AJAX call might put the post values into the $element array. We look at this
+    // data structure first, before we look up the global $_POST array. As values might be overridden
+    // in both arrays, the $_POST array can be manipualted by any PHP code whereas the $element array
+    // can only be changed by CCK and dependent modules.
+    if($element['#post'][$field_name][$weight]) { 
+	   $element['#default_value'] = $element['#post'][$field_name][$weight];
+    }
+    elseif($_POST[$field_name][$weight]) {
+	   $element['#default_value'] = $_POST[$field_name][$weight];
+    }
+    return $element;
+  }
 
   /**
    * Extended rendering function for parent widget.

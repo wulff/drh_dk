@@ -1,4 +1,5 @@
 <?php
+// $Id: nodereference_explorer.widget.inc,v 1.8 2010/07/19 15:42:14 gnindl Exp $
 /**
  * @file
  * nodereferene_explorer.widget.inc
@@ -21,7 +22,11 @@ function nodereference_explorer_widget_info() {
   return array(
     'nodereference_explorer' => array(
       'label' => t('Explorer'),
-      'field types' => nodereference_explorer_plugins(), //get all plugins for field types, e. g. nodereference, link etc.
+      'field types' => 
+        // Formerly nodereference_explorer_plugins() function was called here, 
+        // but it has been deprecated, see function description for details.
+        // Therefore we define the plugin field types here explicitly.
+        array('link', 'nodereference', 'nodereference_quantifier'),
     ),
   );
 }
@@ -89,45 +94,57 @@ function nodereference_explorer_widget_process($element, $edit, $form_state, $fo
   if ($field) {
     nodereference_explorer_widget_attach_dialog_css_and_js($field);
   
-    //validate/preview function might destroy the plugin object
+    // validate and preview function might destroy the plugin object
     if ($element['#plugin'] instanceof __PHP_Incomplete_Class) { //create new plugin object if destroyed
   	  $element['#plugin'] = nodereference_explorer_plugins_load_plugin($field['type']);
   	  $element['#value_callback'] = isset($element['#plugin']->value_callback) ? $element['#plugin']->value_callback: NULL;
     }
   
     //call parent widget process function, provided by plugin (depends on CCK type)
-    $element = $element['#plugin']->widget_process($element, $edit, $form_state, $form);
-
+    $element = $element['#plugin']->widget_process($element, $edit, $form_state, $form); 
+    
     //add js settings per field only once, preventing multiple settings holds same values
     //this is compatible with the "add more" behavior
     static $added_settings;
 
     $field_name = $field['field_name'];
     $type_name = $field['type_name'];
-
+    
     if (!isset($added_settings[$field_name])) { //add only if they haven't been previously added
+      nodereference_explorer_include('nodereference_explorer.util');
       $field_settings = array(
-        'dialog' => url(NODE_REFERENCE_EXPLORER_MENU_CALLBACK_DIALOG .'/'. $type_name .'/'. $field_name),
-        'modalframe' => url(NODE_REFERENCE_EXPLORER_MENU_CALLBACK_MODALFRAME .'/'. $type_name .'/'. $field_name),
-        'dialog_api' => $field['widget']['dialog_api'],
+        'dialog' => nodereference_explorer_util_parse_settings($field, 'dialog'),  // Dialog window settings
         'field_type' => $field['type'],
-      	'preview' => url(NODE_REFERENCE_EXPLORER_MENU_CALLBACK_PREVIEW .'/'. $type_name .'/'. $field_name),
+        'browse' => url(NODE_REFERENCE_EXPLORER_MENU_CALLBACK_BROWSE .'/' . $field['widget']['dialog_api'] .'/'. $type_name .'/'. $field_name),
+        'preview' => url(NODE_REFERENCE_EXPLORER_MENU_CALLBACK_PREVIEW .'/'. $type_name .'/'. $field_name),
       );
 
+      // Issue #1845784: Get organic groups context for create URL
+      if (module_exists('og') && function_exists('og_get_group_context')) {
+        $field_settings['create'] = url(NODE_REFERENCE_EXPLORER_MENU_CALLBACK_CREATE .'/' . $field['widget']['dialog_api'] .'/'. $type_name .'/'. $field_name, array ('query' => 'gids[]=' . og_get_group_context()-> nid ));
+      }
+      else {
+        $field_settings['create'] = url(NODE_REFERENCE_EXPLORER_MENU_CALLBACK_CREATE .'/' . $field['widget']['dialog_api'] .'/'. $type_name .'/'. $field_name);
+      }
+            
       $setting[NODE_REFERENCE_EXPLORER_MODULE_NAME] = array(
         $field_name => $field_settings,
       );
       drupal_add_js($setting, 'setting'); //add settings
       $added_settings[$field_name] = $field_settings; //cache field specific js settings
-    }
-
+    } 
+       
+    // determine if create button should be shown (widget option), only supported for modalframe yet
+    $show_create_button = $field['widget']['dialog_api'] == 'modalframe' && $field['widget']['create_ref'];
+    
+   
     //add actions, e. g. browse and remove, to the core widget
-    $components = nodereference_explorer_widget_attach_actions($element);
+    $components = nodereference_explorer_widget_attach_actions($element, $show_create_button);
 
     //add a preview if enabled (by the content type admin/editor)
     if (!empty($field['widget']['content_preview']) && $field['widget']['content_preview'] != '--') {
-      $preview_weight = $field['widget']['content_preview_position'] == 'below' ?  1 : -1;
-      $preview_id = nodereference_explorer_widget_preview($element, $preview_weight);
+      $preview_weight = $field['widget']['content_preview_position'] == 'below' ?  10 : -10;
+      $preview_id = nodereference_explorer_widget_preview($element, $field, $preview_weight);
       $components[] = $preview_id; //add preview to components
     }
 
@@ -192,17 +209,18 @@ function nodereference_explorer_widget_attach_dialog_css_and_js($field) {
  * @return
  *   array of action ids
  */
-function nodereference_explorer_widget_attach_actions(&$element) {
+function nodereference_explorer_widget_attach_actions(&$element, $show_create_button = TRUE) {
 
   //wrapper for actions bar
-  $element['actions']['#prefix'] = '<div class="nodereference-explorer-actions">';
+  $element['actions']['#prefix'] = '<div class="form-item nodereference-explorer-actions">' . $element['actions']['#prefix'];
   $element['actions']['#suffix'] = '</div>';
-
+  $element['actions']['#weight'] = 5;
+  
   //Button ids
+  $add_button_id = $element['#id'] . '-button-add';
   $browse_button_id = $element['#id'] . '-button-browse';
   $remove_button_id = $element['#id'] . '-button-remove';
-
-  //create buttons as form elements
+  
   $element['actions']['browse'] = array(
     '#type' => 'button',
     '#button_type' => 'button',
@@ -210,6 +228,17 @@ function nodereference_explorer_widget_attach_actions(&$element) {
     '#attributes' => array('class' => 'nodereference-explorer-action-open-dialog nodereference-explorer-button'),
     '#value' => t('Browse'),
   );
+  
+  if ($show_create_button) {
+    //create buttons as form elements
+    $element['actions']['create'] = array(
+      '#type' => 'button',
+      '#button_type' => 'button',
+      '#id' => $add_button_id,
+      '#attributes' => array('class' => 'nodereference-explorer-action-add-dialog nodereference-explorer-button'),
+      '#value' => t('Create'),
+    );
+  }
 
   $element['actions']['remove'] = array(
     '#type' => 'button',
@@ -224,8 +253,9 @@ function nodereference_explorer_widget_attach_actions(&$element) {
 
   nodereference_explorer_add_js('explorer.actions'); //base action script for browse and remove
   
-  return array($browse_button_id, $remove_button_id);
+  return array($add_button_id, $browse_button_id, $remove_button_id);
 }
+
 /**
  * Default preview on selected view items. Actually
  * an item of a referenced view display is shown
@@ -233,21 +263,43 @@ function nodereference_explorer_widget_attach_actions(&$element) {
  *   form element
  * @param $field
  *   CCK field
+ * @param $preview_weight
+ *   number form position
  * @return
  *   id of the preview area
  */
-function nodereference_explorer_widget_preview(&$element, $preview_weight) {
+function nodereference_explorer_widget_preview(&$element, $field, $preview_weight) {
 
   $element['preview'] = array(
     '#type' => 'markup',
     '#weight' => $preview_weight,
   );
 
-  $preview_id = $element['#id'] .'-preview';
+  $preview_id = $element['#id'] .'-preview'; // HTML id
+  // wrapper
+  $prefix = '<div id="'. $preview_id .'" class="nodereference-explorer-preview">';
+  $suffix = '</div>';
 
-  //add an empty placeholder for the preview
-  $element['preview']['#value'] = '<div id="'. $preview_id .'" class="nodereference-explorer-preview"></div>';
-
+ // The NRE plugins and their super class are responsible for providing the node id.
+ // See class nodereference_explorer_plugin_content function widget_process and subclasses
+ if ($element['#default_value']['nid']) { // load preview if node is provided
+    nodereference_explorer_include('nodereference_explorer.views.class');
+    $handler = new nodereference_explorer_views($field);
+    // valdation hook encapsulates nid further
+    $nid = is_array($element['#default_value']['nid']) ? $element['#default_value']['nid']['nid'] : $element['#default_value']['nid'];
+   
+    $output = '';
+    if ($nid) {
+      $output = $handler->get_item($element['#default_value']['nid']); // generates HTML preview
+    }
+    // wrap output, sometimes #prefix and #suffix might not render, 
+    // that's why we put everthing into #value
+    $element['preview']['#value'] = $prefix . $output . $suffix;
+  }
+  else { //add an empty placeholder for the preview
+    $element['preview']['#value'] = $prefix . $suffix;
+  }
+   
   nodereference_explorer_add_js('explorer.preview'); //preview behavior js
   return $preview_id;
 }
@@ -261,8 +313,9 @@ function nodereference_explorer_widget_preview(&$element, $preview_weight) {
  */
 function _nodereference_explorer_widget_generate_id($element) {
   $widget_id = $element['#id']; //generic actions, dialog can be used by third party modules, e. g. link
-  if (isset($element['nid'])) //native actions
+  if (isset($element['nid'])) { //native actions
     $widget_id .= '-nid-nid';
+  }
   return $widget_id;
 }
 

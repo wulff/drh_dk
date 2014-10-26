@@ -18,22 +18,47 @@ class nodereference_explorer_plugin_content_link extends nodereference_explorer_
    * @param $edit
    * @param $form_state
    * @param $form
+   * @return
+   *   array form element
    */
   public function widget_process($element, $edit, $form_state, $form) {
-    $element = link_process($element, $edit, $form_state, $form);
-    if (isset($element['#default_value']['title']))
-      $node = node_load(array('title' => $element['#default_value']['title']));
+    $element = parent::widget_process($element, $edit, $form_state, $form); // sanitize widget values
+    $element = link_process($element, $edit, $form_state, $form); // process parent widget
+    
+    if (!$element['#default_value']['url']) {
+      $element['#default_value']['value'] = '';
+    }
+    
+    // Identify internal node links
+    if ($element['#default_value']['value']) { // in NR autocomplete format, e. g. test [nid: 222]
+      nodereference_explorer_include('nodereference_explorer.util');
+      $value = nodereference_explorer_util_parse_widget_value($element['#default_value']['value']);
+      $node = node_load($value['nid']);
+    }
+    elseif ($element['#default_value']['url']) { // get node by path alias
+      $path = drupal_get_normal_path($element['#default_value']['url']); 
+      list (, $nid) = preg_split('/\//', $path);
+      $node = node_load($nid);
+    }
+    // internal value for JS actions
     $element['value'] = array(
       '#id' => $element['#id'],
       '#type' => 'hidden',
-      '#value' => !empty($element['#default_value']['title']) && !empty($node->nid) ? $element['#default_value']['title'] . '[nid: ' . $node->nid .']': '',
+      // set possibly overriden title and node id if existing
+      '#value' => !empty($element['#default_value']['title']) && !empty($node->nid) ? $element['#default_value']['title'] . ' [nid: ' . $node->nid .']': '',
     );
+    
+    // set nid attribute used by widget preview
+    if ($node->nid) {
+      $element['#default_value']['nid'] = $node->nid;
+    }    
+    
     //create an error element, needed for storing field name for widget settings form and
     //validates widget settings properly
     $field_key  = $element['#columns'][0];
     $element['_error_element'] = array(
       '#type' => 'value',
-      // Wrapping the element around a text_textfield element creates a
+      // Wrapping the element around a text_textfield element creates aS
       // nested element, so the final id will look like 'field-name-0-url'.
       '#value' => implode('][', array_merge($element['#parents'], array($field_key))),
     );
@@ -45,7 +70,7 @@ class nodereference_explorer_plugin_content_link extends nodereference_explorer_
    * @param $element
    */
   public function theme_nodereference_explorer($element) {
-    $output .= theme_link($element);
+    $output .= theme('link', $element);
     $output .= $element['actions']['#children'];
     $output .= theme('hidden', $element['value']);
     $output .= theme('markup', $element['preview']);

@@ -4,8 +4,8 @@ Nodereference Explorer README
 The Nodereference Explorer (NRE) provides a selection dialog for creating references between nodes. Editors can link arbitrary 
 content type instances, e. g. pages, stories, news, images etc., with each other. Typical use-cases are for instance:
 
-    * Reuse of assets, such as images, audio and video clips for display on other pages
-    * Providing a list of internal links
+  * Reuse of assets, such as images, audio and video clips for display on other pages
+  * Providing a list of internal links
 
 The motivation arouses from the usage scalabiltiy limitations of in-built nodereferences widgets, i. e. autocomplete, select list and 
 option boxes, when dealing with a large number of nodes. Therefore the NRE enhances the autocomplete widget by an explorer-like selection
@@ -22,6 +22,8 @@ configurable at the same time. The most important features are:
 * Node list is a customizable view with various displays, like grid, table, list and unformatted containing selectable view items
 * Exposed view filter forms for content search/exploration
 * Simple mouse point and click selection
+* "Create & Reference" functionality adding new nodes on the fly
+* Edit and delete a referenced node
 * Field preview (as an additional view display)
 * Plugin architecture for support of other CCK fields, e. g. Link
 * Different Dialog APIs:
@@ -71,10 +73,13 @@ When you customize your view, don't run into issue http://drupal.org/node/921292
 
 - Set up exposed filters in Default display as you like
 - Override any single filter exposed filter in any display
-- Remove the exposed filters from the Defaults display
+- Remove the exposed filters from the Defaults and the preview display
 
 Apart from you can treat the NRE view as a normal view!
 
+Edit and delete a referenced node (modalframe only):
+The default NRE preview view ships with two node links "Edit" and "Delete". There are normal links tagged with the CSS class
+"nodereference-explorer-node-link". On click a modalframe opens with the appropriate form. The selection value is updated/removed accordingly.
 
 CCK:
 
@@ -84,6 +89,8 @@ CCK:
    a. Content: Choose the field preview display from the list the displays (depends on choosen View)
    b. Dialog: Specify dialog related settings here, e. g. title or window size. It is recommended that you select "Modalframe"
       as your dialog API. Choose a dialog theme from the available options. Note that you might specify a CSS scope for certain themes.
+   c. Create and reference (modalframe only): Check this option if you want the "create" button show up which lets you create and reference
+      nodes on the fly. The available node types are taken from the global setting "Content types that can be referenced". 
 3. Global settings (two possibilities):
    a. Content types that can be referenced: A default view shipped with the module will be referenced with
    	  three displays: table, grid and list. Use this as a starting point for your custom view.
@@ -105,10 +112,17 @@ When creating or editing existing content you will face additional buttons near 
 
 You can discard references by clicking the "Remove" button.
 
+If activated (see Administration Guide) the "create" button lets you create and reference nodes on the fly.
+
+Edit and delete a referenced node (modalframe only):
+If configured (see Administration Guide) you may view in the preview an "Edit" and "Delete" node link. You can do the following
+if you have the permission to do it:
+* edit a referenced node   => node title will be updated
+* delete a referenced node => selection will be removed
+
 
 TO-DOs:
 -----------------
-* In built "Add & Reference" functionality
 * Multiple selection
 * Integration with WYSIWIG editors
 * Universial CCK browser: Deploy and use the explorer widget on any field type

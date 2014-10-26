@@ -1,4 +1,5 @@
 <?php
+// $Id: theme.inc,v 1.7 2010/05/05 17:05:53 gnindl Exp $
 /**
  * @file
  * theme.inc
@@ -32,7 +33,7 @@ function template_preprocess_nodereference_explorer_dialog(&$vars) {
 function theme_nodereference_explorer($element) {
 
   //embrace widget with a wrapper
-  $output = '<div class="nodereference-explorer">';
+  $output = '<div class="nodereference-explorer"' . drupal_attributes($element['#attributes']) . '>';
 
   //call plugin specific theming function
   $output .= $element['#plugin']->theme_nodereference_explorer($element);
@@ -81,7 +82,7 @@ function template_preprocess_nodereference_explorer_view_row_fields_selectable(&
       '#type' => 'radio',
       '#id' => form_clean_id('selectable'),
       '#name' => 'nodereference-explorer-dialog',
-      '#return_value' => "$title [nid:$nid]",
+      '#return_value' => urlencode("$title [nid:$nid]"),
     );
     $vars['fields']['nid']->content .= drupal_render($element);
   }

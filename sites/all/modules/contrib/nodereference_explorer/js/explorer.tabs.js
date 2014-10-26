@@ -1,3 +1,4 @@
+// $Id: explorer.tabs.js,v 1.6 2010/07/20 13:33:25 gnindl Exp $
 
 /**
  * @file explorer.tabs.js

@@ -1,3 +1,4 @@
+// $Id: explorer.modalframe.js,v 1.4 2010/03/15 17:17:08 gnindl Exp $
 
 /**
  * @file
@@ -20,7 +21,6 @@ Drupal.nodereference_explorer.modalframe.open = function(path, options, value) {
     url: path +'/'+ Drupal.encodeURIComponent(value),
     autoFit: false
   });
-  //console.log(path+'/'+ Drupal.encodeURIComponent(value));
   Drupal.modalFrame.open(options);
 };
 /**

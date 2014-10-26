@@ -1,4 +1,5 @@
 <?php
+// $Id: nodereference_explorer.views.class.inc,v 1.13 2010/07/20 13:33:25 gnindl Exp $
 /**
  * @file
  * nodereference_explorer.views.inc
@@ -61,11 +62,9 @@ class nodereference_explorer_views {
   public function get_item($value) {
     if (is_array($value) && isset($value['nid'])) {
       // taken from nodereference_autocomplete_validate() in nodereference.module
-      preg_match('/^(?:\s*|(.*) )?\[\s*nid\s*:\s*(\d+)\s*\]$/', $value['nid'], $matches);
-      if (!empty($matches)) {
-        // Explicit [nid:n].
-        $nid = $matches[2];
-      }
+      nodereference_explorer_include('nodereference_explorer.util');
+      $widget_value = nodereference_explorer_util_parse_widget_value($value['nid']);
+      $nid = $widget_value['nid'];
     }
     elseif (!is_array($value)) {
       $nid = $value;
@@ -135,7 +134,7 @@ class nodereference_explorer_views {
     $title = drupal_get_title();
 
     if (!empty($this->view_args)) {//view (default or custom) with arguments
-      $args = split(',', $this->view_args); //split multiple arguments by slashes
+      $args = preg_split('/,/', $this->view_args); //split multiple arguments by slashes
       //append view's name and display id as arguments 1 and 2
       array_unshift($args, $display_id);
       array_unshift($args, $view->name);
@@ -143,7 +142,8 @@ class nodereference_explorer_views {
       $output = call_user_func_array('views_embed_view', $args);
     }
     elseif ($view->name == NODE_REFERENCE_EXPLORER_DEFAULT_VIEW_NAME && !empty($this->field['referenceable_types'])) { //no arguments, default view
-      $ref_types = array_filter($this->field['referenceable_types'], '_nodereference_explorer_views_is_not_zero');
+      nodereference_explorer_include('nodereference_explorer.util');
+      $ref_types = array_filter($this->field['referenceable_types'], 'nodereference_explorer_util_is_not_zero');
       $content_types = implode('\',\'', $ref_types); //list content types
       if ($ref_types && count($ref_types) > 1) { //view argument: get multiple content types
       	//render the display, Views query to be rewriten in nodereference_explorer_views_pre_execute()
@@ -168,13 +168,3 @@ class nodereference_explorer_views {
     }
   }
 }
-
-/**
- * Checks whether a certain value is '0'
- * @param $var
- * @return
- *   TRUE if not '0'
- */
-function _nodereference_explorer_views_is_not_zero($var) {
-   return $var != '0' ? TRUE : FALSE;
- }

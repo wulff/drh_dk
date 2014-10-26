@@ -1,4 +1,5 @@
 <?php
+// $Id: nodereference_explorer.util.inc,v 1.6 2010/07/19 15:42:14 gnindl Exp $
 
 /**
  * @file nodereference_explorer.util.inc
@@ -239,4 +240,27 @@ function nodereference_explorer_util_get_all_referenceable_node_types() {
     $node_types[$type] = $type;
   }
   return $node_types;
+}
+
+/**
+ * Checks whether a certain value is '0'
+ * @param $var
+ * @return
+ *   TRUE if not '0'
+ */
+function nodereference_explorer_util_is_not_zero($var) {
+  return $var != '0' ? TRUE : FALSE;
+}
+
+/**
+ * Parse the element's widget value, e. g. "test [nid:222]" into its parts, i. e. node title and id.
+ * @param $value
+ *   string in format of "NODETITLE [nid:NID]" 
+ * @return
+ *   associative array with 'nid' (node id) and 'title' keys
+ */
+function nodereference_explorer_util_parse_widget_value($value) {
+  $matches = array();
+  preg_match('/^(?:\s*|(?P<title>.*) )?\[\s*nid\s*:\s*(?P<nid>\d+)\s*\]$/', $value, $matches);
+  return $matches;
 }
