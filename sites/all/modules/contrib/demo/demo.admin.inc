@@ -184,8 +184,8 @@ function _demo_dump($options) {
     drupal_chmod($fileconfig['sqlfile']);
   }
   else {
-    chmod($fileconfig['infofile'], 0664);
-    chmod($fileconfig['sqlfile'], 0664);
+    chmod($fileconfig['infofile'], 0660);
+    chmod($fileconfig['sqlfile'], 0660);
   }
 
   // Allow other modules to act on successful dumps.
