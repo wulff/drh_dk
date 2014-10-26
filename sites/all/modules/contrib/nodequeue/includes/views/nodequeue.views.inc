@@ -15,8 +15,9 @@
  * really quite simple.
  */
 
-
-
+/**
+ * Implementation of hook_views_handlers().
+ */
 function nodequeue_views_handlers() {
   return array(
   'info' => array(
@@ -50,8 +51,9 @@ function nodequeue_views_handlers() {
     ),
   );
 }
+
 /**
- * Implementation of hook_views_data()
+ * Implementation of hook_views_data().
  */
 function nodequeue_views_data() {
   $data = array();

@@ -1,5 +1,7 @@
 <?php
+
 /**
+ * @file
  * Specialized relationship handler to add nodequeues.
  */
 class nodequeue_handler_relationship_nodequeue_queue_name extends views_handler_relationship {
@@ -22,7 +24,7 @@ class nodequeue_handler_relationship_nodequeue_queue_name extends views_handler_
     $form['limit'] = array(
       '#type' => 'checkbox',
       '#title' => t('Limit to one or more queues (recommended)'),
-      '#default_value'=> $this->options['limit'],
+      '#default_value' => $this->options['limit'],
     );
 
     $options = array();
@@ -64,7 +66,7 @@ class nodequeue_handler_relationship_nodequeue_queue_name extends views_handler_
       $names = array_keys(array_filter($this->options['names']));
       $qids = array();
       $map = nodequeue_get_qid_map();
-      foreach($names as $name) {
+      foreach ($names as $name) {
         if (isset($map[$name])) {
           $qids[] = $map[$name];
         }

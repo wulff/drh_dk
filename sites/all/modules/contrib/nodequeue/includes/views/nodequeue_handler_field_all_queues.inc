@@ -1,5 +1,7 @@
 <?php
-  /**
+
+/**
+ * @file
  * Field handler for all queues.
  *
  * @ingroup views_field_handlers
@@ -27,7 +29,7 @@ class nodequeue_handler_field_all_queues extends views_handler_field_prerender_l
     $form['limit'] = array(
       '#type' => 'checkbox',
       '#title' => t('Limit to queues'),
-      '#default_value'=> $this->options['limit'],
+      '#default_value' => $this->options['limit'],
     );
 
     $options = array();
@@ -73,4 +75,3 @@ class nodequeue_handler_field_all_queues extends views_handler_field_prerender_l
     }
   }
 }
-

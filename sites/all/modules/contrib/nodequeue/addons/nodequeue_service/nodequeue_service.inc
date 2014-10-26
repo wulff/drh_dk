@@ -1,6 +1,9 @@
 <?php
 
 /**
+ * @file
+ * Miscellaneous functions for Nodequeue Service.
+ *
  * @author Greg Harvey - http://www.drupaler.co.uk
  */
 
