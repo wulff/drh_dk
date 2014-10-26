@@ -55,9 +55,9 @@ function db_connect($url) {
     _db_error_page('Unable to use the MySQL database because the MySQL extension for PHP is not installed. Check your <code>php.ini</code> to see how you can enable it.');
   }
 
-  // Decode url-encoded information in the db connection string
+  // Decode urlencoded information in the db connection string
   $url['user'] = urldecode($url['user']);
-  // Test if database url has a password.
+  // Test if database URL has a password.
   $url['pass'] = isset($url['pass']) ? urldecode($url['pass']) : '';
   $url['host'] = urldecode($url['host']);
   $url['path'] = urldecode($url['path']);
@@ -97,6 +97,28 @@ function db_connect($url) {
  */
 function _db_query($query, $debug = 0, $slave = FALSE) {
   global $active_db, $active_slave_db, $queries, $user;
+
+  // Ignore slave database servers for this request.
+  //
+  // In Drupal's distributed database structure, new data is written to the master
+  // and then propagated to the slave servers.  This means there is a lag
+  // between when data is written to the master and when it is available on the slave.
+  // At these times, we will want to avoid using a slave server temporarily.
+  // For example, if a user posts a new node then we want to disable the slave
+  // server for that user temporarily to allow the slave server to catch up.
+  // That way, that user will see their changes immediately while for other
+  // users we still get the benefits of having a slave server, just with slightly
+  // stale data.  Code that wants to disable the slave server should use the
+  // db_set_ignore_slave() function to set $_SESSION['ignore_slave_server'] to
+  // the timestamp after which the slave can be re-enabled.
+  if (isset($_SESSION['ignore_slave_server'])) {
+    if ($_SESSION['ignore_slave_server'] >= $_SERVER['REQUEST_TIME']) {
+      $slave = FALSE;
+    }
+    else {
+      unset($_SESSION['ignore_slave_server']);
+    }
+  }
 
   if (variable_get('dev_query', 0)) {
     list($usec, $sec) = explode(' ', microtime());
@@ -189,7 +211,7 @@ function db_fetch_array($result) {
  *
  * @param $result
  *   A database query result resource, as returned from db_query().
- * 
+ *
  * @return
  *   The resulting field or FALSE.
  */
@@ -312,9 +334,9 @@ function db_query_range_slave($query) {
 /**
  * Runs a SELECT query and stores its results in a temporary table.
  *
- * Use this as a substitute for db_query() when the results need to stored
- * in a temporary table. Temporary tables exist for the duration of the page
- * request.
+ * Use this as a substitute for db_query() when the results need to be stored
+ * in a temporary table.
+ *
  * User-supplied arguments to the query should be passed in as separate parameters
  * so that they can be properly escaped to avoid SQL injection attacks.
  *
@@ -333,10 +355,10 @@ function db_query_range_slave($query) {
  *
  *   NOTE: using this syntax will cast NULL and FALSE values to decimal 0,
  *   and TRUE values to decimal 1.
- *
  * @param $table
  *   The name of the temporary table to select into. This name will not be
  *   prefixed as there is no risk of collision.
+ *
  * @return
  *   A database query result resource, or FALSE if the query was not executed
  *   correctly.
