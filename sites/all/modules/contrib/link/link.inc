@@ -107,7 +107,7 @@ function _link_sanitize(&$item, $delta, &$field, &$node) {
     $url = substr($url, 0, strpos($url, '?'));
   }
   // Save the new URL without the anchor or query.
-  if ($field['validate_url'] === 0) {
+  if (isset($field['validate_url']) && $field['validate_url'] === 0) {
     $item['url'] = check_plain($url);
   }
   else {
