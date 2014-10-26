@@ -150,7 +150,7 @@ function file_check_directory(&$directory, $mode = 0, $form_item = NULL) {
   if (!is_dir($directory)) {
     if (($mode & FILE_CREATE_DIRECTORY) && @mkdir($directory)) {
       drupal_set_message(t('The directory %directory has been created.', array('%directory' => $directory)));
-      @chmod($directory, 0775); // Necessary for non-webserver users.
+      @chmod($directory, 0770); // Necessary for non-webserver users.
     }
     else {
       if ($form_item) {
@@ -162,7 +162,7 @@ function file_check_directory(&$directory, $mode = 0, $form_item = NULL) {
 
   // Check to see if the directory is writable.
   if (!is_writable($directory)) {
-    if (($mode & FILE_MODIFY_PERMISSIONS) && @chmod($directory, 0775)) {
+    if (($mode & FILE_MODIFY_PERMISSIONS) && @chmod($directory, 0770)) {
       drupal_set_message(t('The permissions of directory %directory have been changed to make it writable.', array('%directory' => $directory)));
     }
     else {
@@ -199,7 +199,7 @@ function file_create_htaccess($directory, $form_item = NULL, $force_overwrite = 
     $htaccess_lines = file_htaccess_lines();
     if (($fp = fopen("$directory/.htaccess", 'w')) && fputs($fp, $htaccess_lines)) {
       fclose($fp);
-      chmod($directory .'/.htaccess', 0664);
+      chmod($directory .'/.htaccess', 0660);
     }
     else {
       $variables = array('%directory' => $directory, '!htaccess' => '<br />'. nl2br(check_plain($htaccess_lines)));
@@ -381,7 +381,7 @@ function file_copy(&$source, $dest = 0, $replace = FILE_EXISTS_RENAME) {
     // non-webserver users can see/read these files,
     // and give group write permissions so group members
     // can alter files uploaded by the webserver.
-    @chmod($dest, 0664);
+    @chmod($dest, 0660);
   }
 
   if (isset($file) && is_object($file)) {
