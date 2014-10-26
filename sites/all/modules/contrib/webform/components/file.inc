@@ -181,7 +181,7 @@ function _webform_edit_file_check_directory($element) {
   else {
     // Try to make the directory recursively before calling file_check_directory().
     // This may be removed in D7, as recusive is the default there.
-    @mkdir($destination_dir, 0775, TRUE);
+    @mkdir($destination_dir, 0770, TRUE);
     $destination_success = file_check_directory($destination_dir, FILE_CREATE_DIRECTORY);
 
     if (!$base_success || !$destination_success) {
@@ -440,7 +440,7 @@ function _webform_validate_file($element, &$form_state) {
     if (file_check_directory($upload_dir, FILE_CREATE_DIRECTORY)) {
       $file = file_save_upload($form_key, array(), $upload_dir);
       if ($file) {
-        @chmod($file->filepath, 0664);
+        @chmod($file->filepath, 0660);
 
         // Set the hidden field value.
         $parents = $element['#array_parents'];

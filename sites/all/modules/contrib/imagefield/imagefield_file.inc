@@ -117,7 +117,7 @@ function imagefield_create_admin_thumb($source, $destination) {
   }
   elseif (image_get_toolkit() && image_scale($source, $destination, $size[0], $size[1])) {
     // Set permissions. This is done for us when using file_copy().
-    @chmod($destination, 0664);
+    @chmod($destination, 0660);
   }
   else {
     drupal_set_message(t('An image thumbnail was not able to be created.'), 'error');

@@ -84,7 +84,7 @@ function field_file_save_upload($source, $validators = array(), $dest = FALSE) {
   if (!$file = file_save_upload($source, $validators, $dest, FILE_EXISTS_RENAME)) {
     return 0;
   }
-  if (!@chmod($file->filepath, 0664)) {
+  if (!@chmod($file->filepath, 0660)) {
     watchdog('filefield', 'Could not set permissions on destination file: %file', array('%file' => $file->filepath));
   }
 
@@ -330,7 +330,7 @@ function field_file_check_directory(&$directory, $mode = 0, $form_item = NULL) {
   }
 
   // Create the directory if it is missing.
-  if (!is_dir($directory) && $mode & FILE_CREATE_DIRECTORY && !@mkdir($directory, 0775, TRUE)) {
+  if (!is_dir($directory) && $mode & FILE_CREATE_DIRECTORY && !@mkdir($directory, 0770, TRUE)) {
     watchdog('file system', 'The directory %directory does not exist.', array('%directory' => $directory), WATCHDOG_ERROR);
     if ($form_item) {
       form_set_error($form_item, t('The directory %directory does not exist.', array('%directory' => $directory)));
@@ -339,7 +339,7 @@ function field_file_check_directory(&$directory, $mode = 0, $form_item = NULL) {
   }
 
   // Check to see if the directory is writable.
-  if (!is_writable($directory) && $mode & FILE_MODIFY_PERMISSIONS && !@chmod($directory, 0775)) {
+  if (!is_writable($directory) && $mode & FILE_MODIFY_PERMISSIONS && !@chmod($directory, 0770)) {
     watchdog('file system', 'The directory %directory is not writable, because it does not have the correct permissions set.', array('%directory' => $directory), WATCHDOG_ERROR);
     if ($form_item) {
       form_set_error($form_item, t('The directory %directory is not writable', array('%directory' => $directory)));
@@ -351,7 +351,7 @@ function field_file_check_directory(&$directory, $mode = 0, $form_item = NULL) {
     $htaccess_lines = "SetHandler Drupal_Security_Do_Not_Remove_See_SA_2006_006\nOptions None\nOptions +FollowSymLinks";
     if (($fp = fopen("$directory/.htaccess", 'w')) && fputs($fp, $htaccess_lines)) {
       fclose($fp);
-      chmod($directory .'/.htaccess', 0664);
+      chmod($directory .'/.htaccess', 0660);
     }
     else {
       $repl = array('%directory' => $directory, '!htaccess' => nl2br(check_plain($htaccess_lines)));

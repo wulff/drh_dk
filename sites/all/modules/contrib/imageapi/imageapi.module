@@ -405,7 +405,7 @@ function imageapi_image_close($image, $destination = NULL) {
     clearstatcache();
     $image->info = image_get_info($destination);
 
-    if (@chmod($destination, 0664)) {
+    if (@chmod($destination, 0660)) {
       return $return;
     }
     watchdog('imageapi', 'Could not set permissions on destination file: %file', array('%file' => $destination));

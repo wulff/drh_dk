@@ -347,7 +347,7 @@ function demo_get_fileconfig($filename = 'demo_site') {
         drupal_chmod($htaccess);
       }
       else {
-        chmod($htaccess, 0664);
+        chmod($htaccess, 0660);
       }
     }
   }
